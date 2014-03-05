@@ -1,0 +1,13 @@
+<div class="col-md-3" id="sidebar" role="navigation">
+    <ul class="list-group">
+        <li class="list-group-item">1. Create Order</li>
+        <li class="list-group-item">2. Review Order</li>
+        <li class="list-group-item active">3. Confirmation</li>
+    </ul>
+</div>
+
+<div class="col-md-9">
+    <h2 style="margin-top: 0">Order Complete</h2>
+    <p>Thank you for your order!</p>
+    <p>Your confirmation number is #<?= $order->getConfirmationCode() ?>.</p>
+</div>

@@ -1,0 +1,111 @@
+<? $form->prepare() ?>
+
+<div class="col-md-3" id="sidebar" role="navigation">
+    <ul class="list-group">
+        <li class="list-group-item">1. Create Order</li>
+        <li class="list-group-item active">2. Review Order</li>
+        <li class="list-group-item">3. Confirmation</li>
+    </ul>
+</div>
+
+<div class="col-md-9">
+    <? if (count($form->getMessages()) > 0): ?>
+        <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>Whoops!</strong> Your form had some problems, please fix them below.
+        </div>
+    <? endif ?>
+
+    <? if (count($errors) > 0): ?>
+        <div class="alert alert-warning">
+            An error occurred while processing your payment:
+            <ul>
+                <? foreach ($errors as $error): ?>
+                    <li><?= $error ?></li>
+                <? endforeach ?>
+            </ul>
+        </div>
+    <? endif ?>
+
+    <h2 style="margin-top: 0">Review Order</h2>
+
+    <table class="table table-bordered" style="width:auto">
+        <tr>
+            <th>Order ID</th>
+            <td><?= $order->id ?></td>
+        </tr>
+        <tr>
+            <th>Book Title</th>
+            <td><?= $book->title ?></td>
+        </tr>
+        <tr>
+            <th>Number of Designs</th>
+            <td><?= $designCount ?></td>
+        </tr>
+        <tr>
+            <th>Shipping Method</th>
+            <td><?= $order->deliveryMethod ?></td>
+        </tr>
+        <? if ($order->deliveryMethod == \Mandala\OrderModule\Order::DELIVERY_TYPE_EMAIL): ?>
+            <tr>
+                <th>Recipient E-mail Address</th>
+                <td><?= $order->recipientEmail ?></td>
+            </tr>
+        <? else: ?>
+            <tr>
+                <th>Shipping Address</th>
+                <td>
+                    <?= $order->shippingName ?><br />
+                    <?= $order->shippingStreet ?><br />
+                    <?= $order->shippingCity ?>, <?= $order->shippingState ?> <?= $order->shippingZip ?>
+                </td>
+            </tr>
+        <? endif ?>
+        <tr>
+            <th>Book Cost</th>
+            <td>$<?= $order->goodsCost ?></td>
+        </tr>
+        <tr>
+            <th>Shipping Cost</th>
+            <td>$<?= $order->shippingCost ?></td>
+        </tr>
+        <tr>
+            <th>Total Cost</th>
+            <td>$<?= $order->totalCost ?></td>
+        </tr>
+    </table>
+
+    <?= $this->form()->openTag($form) ?>
+        <h2>Payment</h2>
+        <?= $this->formRow($form->get('token')) ?>
+
+        <div class='row'>
+            <div class='col-md-9'>
+                <?= $this->formRow($form->get('name')) ?>
+            </div>
+            <div class='col-md-3'></div>
+        </div>
+
+        <div class='row'>
+            <div class='col-md-9'>
+                <?= $this->formRow($form->get('number')) ?>
+            </div>
+            <div class='col-md-3'></div>
+        </div>
+
+        <div class='row'>
+            <div class='col-md-3'>
+                <?= $this->formRow($form->get('expirationMonth')) ?>
+            </div>
+            <div class='col-md-3'>
+                <?= $this->formRow($form->get('expirationYear')) ?>
+            </div>
+            <div class='col-md-3'>
+                <?= $this->formRow($form->get('securityCode')) ?>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+
+        <input type="submit" class="btn btn-lg btn-primary btn-wide" value="Pay $<?= $order->totalCost ?> Now" />
+    <?= $this->form()->closeTag($form) ?>
+</div>

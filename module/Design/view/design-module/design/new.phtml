@@ -1,0 +1,183 @@
+<?
+/**
+ * @var \Mandala\UserModule\User $currentUser
+ * @var \Mandala\DesignModule\Design $design
+ */
+?>
+<div class="col-md-3" id="sidebar" role="navigation">
+    <?= $this->partial('design-module/sidebar.phtml', array(
+        'user' => $currentUser,
+        'route' => 'new-design'
+    )) ?>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Design Options</h3>
+        </div>
+        <div class="panel-body">
+            <div id="controls">
+                <div class="form-group">
+                    <label for="shape-type-control">Layers</label>
+                    <div id="layers">
+                        <?php $layers = json_decode($design->data) ?>
+                        <?php for ($i = 0; $i < count($layers); $i++): ?>
+                            <div id="layer-<?= $i ?>" class="layer"></div>
+                        <?php endfor ?>
+                        <div id="add-layer" class="layer">+</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="shape-type-control">Shape Type</label>
+                    <select id="shape-type-control" class="form-control" style="width:100%">
+                        <option value="circle">Circle</option>
+                        <option value="triangle">Triangle</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="shape-size-control">Shape Size</label>
+                    <div id="shape-size-control"></div>
+                </div>
+                <div class="form-group">
+                    <label for="shape-count-control">Shape Count</label>
+                    <div id="shape-count-control"></div>
+                </div>
+                <div class="form-group">
+                    <label for="displacement-control">Displacement</label>
+                    <div id="displacement-control"></div>
+                </div>
+                <div class="form-group">
+                    <label for="angle-offset-control">Angle Offset</label>
+                    <div id="angle-offset-control"></div>
+                </div>
+            </div>
+
+            <form id="save-form" method="post">
+                <input type="hidden" id="design-data" name="data">
+                <input type="submit" name="submit-button" class="btn btn-block btn-primary" value="Save" />
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-9">
+    <div id="viewport">
+        <div id="canvas"></div>
+    </div>
+</div>
+
+<?php $this->placeholder('scripts')->captureStart() ?>
+    <script>
+        var canvasWidth = 720;
+        var canvasHeight = 720;
+        var canvas = new Raphael('canvas', canvasWidth, canvasHeight);
+
+        var currentLayerIndex = 0;
+        var layers = JSON.parse('<?= $design->data ?>');
+        var defaultLayer = $.extend({}, layers[0]);
+        var layerCount = layers.length;
+
+        function update() {
+            drawDesign(canvas, layers, currentLayerIndex);
+            $('#design-data').val(JSON.stringify(layers));
+        }
+
+        function selectLayer(id) {
+            currentLayerIndex = id;
+            $('#layers').find('.layer').removeClass('selected');
+            $('#layer-' + id).addClass('selected');
+            $('#shape-type-control').val(layers[currentLayerIndex].shapeType).change();
+            $('#shape-size-control').slider('value', layers[currentLayerIndex].shapeSize);
+            $('#shape-count-control').slider('value', layers[currentLayerIndex].shapeCount);
+            $('#displacement-control').slider('value', layers[currentLayerIndex].displacement);
+            $('#angle-offset-control').slider('value', layers[currentLayerIndex].angleOffset);
+            update();
+        }
+
+        function initLayer(id) {
+            $('#layer-' + id).click(function() {
+                selectLayer(id);
+            });
+        }
+
+        function addLayer() {
+            var id = layerCount;
+            $('#add-layer').before(
+                '<div id="layer-' + id + '" class="layer"></div>'
+            );
+            layers[id] = $.extend({}, defaultLayer);
+            layerCount++;
+            initLayer(id);
+            selectLayer(id);
+        }
+
+        jQuery(document).ready(function() {
+            for (var id = 0; id < layerCount; id++) {
+                console.log('initLayer(' + id + ') called');
+                initLayer(id);
+            }
+
+            $('#add-layer').click(function() {
+                addLayer();
+            });
+
+            $('#shape-type-control').change(function() {
+                layers[currentLayerIndex].shapeType = $('#shape-type-control').val();
+                update();
+            });
+
+            $('#shape-size-control').slider({
+                value: 40,
+                min: 1,
+                max: 400,
+                step: 5,
+                slide: function(event, ui) {
+                    layers[currentLayerIndex].shapeSize = $('#shape-size-control').slider('value');
+                    update();
+                }
+            });
+
+            $('#shape-count-control').slider({
+                value: 6,
+                min: 0,
+                max: 50,
+                step: 1,
+                slide: function(event, ui) {
+                    layers[currentLayerIndex].shapeCount = $('#shape-count-control').slider('value');
+                    update();
+                }
+            });
+
+            $('#displacement-control').slider({
+                value: 50,
+                min: 0,
+                max: 600,
+                step: 1,
+                slide: function(event, ui) {
+                    layers[currentLayerIndex].displacement = $('#displacement-control').slider('value');
+                    update();
+                }
+            });
+
+            $('#angle-offset-control').slider({
+                value: 0,
+                min: 0,
+                max: 180,
+                step: 1,
+                slide: function(event, ui) {
+                    layers[currentLayerIndex].angleOffset = $('#angle-offset-control').slider('value');
+                    update();
+                }
+            });
+
+            $('#save-form').submit(function() {
+                currentLayerIndex = null;
+                update();
+                return true;
+            });
+
+            selectLayer(0);
+            update();
+        });
+    </script>
+<?php $this->placeholder('scripts')->captureEnd() ?>
+

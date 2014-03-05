@@ -1,0 +1,7 @@
+/data/
+/environment/.vagrant/
+/config/production/
+/config/stage/
+/config/development/
+/config/test/
+/vendor/

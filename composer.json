@@ -1,0 +1,17 @@
+{
+    "name": "bradyo/mandala-book",
+    "description": "mandala coloring book builder",
+    "license": "GPLv3",
+    "minimum-stability": "dev",
+    "homepage": "https://ww.mandalabook.com/",
+    "require": {
+        "php": ">=5.3.3",
+        "zendframework/zendframework": "2.2.*",
+        "zendframework/zend-developer-tools": "*",
+        "doctrine/orm": "*",
+        "doctrine/migrations": "*",
+        "doctrine/doctrine-orm-module": "dev-master",
+        "guzzle/guzzle": "3.*",
+        "neilime/zf2-twb-bundle": "2.0"
+    }
+}

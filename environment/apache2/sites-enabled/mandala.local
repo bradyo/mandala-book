@@ -1,0 +1,24 @@
+<VirtualHost *:80>
+    ServerName mandala.local 
+    Redirect permanent / https://mandala.local
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName mandala.local 
+
+    SSLEngine on
+    SSLCertificateFile /etc/ssl/certs/ssl-cert-snakeoil.pem
+    SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key
+
+    SetEnv APPLICATION_ENV "development"
+
+    DocumentRoot /vagrant/public
+    <Directory />
+        Options FollowSymLinks Indexes
+        AllowOverride None
+
+        RewriteEngine On
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteRule ^(.*)$ index.php [QSA,L]
+    </Directory>
+</VirtualHost>

@@ -1,0 +1,18 @@
+<?
+/**
+ * @var array $designs
+ * @var \Zend\Paginator\Paginator $pager
+ * @var string $route
+ */
+?>
+<? if (count($designs) > 0): ?>
+    <div>
+        <? foreach ($designs as $design): ?>
+            <a class="design-block" style="background-image:url('/designs/<?= $design->id ?>/thumbnail-164px.png')"
+               href="<?= $this->url('show-design', array('id' => $design->id)) ?>"></a>
+        <? endforeach ?>
+    </div>
+    <?= $this->paginationControl($pager, 'elastic', 'application/pagination.phtml', array('route' => $route)) ?>
+<? else: ?>
+    <p>No designs found.</p>
+<? endif ?>

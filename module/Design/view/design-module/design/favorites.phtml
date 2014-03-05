@@ -1,0 +1,28 @@
+<?
+/**
+ * @var \Mandala\UserModule\User $currentUser
+ * @var array $designs
+ * @var \Zend\Paginator\Paginator $pager
+ */
+?>
+<div class="col-md-3" id="sidebar" role="navigation">
+    <?= $this->partial('design-module/sidebar.phtml', array(
+        'user' => $currentUser,
+        'route' => 'favorite-designs'
+    )) ?>
+</div>
+
+<div class="col-md-9">
+    <? if (count($designs) > 0): ?>
+        <?= $this->partial('design-module/designs.phtml', array(
+            'designs' => $designs,
+            'pager' => $pager,
+            'route' => 'favorite-designs'
+        )) ?>
+    <? else:  ?>
+        <div class="alert alert-warning">
+            You have no favorite designs yet!
+            <a class="btn btn-sm btn-primary" style="margin-left: 10px" href="<?= $this->url('all-designs') ?>">Find some now</a>
+        </div>
+    <? endif ?>
+</div>

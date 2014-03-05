@@ -1,0 +1,14 @@
+<div class="col-md-3" id="sidebar" role="navigation">
+    <?= $this->partial('design-module/design/sidebar.phtml', array(
+        'user' => $currentUser,
+        'route' => 'all-designs'
+    )) ?>
+</div>
+
+<div class="col-md-9">
+    <?= $this->partial('design-module/designs.phtml', array(
+        'designs' => $designs,
+        'pager' => $pager,
+        'route' => 'all-designs'
+    )) ?>
+</div>

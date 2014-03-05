@@ -1,0 +1,78 @@
+<? $form->prepare() ?>
+
+<style>
+    #email-delivery-fields {
+        display: <?= $form->get('deliveryMethod')->getValue() == 'email' ? 'block' : 'none' ?>;
+    }
+    #mail-delivery-fields {
+        display: <?= $form->get('deliveryMethod')->getValue() == 'mail' ? 'block' : 'none' ?>;
+    }
+</style>
+
+<div class="col-md-3" id="sidebar" role="navigation">
+    <ul class="list-group">
+        <li class="list-group-item active">1. Create Order</li>
+        <li class="list-group-item">2. Review Order</li>
+        <li class="list-group-item">3. Confirmation</li>
+    </ul>
+</div>
+
+<div class="col-md-9">
+    <? if (count($form->getMessages()) > 0): ?>
+        <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>Whoops!</strong> Your order had some problems, please fix them below.
+        </div>
+    <? endif ?>
+
+    <h2 style="margin-top: 0">Create Your Book Order</h2>
+    <form id="order-form" method="post">
+        <?= $this->formRow($form->get('token')) ?>
+        <?= $this->formRow($form->get('title')) ?>
+
+        <div class="control-group">
+            <label for="selected-designs">Designs Selected</label>
+            <div id="selected-designs" class="designs">
+                <? foreach ($designs as $design): ?>
+                    <div class="design-block" style="background-image:url('/thumbnails/<?= $design->id ?>.png')"></div>
+                <? endforeach ?>
+            </div>
+        </div>
+
+        <h2>Delivery Method</h2>
+        <?= $this->formRow($form->get('deliveryMethod')) ?>
+        <?php $this->placeholder('scripts')->captureStart() ?>
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $("#order-form [name='deliveryMethod']").change(function() {
+                        if ($("#order-form input[name=deliveryMethod]:checked").val() == "email") {
+                            $("#email-delivery-fields").show();
+                            $("#mail-delivery-fields").hide();
+                        } else {
+                            $("#email-delivery-fields").hide();
+                            $("#mail-delivery-fields").show();
+                        }
+                    });
+                });
+            </script>
+        <?php $this->placeholder('scripts')->captureEnd() ?>
+
+        <h2>Recipient</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <div id="email-delivery-fields">
+                    <?= $this->formRow($form->get('recipientEmail')) ?>
+                </div>
+                <div id="mail-delivery-fields">
+                    <?= $this->formRow($form->get('shippingName')) ?>
+                    <?= $this->formRow($form->get('shippingStreet')) ?>
+                    <?= $this->formRow($form->get('shippingCity')) ?>
+                    <?= $this->formRow($form->get('shippingState')) ?>
+                    <?= $this->formRow($form->get('shippingZip')) ?>
+                </div>
+            </div>
+        </div>
+
+        <input class="btn btn-primary btn-lg btn-wide" type="submit" value="Review Order" />
+    </form>
+</div>

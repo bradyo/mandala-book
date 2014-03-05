@@ -1,0 +1,23 @@
+<? $form->prepare() ?>
+
+<div class="col-md-9">
+    <? if ($message): ?>
+        <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <?= $message ?>
+        </div>
+    <? endif ?>
+
+    <h2 style="margin-top: 0">Sign Up For a New Account</h2>
+    <form method="post">
+        <div class="row">
+            <div class="col-lg-4">
+                <?= $this->formRow($form->get('token')) ?>
+                <?= $this->formRow($form->get('email')) ?>
+                <?= $this->formRow($form->get('password')) ?>
+                <input class="btn btn-primary btn-wide" type="submit" value="Sign Up" />
+            </div>
+            <div class="col-lg-8"></div>
+        </div>
+    </form>
+</div>

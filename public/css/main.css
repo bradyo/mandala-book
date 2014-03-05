@@ -1,0 +1,125 @@
+body {
+    padding-top: 70px;
+}
+
+.navbar-nav.navbar-right:last-child {
+    margin-right: 0;
+}
+.list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
+    color: #E1EDF7;
+
+}
+#footer .container {
+    border-top: 1px solid #eee;
+    margin-top: 1em;
+    padding-top: 1em;
+}
+#content {
+    margin-bottom: 2em;
+}
+h2 {
+    margin-bottom: 0.5em;
+    margin-top: 1em;
+}
+
+#sidebar {
+    width: 263px;
+}
+#sidebar .glyphicon {
+    padding-right: 22px;
+}
+#viewport {
+    width: 1300px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+#canvas {
+    width: 720px;
+    height: 720px;
+    border: 1px solid #ddd;
+    margin: 0 auto;
+    float: left;
+    background-image: url('../img/light-grid.jpg');
+}
+
+.btn-wide {
+    padding-left: 40px;
+    padding-right: 40px;
+}
+input[type=submit] {
+    margin-top: 0.5em;
+}
+
+.layer-controls {
+    margin-bottom: 2em;
+}
+.layer-controls label {
+    display: none;
+}
+.param-control {
+    overflow: hidden;
+    width: 300px;
+}
+#add-layer-button {
+    display: block;
+    width: 100%;
+    font-weight: bold;
+    margin-bottom: 1em;
+}
+
+ .design-block {
+     border-radius: 4px;
+     display: inline-block;
+     text-decoration: none;
+     border: 1px solid #ddd;
+     background-color: #fafafa;
+     width: 164px;
+     height: 164px;
+ }
+ a.design-block:hover {
+     background-color: white;
+     border: 1px solid #999;
+ }
+
+#layers {
+    padding: 4px;
+    overflow: hidden;
+}
+#layers .layer {
+    float: left;
+    width: 32px;
+    height: 32px;
+    background-color: #eee;
+    border: 1px solid #aaa;
+    margin: 0 1px 1px 0;
+    padding: 0;
+    cursor: pointer;
+}
+#layers .layer.selected {
+    background-color: #fff;
+    border: 1px solid #999;
+}
+#layers #add-layer {
+    font-size: 1.25em;
+    font-weight: bold;
+    color: #999;
+    background-color: #fafafa;
+    border: 1px solid #ccc;
+    text-align: center;
+    line-height: 25px;
+    vertical-align: middle;
+}
+#design-title {
+    text-align: center;
+    font-size: 1.5em;
+    height: 2em;
+    color: #999;
+}
+#viewport {
+    margin-bottom: 1em;
+}
+
+#controls {
+    padding: 4px;
+}
+

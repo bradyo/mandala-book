@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="make a mandala coloring book online">
+    <link rel="shortcut icon" href="/favicon.png">
+
+    <?= $this->headTitle() ?>
+
+    <link href="/lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="/lib/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/lib/jquery-ui/css/smoothness/jquery-ui-1.10.3.custom.min.css" />
+    <link rel="stylesheet" href="/css/main.css" type="text/css" media="screen">
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="<?= $this->url('home') ?>">The Mandala Book</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="<?= $this->url('all-designs') ?>">Designs</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <? if ($currentUser->isAnonymous()): ?>
+                        <li><a href="<?= $this->url('sign-in') ?>">Sign In</a></li>
+                    <? else: ?>
+                        <li><a href="<?= $this->url('sign-out') ?>">Logout</a></li>
+                    <? endif ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="content" class="container">
+        <div class="row">
+            <?= $this->content ?>
+        </div>
+    </div>
+
+    <div id="footer">
+        <div class="container">
+            <p class="text-muted credit text-center">
+                Check out the <a href="https://github.com/bradyo/mandala-book">source code on Github.com</a>.
+                &copy; <a href="http://brady.lucidgene.com/">Brady Olsen</a>.
+            </p>
+        </div>
+    </div>
+
+    <script src="/lib/jquery-1.8.3.js"></script>
+    <script src="/lib/jquery-ui/js/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
+
+    <script src="/lib/raphael-min.js"></script>
+    <script src="/lib/raphael.export.js"></script>
+
+    <script src="/js/main.js"></script>
+    <?= $this->placeholder('scripts') ?>
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-47732510-1', 'mandalabook.com');
+        ga('send', 'pageview');
+    </script>
+</body>
+</html>
