@@ -97,6 +97,7 @@ class DesignController extends BaseController
         $response = $this->getImageResponse($contents, 'image/png');
         $response->getHeaders()
             ->addHeaderLine('Cache-Control', 'public, max-age=31556926')
+            ->addHeaderLine('Expires', gmdate('D, d M Y H:i:s \G\M\T', time() + 31556926))
             ->addHeaderLine('Pragma', 'public');
         return $response;
     }
