@@ -12,6 +12,10 @@
         "doctrine/migrations": "*",
         "doctrine/doctrine-orm-module": "dev-master",
         "guzzle/guzzle": "3.*",
-        "neilime/zf2-twb-bundle": "2.0"
+        "neilime/zf2-twb-bundle": "2.0",
+        "monolog/monolog": "*"
+    },
+    "psr-4": {
+        "Mandala\\Application\\": "modules/Application"
     }
 }

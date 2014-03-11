@@ -13,7 +13,9 @@ class DesignController extends BaseController
 
     public function indexAction()
     {
-        $criteria = array('status' => Design::STATUS_SAVED);
+        $criteria = $criteria = DesignSearchCriteria::fromArray(array(
+            'status' => Design::STATUS_PUBLIC
+        ));
         $order = array('favoritedCount' => 'desc');
         return $this->getPaginatedViewModel($criteria, $order);
     }
@@ -25,10 +27,10 @@ class DesignController extends BaseController
         if ($user === null) {
             return $this->getNotFoundResponse('User not found');
         }
-        $criteria = array(
+        $criteria = DesignSearchCriteria::fromArray(array(
             'author' => $user,
-            'status' => Design::STATUS_SAVED
-        );
+            'status' => Design::STATUS_PUBLIC
+        ));
         return $this->getPaginatedViewModel($criteria);
     }
 
@@ -39,10 +41,10 @@ class DesignController extends BaseController
         if ($user === null) {
             return $this->getNotFoundResponse('User not found');
         }
-        $criteria = array(
+        $criteria = DesignSearchCriteria::fromArray(array(
             'user_favorited' => $user,
-            'status' => Design::STATUS_SAVED
-        );
+            'status' => Design::STATUS_PUBLIC
+        ));
         return $this->getPaginatedViewModel($criteria);
     }
 
@@ -68,38 +70,14 @@ class DesignController extends BaseController
     public function newAction()
     {
         $user = $this->getCurrentUser();
-        $design = Design::createRandom($user);
+        $design = $this->getDesignFactory()->createRandom($user);
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
-            $this->getDesignManager()->save($user, $data);
+            $this->getDesignManager()->save($user, $data['data']);
 
             $this->redirect()->toRoute('user-designs', array('userId' => $user->id));
         }
         return $this->getViewModel(array('design' => $design));
-    }
-
-    public function thumbnailAction()
-    {
-        $id = (int) $this->params()->fromRoute('id');
-        $design = $this->getDesignRepository()->find($id);
-        if ($design === null) {
-            return $this->getNotFoundResponse('Design not found');
-        }
-
-        $size = (int) $this->params()->fromQuery('size', 164);
-        if ($size < 10 || $size > 400) {
-            return $this->getNotAllowedResponse('Size must be between 10 and 400');
-        }
-
-        $path = $this->getDesignThumbnailService()->createThumbnail($design, $size);
-        $contents = file_get_contents($path);
-
-        $response = $this->getImageResponse($contents, 'image/png');
-        $response->getHeaders()
-            ->addHeaderLine('Cache-Control', 'public, max-age=31556926')
-            ->addHeaderLine('Expires', gmdate('D, d M Y H:i:s \G\M\T', time() + 31556926))
-            ->addHeaderLine('Pragma', 'public');
-        return $response;
     }
 
     public function deleteAction()
@@ -121,7 +99,7 @@ class DesignController extends BaseController
     }
 
 
-    private function getPaginatedViewModel(array $criteria = array(), array $order = array())
+    private function getPaginatedViewModel(DesignSearchCriteria $criteria, array $order = array())
     {
         $page = $this->params()->fromRoute('page', 1);
         $offset = ($page - 1) * self::ITEMS_PER_PAGE;
@@ -148,6 +126,14 @@ class DesignController extends BaseController
     }
 
     /**
+     * @return DesignFactory
+     */
+    private function getDesignFactory()
+    {
+        return $this->serviceLocator->get('design_factory');
+    }
+
+    /**
      * @return DesignRepository
      */
     private function getDesignRepository()
@@ -161,14 +147,6 @@ class DesignController extends BaseController
     private function getDesignManager()
     {
         return $this->serviceLocator->get('design_manager');
-    }
-
-    /**
-     * @return DesignThumbnailService
-     */
-    private function getDesignThumbnailService()
-    {
-        return $this->serviceLocator->get('design_thumbnail_service');
     }
 
     /**

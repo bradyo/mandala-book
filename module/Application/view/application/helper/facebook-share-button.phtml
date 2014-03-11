@@ -1,0 +1,44 @@
+<a id="facebook-share-button" class="btn btn-block btn-default" href="#">
+   <img style="margin-right: 0.5em; width: 18px; height: 18px" src="/img/facebook-icon.png" /> Share on Facebook
+</a>
+
+<?php $this->placeholder('scripts')->captureStart() ?>
+    <div id="fb-root"></div>
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId : '<?= $this->appId ?>',
+                status: true,
+                xfbml : true
+            });
+        };
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/all.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+        $('#facebook-share-button').click(function() {
+            FB.ui(
+                {
+                    display: 'popup',
+                    method: 'feed',
+                    link: '<?= $this->link ?>',
+                    name: '<?= $this->name ?>',
+                    description: '<?= $this->description ?>',
+                    picture: '<?= $this->picture ?>'
+                },
+                function(response) {
+                    if (response && response.post_id) {
+                        // success
+                    } else {
+                        // error
+                    }
+                }
+            );
+        });
+    </script>
+<?php $this->placeholder('scripts')->captureEnd() ?>
+

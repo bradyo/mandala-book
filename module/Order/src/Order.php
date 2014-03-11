@@ -3,7 +3,7 @@ namespace Mandala\OrderModule;
 
 use Doctrine\ORM\Mapping as Orm;
 use Mandala\UserModule\User;
-use Mandala\DesignModule\Book;
+use Mandala\BookModule\Book;
 
 /**
  * @Orm\Entity
@@ -37,7 +37,7 @@ class Order
     public $user;
 
     /**
-     * @Orm\ManyToOne(targetEntity="Mandala\DesignModule\Book")
+     * @Orm\ManyToOne(targetEntity="Mandala\BookModule\Book")
      * @var Book
      */
     public $book;
@@ -97,6 +97,9 @@ class Order
      */
     public $totalCost;
 
+    /**
+     * @return string unique hash for this order for customer reference
+     */
     public function getConfirmationCode()
     {
         return strtoupper(substr(sha1($this->id), 0, 10));

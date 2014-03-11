@@ -12,6 +12,12 @@
     }
 </style>
 
+<? $this->placeholder('meta')->captureStart() ?>
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="<?= $this->url('get-design-thumbnail', array('id' => $design->id, 'size' => 1200),
+        array('force_canonical' => true)) ?>" />
+<? $this->placeholder('meta')->captureEnd() ?>
+
 <div class="col-md-3" id="sidebar" role="navigation">
     <?= $this->partial('design-module/sidebar.phtml', array(
         'user' => $currentUser,
@@ -58,12 +64,6 @@
                         })
                     </script>
                 <? $this->placeholder('scripts')->captureEnd() ?>
-
-                <a class="btn btn-block btn-default" role="button"
-                   href="https://www.facebook.com/sharer/sharer.php?u=<?= urlencode($this->serverUrl(true)) ?>" target="_blank">
-                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                    Share on Facebook
-                </a>
 
                 <button id="print-button" class="btn btn-default btn-block">
                     <span class="glyphicon glyphicon-print"></span>
@@ -119,6 +119,15 @@
             </div>
         </div>
     <? endif ?>
+
+    <div style="margin-bottom: 1em">
+        <?= $this->facebookShareButton(array(
+            'link' => $this->serverUrl(true),
+            'name' => 'Mandala Book Design',
+            'description' => 'Check out this awesome mandala design',
+            'picture' => $this->url('get-design-thumbnail', array('id' => $design->id, 'size' => '1200'), array('force_canonical' => true))
+        )) ?>
+    </div>
 </div>
 
 <div class="col-md-9">

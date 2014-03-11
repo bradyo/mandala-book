@@ -12,7 +12,15 @@ return array(
                     'dbname'   => 'database',
                 )
             )
-        )
+        ),
+        'migrations_configuration' => array(
+            'orm_default' => array(
+                'directory' => 'migrations',
+                'name' => 'Doctrine Database Migrations',
+                'namespace' => 'DoctrineORMModule\Migrations',
+                'table' => 'migrations',
+            ),
+        ),
     ),
     'mail' => array(
         'transport' => array(

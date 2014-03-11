@@ -24,6 +24,7 @@ class Module extends BaseModule
         $serviceManager = $e->getApplication()->getServiceManager();
 
         $sessionManager = new SessionManager();
+        $sessionManager->setName('mandala');
         $sessionManager->rememberMe(30 * 24 * 60 * 60); // 30 days
         $sessionManager->start();
 

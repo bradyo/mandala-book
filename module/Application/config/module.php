@@ -1,4 +1,9 @@
 <?php
+namespace Mandala\Application;
+
+use Mandala\Application\View\Helper\FacebookShareButtonHelper;
+use Zend\View\HelperPluginManager;
+
 return array(
     'view_manager' => array(
         'display_not_found_reason' => true,
@@ -13,6 +18,14 @@ return array(
         'template_path_stack' => array(
             'application' => __DIR__ . '/../view',
         ),
+    ),
+    'view_helpers' => array(
+        'factories' => array(
+            'facebookShareButton' => function (HelperPluginManager $helperPluginManager) {
+                $config = $helperPluginManager->getServiceLocator()->get('config');
+                return new FacebookShareButtonHelper($config['facebook']['app_id']);
+            }
+        )
     ),
     'service_manager' => array(
         'abstract_factories' => array(

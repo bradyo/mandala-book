@@ -1,16 +1,5 @@
 <?php
 return array(
-    'books' => array(
-        'type' => 'Segment',
-        'options' => array(
-            'route' => '/books',
-            'defaults' => array(
-                'controller' => 'book',
-                'action' => 'index',
-                'page' => 1
-            ),
-        ),
-    ),
     'all-designs' => array(
         'type' => 'Segment',
         'options' => array(
@@ -36,10 +25,11 @@ return array(
     'favorite-designs' => array(
         'type' => 'Segment',
         'options' => array(
-            'route' => '/users/:userId/favorites-designs',
+            'route' => '/users/:userId/favorites-designs[/:page]',
             'defaults' => array(
                 'controller' => 'design',
-                'action' => 'favorites'
+                'action' => 'favorites',
+                'page' => 1
             ),
         ),
     ),
@@ -48,7 +38,7 @@ return array(
         'options' => array(
             'route' => '/favorite-designs/add',
             'defaults' => array(
-                'controller' => 'design-favorite',
+                'controller' => 'design_favorite',
                 'action' => 'add'
             ),
         ),
@@ -96,7 +86,7 @@ return array(
             ),
         ),
     ),
-    'design-thumbnail' => array(
+    'get-design-thumbnail' => array(
         'type' => 'Segment',
         'options' => array(
             'route' => '/designs/:id/thumbnail-[:size]px.png',
@@ -105,9 +95,8 @@ return array(
                 'size' => '\d+',
             ),
             'defaults' => array(
-                'controller' => 'design',
-                'action' => 'thumbnail',
-                'size' => '164'
+                'controller' => 'design_thumbnail',
+                'action' => 'get',
             ),
         ),
     ),

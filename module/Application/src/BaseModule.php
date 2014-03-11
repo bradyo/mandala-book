@@ -1,12 +1,11 @@
 <?php
 namespace Mandala\Application;
 
-use Zend\ModuleManager\Feature\ServiceProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\Mvc\MvcEvent;
 
-abstract class BaseModule implements ServiceProviderInterface, ConfigProviderInterface, AutoloaderProviderInterface
+abstract class BaseModule implements ConfigProviderInterface, AutoloaderProviderInterface
 {
     protected $namespace;
     protected $modulePath;
@@ -39,26 +38,7 @@ abstract class BaseModule implements ServiceProviderInterface, ConfigProviderInt
                 ),
             ),
         );
-
-        $routeConfigPath = $this->modulePath . '/config/routes.php';
-        if (file_exists($routeConfigPath)) {
-            $config = array_merge($config, array(
-                'router' => array(
-                    'routes' => require($routeConfigPath)
-                ),
-            ));
-        }
         return array_merge($config, require($this->modulePath . '/config/module.php'));
-    }
-
-    public function getServiceConfig()
-    {
-        $config = array();
-        $configPath = $this->modulePath . '/config/services.php';
-        if (file_exists($configPath)) {
-            $config = require($this->modulePath . '/config/services.php');
-        }
-        return $config;
     }
 
     public function getAutoloaderConfig()

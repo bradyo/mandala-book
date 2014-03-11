@@ -45,12 +45,20 @@ abstract class BaseController extends AbstractActionController implements Servic
         return $response;
     }
 
+    protected function getBadRequestResponse($message = 'Bad request')
+    {
+        $response = new Response();
+        $response->setContent($message);
+        $response->setStatusCode(400);
+        return $response;
+    }
+
     protected function getImageResponse($content, $contentType)
     {
         $response = new Response();
         $response->setContent($content);
+        $response->setStatusCode(200);
         $response->getHeaders()
-            ->clearHeaders()
             ->addHeaderLine('Content-Transfer-Encoding', 'binary')
             ->addHeaderLine('Content-Type', $contentType)
             ->addHeaderLine('Content-Length', mb_strlen($content));

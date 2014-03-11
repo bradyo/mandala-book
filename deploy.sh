@@ -6,6 +6,8 @@ rsync -az --force --delete --progress $DIR/ mandala:/vagrant/ \
     --exclude '.git' \
     --exclude 'environment/.vagrant' \
     --exclude 'data' \
-    --exclude 'public/thumbnails'
+    --exclude 'public/data'
 
-ssh mandala 'php /vagrant/update.php'
+ssh mandala << EOF
+php /vagrant/update.php
+EOF

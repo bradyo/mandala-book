@@ -7,22 +7,23 @@ use Mandala\UserModule\User;
 
 class DesignRepository extends EntityRepository
 {
-    public function getPaginator(array $criteria = array(), array $orderBy = array(), $limit = null, $offset = null)
+    public function getPaginator(DesignSearchCriteria $criteria, array $orderBy = array(), $limit = null, $offset = null)
     {
         $builder = $this->createQueryBuilder('d');
-        if (isset($criteria['user_favorited'])) {
-            $ids = $this->getFavoritedDesignIds($criteria['user_favorited']);
+        if (isset($criteria->userFavorited)) {
+            $ids = $this->getFavoritedDesignIds($criteria->userFavorited);
             $builder->andWhere('d.id IN (:ids)');
             $builder->setParameter('ids', $ids);
         }
-        if (isset($criteria['status'])) {
+        if (isset($criteria->status)) {
             $builder->andWhere('d.status = :status');
-            $builder->setParameter(':status', $criteria['status']);
+            $builder->setParameter(':status', $criteria->status);
         }
-        if (isset($criteria['author'])) {
+        if (isset($criteria->author)) {
             $builder->andWhere('d.author = :author');
-            $builder->setParameter(':author', $criteria['author']);
+            $builder->setParameter(':author', $criteria->author);
         }
+
         foreach ($orderBy as $sort => $order) {
             $builder->addOrderBy('d.' . $sort, $order);
         }

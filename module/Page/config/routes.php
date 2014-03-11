@@ -1,12 +1,12 @@
 <?php
 return array(
     'home' => array(
-        'type'    => 'Literal',
+        'type' => 'Literal',
         'options' => array(
             'route' => '/',
             'defaults' => array(
-                'controller'    => 'home',
-                'action'        => 'index',
+                'controller' => 'home',
+                'action' => 'index',
             ),
         ),
     ),

@@ -1,32 +1,32 @@
 <?php
 return array(
     'sign-up' => array(
-        'type'    => 'Literal',
+        'type' => 'Literal',
         'options' => array(
-            'route'    => '/sign-up',
+            'route' => '/sign-up',
             'defaults' => array(
-                'controller'    => 'user',
-                'action'        => 'signUp',
+                'controller' => 'user',
+                'action' => 'signUp',
             ),
         ),
     ),
     'sign-in' => array(
-        'type'    => 'Literal',
+        'type' => 'Literal',
         'options' => array(
-            'route'    => '/sign-in',
+            'route' => '/sign-in',
             'defaults' => array(
-                'controller'    => 'user',
-                'action'        => 'signIn',
+                'controller' => 'user',
+                'action' => 'signIn',
             ),
         ),
     ),
     'sign-out' => array(
-        'type'    => 'Literal',
+        'type' => 'Literal',
         'options' => array(
-            'route'    => '/sign-out',
+            'route' => '/sign-out',
             'defaults' => array(
-                'controller'    => 'user',
-                'action'        => 'signOut',
+                'controller' => 'user',
+                'action' => 'signOut',
             ),
         ),
     ),

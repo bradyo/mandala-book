@@ -9,10 +9,16 @@ body {
     color: #E1EDF7;
 
 }
-#footer .container {
+.navbar.container-fluid {
+    padding: 0px 20px;
+}
+#footer {
+    padding: 0 32px;
+}
+#footer .container-fluid {
+    padding: 20px 32px;
     border-top: 1px solid #eee;
     margin-top: 1em;
-    padding-top: 1em;
 }
 #content {
     margin-bottom: 2em;
@@ -24,9 +30,15 @@ h2 {
 .jumbotron {
     background-color: #F6F6F6;
 }
-
+.container-fluid {
+    overflow: hidden;
+    padding:0 32px;
+}
 #sidebar {
     width: 263px;
+}
+.filler {
+    margin-left: 283px;
 }
 #sidebar .glyphicon {
     padding-right: 22px;

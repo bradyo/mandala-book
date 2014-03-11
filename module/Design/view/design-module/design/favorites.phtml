@@ -10,6 +10,19 @@
         'user' => $currentUser,
         'route' => 'favorite-designs'
     )) ?>
+
+    <? if (count($designs) > 0): ?>
+        <div style="margin-bottom: 1em">
+            <?= $this->facebookShareButton(array(
+                'link' => $this->url('favorite-designs', array('userId' => $currentUser->id), array('force_canonical' => true)),
+                'name' => 'Mandala Book Designs',
+                'description' => 'Check out these awesome mandala designs',
+                'picture' => $this->url('get-design-thumbnail', array('id' => $designs[0]->id, 'size' => '1200'), array('force_canonical' => true))
+            )) ?>
+        </div>
+    <? endif ?>
+
+    <?= $this->render('design-module/ads.phtml') ?>
 </div>
 
 <div class="col-md-9">

@@ -9,7 +9,6 @@ class HomeController extends BaseController
 {
     public function indexAction()
     {
-//        $this->redirect()->toRoute('all-designs');
         return new ViewModel();
     }
 }

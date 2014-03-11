@@ -1,16 +1,38 @@
 <?php
+namespace Mandala\BookModule;
+
+use Zend\ServiceManager\ServiceManager;
+
 return array(
-    'design_render_script' => '/vagrant/scripts/design-render.js',
-    'design_files_path' => '/vagrant/data/design-files',
-    'design_thumbnails_path' => '/vagrant/data/design-thumbnails',
-    'book_files_path' => '/vagrant/data/book-files',
-    'controllers' => array(
-        'invokables' => array(
-            'design' => 'Mandala\DesignModule\DesignController',
-            'design_favorite' => 'Mandala\DesignModule\DesignFavoriteController',
-            'book' => 'Mandala\DesignModule\BookController',
-            'book_design' => 'Mandala\DesignModule\BookDesignController',
-            'book_favorite' => 'Mandala\DesignModule\BookFavoriteController',
+    'book_module' => array(
+        'book_files_path' => '/vagrant/public/data/book-files',
+    ),
+    'service_manager' => array(
+        'factories' => array(
+            'book_repository' => function(ServiceManager $services) {
+                return $services->get('entity_manager')->getRepository('Mandala\BookModule\Book');
+            },
+            'book_file_service' => function(ServiceManager $services) {
+                    $config = $services->get('config');
+                    return new BookFileService(
+                        $config['book_module']['book_output_path'],
+                        $services->get('design_file_service')
+                    );
+                },
+            'book_manager' => function(ServiceManager $services) {
+                return new BookManager(
+                    $services->get('entity_manager'),
+                    $services->get('book_file_service')
+                );
+            },
         ),
     ),
+    'controllers' => array(
+        'invokables' => array(
+            'book' => 'Mandala\BookModule\BookController',
+        ),
+    ),
+    'router' => array(
+        'routes' => require(__DIR__ . '/routes.php')
+    )
 );

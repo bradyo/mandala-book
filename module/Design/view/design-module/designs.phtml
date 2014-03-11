@@ -8,7 +8,7 @@
 <? if (count($designs) > 0): ?>
     <div>
         <? foreach ($designs as $design): ?>
-            <a class="design-block" style="background-image:url('/designs/<?= $design->id ?>/thumbnail-164px.png')"
+            <a class="design-block" style="background-image:url('/data/design-files/<?= $design->id ?>-164px.png')"
                href="<?= $this->url('show-design', array('id' => $design->id)) ?>"></a>
         <? endforeach ?>
     </div>

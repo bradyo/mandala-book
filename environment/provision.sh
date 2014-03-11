@@ -10,8 +10,8 @@ apt-get install --yes imagemagick php5-imagick
 apt-get install --yes inkscape
 
 # install phantomjs
-cp /vagrant/environment/files/phantomjs-1.9.2-linux-x86_64.tar.bz2
-tar jxf ~/phantomjs-1.9.2-linux-x86_64.tar.bz2
+cp /vagrant/environment/files/phantomjs-1.9.2-linux-x86_64.tar.bz2 ~/
+tar jxf ~/phantomjs-1.9.2-linux-x86_64.tar.bz2 -C ~/
 cp ~/phantomjs-1.9.2-linux-x86_64/bin/phantomjs /usr/bin/
 
 # set up hosts
@@ -20,6 +20,7 @@ cp /vagrant/environment/hosts /etc/hosts
 # initialize apache configuration
 a2enmod rewrite
 a2enmod ssl
+a2enmod headers
 rm /etc/apache2/sites-enabled/000-default 
 rm /var/www/index.html
 cp /vagrant/environment/apache2/httpd.conf /etc/apache2/httpd.conf

@@ -1,5 +1,5 @@
 <?php
-namespace Mandala\DesignModule;
+namespace Mandala\BookModule;
 
 use Mandala\Application\Controller\BaseController;
 use Zend\Http\Response;
@@ -65,96 +65,70 @@ class BookController extends BaseController
         ));
     }
 
-    public function favoritesAction()
-    {
-        $userId = (int) $this->params()->fromRoute('userId');
-        $user = $this->getUserRepository()->find($userId);
-        if ($user === null) {
-            return $this->getNotFoundResponse('User not found');
-        }
-        $designs = $this->getDesignRepository()->findFavorites($user);
-        return $this->getIndexViewModel($designs);
-    }
-
     public function showAction()
     {
         $id = (int) $this->params()->fromRoute('id');
-        $design = $this->getDesignRepository()->find($id);
-        if ($design === null) {
-            return $this->getNotFoundResponse('Design not found');
+        $book = $this->getBookRepository()->find($id);
+        if ($book === null) {
+            return $this->getNotFoundResponse('Book not found');
         }
+        $user = $this->getCurrentUser();
+
         return new ViewModel(array(
-            'design' => $design,
-            'user' => $this->getCurrentUser(),
-            'isFavorite' => $this->isFavorite($design),
-            'isOwner' => ($design->author == $this->getCurrentUser())
+            'book' => $book,
+            'user' => $user,
+            'isOwner' => ($book->author == $user)
         ));
     }
 
     public function newAction()
     {
-        $design = Design::createDefault($this->getCurrentUser());
+        $user = $this->getCurrentUser();
+        $book = $this->getBookFactory()->createDefault($user);
         if ($this->getRequest()->isPost()) {
-            $design->data = $this->getRequest()->getPost('data');
-            $design->svg = '<?xml version="1.0" encoding="utf-8"?>' . $this->getRequest()->getPost('svg');
+            $data = $this->params()->fromPost();
 
-            $this->getEntityManager()->persist($design);
-            $this->getEntityManager()->flush();
+            $this->getBookManager()->save($data['title'], $user, $data['design_ids']);
 
-            $this->redirect()->toRoute('user-designs', array('userId' => $this->getCurrentUser()->id));
+            $this->redirect()->toRoute('user-books', array('userId' => $user->id));
         }
-        return new ViewModel(array('design' => $design, 'user' => $this->getCurrentUser()));
-    }
-
-    public function addFavoriteAction()
-    {
-        $id = (int) $this->getRequest()->getPost('id');
-        $design = $this->getDesignRepository()->find($id);
-        if ($design === null) {
-            return $this->getNotFoundResponse('Design not found');
-        }
-
-        $criteria = array(
-            'user' => $this->getCurrentUser(),
-            'design' => $design
-        );
-        $favorite = $this->getDesignFavoriteRepository()->findOneBy($criteria);
-        if ($favorite == null) {
-            $favorite = new DesignFavorite();
-            $favorite->user = $this->getCurrentUser();
-            $favorite->design = $design;
-            $this->getEntityManager()->persist($favorite);
-
-            $design->favoritedCount++;
-            $this->getEntityManager()->persist($design);
-            $this->getEntityManager()->flush();
-        }
-        return $this->getSuccessResponse('favorite design added');
+        return new ViewModel(array(
+            'user' => $user,
+            'book' => $book,
+        ));
     }
 
     public function deleteAction()
     {
         $id = (int) $this->params()->fromRoute('id');
-        $design = $this->getDesignRepository()->find($id);
-        if ($design === null) {
-            return $this->getNotFoundResponse('Design not found');
-        }
-        if ($design->author->id !== $this->getCurrentUser()->id) {
-            return $this->getNotAllowedResponse('Not allowed to delete design');
+        $book = $this->getBookRepository()->find($id);
+        if ($book === null) {
+            return $this->getNotFoundResponse('Book not found');
         }
 
-        $design->status = Design::STATUS_DELETED;
-        $this->getEntityManager()->persist($design);
-        $this->getEntityManager()->flush();
+        $user = $this->getCurrentUser();
+        if ($book->author->id !== $user->id) {
+            return $this->getNotAllowedResponse('Not allowed to delete book');
+        }
 
-        $this->redirect()->toRoute('user-designs', array('userId' => $this->getCurrentUser()->id));
+        $this->getBookManager()->delete($book);
+
+        $this->redirect()->toRoute('user-books', array('userId' => $user->id));
     }
 
     /**
-     * @return DesignRepository
+     * @return BookRepository
      */
     private function getBookRepository()
     {
         return $this->serviceLocator->get('book_repository');
+    }
+
+    /**
+     * @return BookManager
+     */
+    private function getBookManager()
+    {
+        return $this->serviceLocator->get('book_manager');
     }
 }

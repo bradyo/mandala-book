@@ -20,7 +20,6 @@ class DesignFavoriteManager
             'user' => $user,
             'design' => $design
         );
-        ;
         $favorite = $this->getDesignFavoriteRepository()->findOneBy($criteria);
         if ($favorite == null) {
             $favorite = new DesignFavorite();
@@ -28,7 +27,7 @@ class DesignFavoriteManager
             $favorite->design = $design;
             $this->entityManager->persist($favorite);
 
-            // update design favorite count
+            // update design count
             $design->favoritedCount++;
             $this->entityManager->persist($design);
             $this->entityManager->flush();

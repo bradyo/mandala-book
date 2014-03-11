@@ -15,4 +15,6 @@ class DesignFavoriteRepository extends EntityRepository
         $favorite = $this->findOneBy($criteria);
         return $favorite !== null;
     }
+
+
 } 

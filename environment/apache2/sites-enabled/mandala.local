@@ -4,7 +4,7 @@
 </VirtualHost>
 
 <VirtualHost *:443>
-    ServerName mandala.local 
+    ServerName mandala.local
 
     SSLEngine on
     SSLCertificateFile /etc/ssl/certs/ssl-cert-snakeoil.pem

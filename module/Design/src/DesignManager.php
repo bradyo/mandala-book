@@ -7,36 +7,24 @@ use Mandala\UserModule\User;
 class DesignManager
 {
     private $entityManager;
-    private $renderer;
-    private $svgOutputPath;
+    private $fileService;
 
-    public function __construct(EntityManager $entityManager, DesignRenderer $renderer, $svgOutputPath)
+    public function __construct(EntityManager $entityManager, DesignFileService $fileService)
     {
         $this->entityManager = $entityManager;
-        $this->renderer = $renderer;
-        $this->svgOutputPath = $svgOutputPath;
+        $this->fileService = $fileService;
     }
 
-    public function save(User $author, array $data)
+    public function save(User $author, $data)
     {
-        $design = Design::createDefault($author);
-        $this->persist($design, $data);
-    }
-
-    public function update(Design $design, array $data)
-    {
-        $this->persist($design, $data);
-    }
-
-    private function persist(Design $design, array $data)
-    {
-        $design->data = $data['data'];
-        $design->svg =  '<?xml version="1.0" encoding="utf-8"?>' . $this->renderer->render($design);
+        $design = new Design();
+        $design->author = $author;
+        $design->data = $data;
         $this->entityManager->persist($design);
         $this->entityManager->flush();
 
-        // save svg content to file
-        file_put_contents($this->svgOutputPath . '/' . $design->id . '.svg', $design->svg);
+        $this->fileService->createSvg($design);
+        $this->fileService->createThumbnail($design, 164);
     }
 
     public function delete(Design $design)

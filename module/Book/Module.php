@@ -1,5 +1,5 @@
 <?php
-namespace Mandala\BooksModule;
+namespace Mandala\BookModule;
 
 use Mandala\Application\BaseModule;
 

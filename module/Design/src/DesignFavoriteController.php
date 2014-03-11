@@ -6,45 +6,40 @@ use Zend\Http\Response;
 
 class DesignFavoriteController extends BaseController
 {
+    private $designRepository;
+    private $designFavoriteManager;
+
+    public function __construct(DesignRepository $designRepository, DesignFavoriteManager $designFavoriteManager)
+    {
+        $this->designRepository = $designRepository;
+        $this->designFavoriteManager = $designFavoriteManager;
+    }
+
     public function addAction()
     {
         $id = (int) $this->params()->fromPost('id');
-        $design = $this->getDesignRepository()->find($id);
+        $design = $this->designRepository->find($id);
         if ($design === null) {
             return $this->getNotFoundResponse('Design not found');
         }
-        $user = $this->getCurrentUser();
-        $this->getDesignFavoriteManager()->add($user, $design);
 
-        return $this->getSuccessResponse('favorite design added');
+        $user = $this->getCurrentUser();
+        $this->designFavoriteManager->add($user, $design);
+
+        return $this->getSuccessResponse('Design favorite added');
     }
 
     public function removeAction()
     {
         $id = (int) $this->params()->fromPost('id');
-        $design = $this->getDesignRepository()->find($id);
+        $design = $this->designRepository->find($id);
         if ($design === null) {
             return $this->getNotFoundResponse('Design not found');
         }
+
         $user = $this->getCurrentUser();
-        $this->getDesignFavoriteManager()->remove($user, $design);
+        $this->designFavoriteManager->remove($user, $design);
 
         return $this->getSuccessResponse('Design favorite removed');
-    }
-
-    /**
-     * @return DesignRepository
-     */
-    private function getDesignRepository()
-    {
-        return $this->serviceLocator->get('design_repository');
-    }
-
-    /**
-     * @return DesignFavoriteManager
-     */
-    private function getDesignFavoriteManager()
-    {
-        return $this->serviceLocator->get('design_favorite_manager');
     }
 }
