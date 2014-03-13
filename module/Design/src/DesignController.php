@@ -98,7 +98,6 @@ class DesignController extends BaseController
         $this->redirect()->toRoute('user-designs', array('userId' => $user->id));
     }
 
-
     private function getPaginatedViewModel(DesignSearchCriteria $criteria, array $order = array())
     {
         $page = $this->params()->fromRoute('page', 1);

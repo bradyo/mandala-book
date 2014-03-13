@@ -1,7 +1,7 @@
 <?php
 namespace Mandala\Application;
 
-use Mandala\Application\Mvc\View\Http\InjectTemplateListener;
+use Mandala\Application\Listener\InjectTemplateListener;
 use Zend\Log\Logger;
 use Zend\Mail\Transport\Smtp;
 use Zend\Mail\Transport\SmtpOptions;

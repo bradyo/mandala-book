@@ -1,5 +1,5 @@
 <?php
-namespace Mandala\Application\View\Helper;
+namespace Mandala\Application\ViewHelper;
 
 use Zend\View\Helper\AbstractHelper;
 

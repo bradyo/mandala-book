@@ -25,8 +25,9 @@
 
 <div class="filler">
     <?= $this->partial('design-module/designs.phtml', array(
+        'route' => 'all-designs',
+        'currentUser' => $currentUser,
         'designs' => $designs,
         'pager' => $pager,
-        'route' => 'all-designs'
     )) ?>
 </div>

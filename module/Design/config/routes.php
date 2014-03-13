@@ -89,7 +89,7 @@ return array(
     'get-design-thumbnail' => array(
         'type' => 'Segment',
         'options' => array(
-            'route' => '/designs/:id/thumbnail-[:size]px.png',
+            'route' => '/data/design-files/[:id]-[:size]px.png',
             'constraints' => array(
                 'id' => '[0-9]+',
                 'size' => '\d+',

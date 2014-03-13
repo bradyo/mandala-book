@@ -3,6 +3,7 @@ namespace Mandala\DesignModule;
 
 use Exception;
 use Imagick;
+use ImagickPixel;
 
 /**
  * Takes a Design and generates SVG/PDF content on the server-side.
@@ -86,6 +87,7 @@ class DesignFileService
             }
 
             $image = new Imagick();
+            $image->setBackgroundColor(new ImagickPixel('transparent'));
             $image->readImageBlob($svgContent);
             $image->setImageFormat("png24");
             $image->resizeImage($size, $size, Imagick::FILTER_LANCZOS, 1);

@@ -56,6 +56,58 @@ h2 {
     float: left;
     background-image: url('../img/light-grid.jpg');
 }
+.user-books-tray {
+    padding: 1em;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background-color: #fafafa;
+    margin-bottom: 1em;
+}
+.book-block {
+    border-radius: 4px;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    background-image: url('../img/folder.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 90%;
+    width: 164px;
+    height: 164px;
+    margin-right: 10px;
+    position: relative;
+}
+.book-block:hover {
+    background-color: white;
+    border: 1px solid #999;
+}
+.book-block-inner {
+    position: absolute;
+    display: block;
+    vertical-align: middle;
+    text-align: center;
+    left: 18px;
+    top: 55px;
+    width: 125px;
+    height: 78px;
+    margin: 0;
+    padding: 10px;
+    overflow: hidden;
+}
+a.book-block-inner {
+    color: #555555;
+    font-weight: bold;
+}
+a.book-block-inner:hover {
+    text-decoration: none;
+}
+.book-block-hover {
+    border: 1px solid #00e;
+    box-shadow: 0 0 10px #428BCA;
+}
 
 .btn-wide {
     padding-left: 40px;
@@ -87,13 +139,16 @@ input[type=submit] {
      display: inline-block;
      text-decoration: none;
      border: 1px solid #ddd;
-     background-color: #fafafa;
+     background-color: #fff;
      width: 164px;
      height: 164px;
  }
  a.design-block:hover {
      background-color: white;
      border: 1px solid #999;
+ }
+ a.design-block-drag:active, a.design-block-drag:hover {
+     box-shadow:4px 4px 3px #333;
  }
 
 #layers {

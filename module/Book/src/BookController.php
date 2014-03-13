@@ -13,55 +13,28 @@ class BookController extends BaseController
 
     public function indexAction()
     {
-        $criteria = array(
-            'status' => Design::STATUS_SAVED
-        );
-        $order = array(
-            'favoritedCount' => 'desc'
-        );
-        $page = $this->params()->fromRoute('page', 1);
-        $offset = ($page - 1) * self::ITEMS_PER_PAGE;
-        $limit = self::ITEMS_PER_PAGE;
-        $modelPaginator = $this->getDesignRepository()->getPaginator($criteria, $order, $limit, $offset);
+        $criteria = new BookCriteria();
+        $criteria->status = Book::STATUS_PUBLIC;
+        $criteria->author = $this->getCurrentUser();
 
-        $totalCount = $modelPaginator->count();
-        $paginator = new Paginator(new ArrayAdapter(range(1, $totalCount)));
-        $paginator->setItemCountPerPage(self::ITEMS_PER_PAGE);
-        $paginator->setCurrentPageNumber($page);
-
-        return new ViewModel(array(
-            'user' => $this->getCurrentUser(),
-            'designs' => $modelPaginator->getIterator(),
-            'paginator' => $paginator
-        ));
+        return $this->getPaginatedViewModel($criteria);
     }
 
-    public function usersAction()
+    private function getPaginatedViewModel(BookCriteria $criteria, array $order = array())
     {
-        $userId = (int) $this->params()->fromRoute('userId');
-        $user = $this->getUserRepository()->find($userId);
-        if ($user === null) {
-            return $this->getNotFoundResponse('User not found');
-        }
-
         $page = $this->params()->fromRoute('page', 1);
         $offset = ($page - 1) * self::ITEMS_PER_PAGE;
         $limit = self::ITEMS_PER_PAGE;
-        $criteria = array(
-            'author' => $user->id,
-            'status' => Design::STATUS_SAVED
-        );
-        $modelPaginator = $this->getDesignRepository()->getPaginator($criteria, array(), $limit, $offset);
+        $modelPaginator = $this->getBookRepository()->getPaginator($criteria, $order, $limit, $offset);
+        $books = $modelPaginator->getIterator();
 
-        $totalCount = $modelPaginator->count();
-        $paginator = new Paginator(new ArrayAdapter(range(1, $totalCount)));
-        $paginator->setItemCountPerPage(self::ITEMS_PER_PAGE);
-        $paginator->setCurrentPageNumber($page);
+        $pager = new Paginator(new ArrayAdapter(range(1, $modelPaginator->count())));
+        $pager->setItemCountPerPage(self::ITEMS_PER_PAGE);
+        $pager->setCurrentPageNumber($page);
 
         return new ViewModel(array(
-            'user' => $this->getCurrentUser(),
-            'designs' => $modelPaginator->getIterator(),
-            'paginator' => $paginator
+            'books' => $books,
+            'pager' => $pager
         ));
     }
 
@@ -69,32 +42,31 @@ class BookController extends BaseController
     {
         $id = (int) $this->params()->fromRoute('id');
         $book = $this->getBookRepository()->find($id);
-        if ($book === null) {
-            return $this->getNotFoundResponse('Book not found');
-        }
-        $user = $this->getCurrentUser();
 
         return new ViewModel(array(
-            'book' => $book,
-            'user' => $user,
-            'isOwner' => ($book->author == $user)
+            'book' => $book
         ));
     }
 
     public function newAction()
     {
-        $user = $this->getCurrentUser();
-        $book = $this->getBookFactory()->createDefault($user);
+        $form = new NewBookForm();
+        $form->setInputFilter(new NewBookPostFilter());
         if ($this->getRequest()->isPost()) {
-            $data = $this->params()->fromPost();
+            $form->setData($this->params()->fromPost());
+            if ($form->isValid()) {
+                $data = $form->getData();
 
-            $this->getBookManager()->save($data['title'], $user, $data['design_ids']);
+                $book = new Book();
+                $book->title = $data['title'];
+                $book->author = $this->getCurrentUser();
+                $this->getBookManager()->save($book);
 
-            $this->redirect()->toRoute('user-books', array('userId' => $user->id));
+                $this->redirect()->toRoute('books');
+            }
         }
         return new ViewModel(array(
-            'user' => $user,
-            'book' => $book,
+            'form' => $form
         ));
     }
 

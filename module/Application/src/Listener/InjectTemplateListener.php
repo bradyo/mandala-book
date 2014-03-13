@@ -1,5 +1,5 @@
 <?php
-namespace Mandala\Application\Mvc\View\Http;
+namespace Mandala\Application\Listener;
 
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\View\Http\InjectTemplateListener as BaseInjectTemplateListener;

@@ -3,16 +3,64 @@
  * @var array $designs
  * @var \Zend\Paginator\Paginator $pager
  * @var string $route
+ * @var \Mandala\UserModule\User $currentUser
  */
 ?>
+
+<div style="margin-bottom: 1em">
+    <div class="btn-group" style="margin-right: 1em">
+        <a href="<?= $this->url('all-designs') ?>" class="btn btn-default <?= $route == 'all-designs' ? 'active' : '' ?>">
+            <span class="glyphicon glyphicon-globe"></span>
+            All Designs
+        </a>
+        <a href="<?= $this->url('user-designs', array('userId' => $currentUser->id)) ?>"
+           class="btn btn-default <?= $route == 'user-designs' ? 'active' : '' ?>">
+            <span class="glyphicon glyphicon-user"></span>
+            My Designs
+        </a>
+        <a href="<?= $this->url('favorite-designs', array('userId' => $currentUser->id)) ?>"
+           class="btn btn-default <?= $route == 'favorite-designs' ? 'active' : '' ?>">
+            <span class="glyphicon glyphicon-heart"></span>
+            My Favorites
+        </a>
+    </div>
+
+    <div class="btn-group" style="margin-right: 1em">
+        <a class="btn btn-default active">
+            Newest
+        </a>
+        <a class="btn btn-default">
+            Most Favorited
+        </a>
+    </div>
+
+    <div class="btn-group" style="margin-right: 1em">
+        <button id="my-books-button" type="button" class="btn btn-default active" data-toggle="button">
+            <span class="glyphicon glyphicon-book"> </span>
+            My Books
+        </button>
+        <? $this->placeholder('scripts')->captureStart() ?>
+            <script>
+                $(document).ready(function() {
+                    $('#my-books-button').click(function() {
+                        $('#user-books-tray').toggle();
+                    });
+                });
+            </script>
+        <? $this->placeholder('scripts')->captureEnd() ?>
+    </div>
+</div>
+
+<div id="user-books-tray" class="user-books-tray">
+    <?= $this->userBooksTray() ?>
+</div>
+
 <? if (count($designs) > 0): ?>
     <div>
         <? foreach ($designs as $design): ?>
-            <a class="design-block" style="background-image:url('/data/design-files/<?= $design->id ?>-164px.png')"
+            <a id="design-<?= $design->id ?>" class="design-block" style="background-image:url('/data/design-files/<?= $design->id ?>-164px.png')"
                href="<?= $this->url('show-design', array('id' => $design->id)) ?>"></a>
         <? endforeach ?>
     </div>
     <?= $this->paginationControl($pager, 'elastic', 'application/pagination.phtml', array('route' => $route)) ?>
-<? else: ?>
-    <p>No designs found.</p>
 <? endif ?>

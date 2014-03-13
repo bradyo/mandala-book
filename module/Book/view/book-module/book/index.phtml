@@ -1,14 +1,18 @@
 <div class="col-md-3" id="sidebar" role="navigation">
-    <?= $this->partial('design-module/design/sidebar.phtml', array(
-        'user' => $currentUser,
-        'route' => 'all-designs'
-    )) ?>
+    <?= $this->partial('book-module/sidebar.phtml', array('route' => 'books')) ?>
 </div>
 
 <div class="col-md-9">
-    <?= $this->partial('design-module/designs.phtml', array(
-        'designs' => $designs,
+    <?= $this->partial('book-module/books.phtml', array(
+        'books' => $books,
         'pager' => $pager,
-        'route' => 'all-designs'
+        'route' => 'books'
     )) ?>
+
+    <? if (count($books) == 0): ?>
+        <div class="alert alert-warning">
+            You have no books made yet!
+            <a class="btn btn-sm btn-primary" style="margin-left: 10px" href="<?= $this->url('new-book') ?>">Make One</a>
+        </div>
+    <? endif ?>
 </div>

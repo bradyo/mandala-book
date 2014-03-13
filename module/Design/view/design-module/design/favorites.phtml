@@ -26,13 +26,14 @@
 </div>
 
 <div class="col-md-9">
-    <? if (count($designs) > 0): ?>
-        <?= $this->partial('design-module/designs.phtml', array(
-            'designs' => $designs,
-            'pager' => $pager,
-            'route' => 'favorite-designs'
-        )) ?>
-    <? else:  ?>
+    <?= $this->partial('design-module/designs.phtml', array(
+        'currentUser' => $currentUser,
+        'designs' => $designs,
+        'pager' => $pager,
+        'route' => 'favorite-designs'
+    )) ?>
+
+    <? if (count($designs) == 0): ?>
         <div class="alert alert-warning">
             You have no favorite designs yet!
             <a class="btn btn-sm btn-primary" style="margin-left: 10px" href="<?= $this->url('all-designs') ?>">Find some now</a>

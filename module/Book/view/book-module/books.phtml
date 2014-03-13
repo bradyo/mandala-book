@@ -1,0 +1,20 @@
+<?
+/**
+ * @var array $books
+ * @var \Zend\Paginator\Paginator $pager
+ * @var string $route
+ */
+?>
+<? if (count($books) > 0): ?>
+    <div>
+        <? foreach ($books as $book): ?>
+            <div id="book-<?= $book->id ?>" class="book-block">
+                <a class="book-block-inner" href="<?= $this->url('show-book', array('id' => $book->id)) ?>">
+                    <?= $this->escapeHtml($book->title) ?>
+                    <div>(<span id="book-<?= $book->id ?>-design-count"><?= $book->designsCount ?></span> designs)</div>
+                </a>
+            </div>
+        <? endforeach ?>
+    </div>
+    <?= $this->paginationControl($pager, 'elastic', 'application/pagination.phtml', array('route' => $route)) ?>
+<? endif ?>

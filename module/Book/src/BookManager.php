@@ -18,6 +18,8 @@ class BookManager
     {
         $this->entityManager->persist($book);
         $this->entityManager->flush();
+
+        $this->fileService->generatePdf($book);
     }
 
     public function delete(Book $book)

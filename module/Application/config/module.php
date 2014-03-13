@@ -1,7 +1,7 @@
 <?php
 namespace Mandala\Application;
 
-use Mandala\Application\View\Helper\FacebookShareButtonHelper;
+use Mandala\Application\ViewHelper\FacebookShareButtonHelper;
 use Zend\View\HelperPluginManager;
 
 return array(

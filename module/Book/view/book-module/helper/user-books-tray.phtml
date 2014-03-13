@@ -1,0 +1,84 @@
+<?php
+/**
+ * @var array $books
+ */
+?>
+<div class="alert alert-info">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <span class="glyphicon glyphicon-info-sign"></span>
+    <strong>Add a design to one of your books by dragging the design into the book.</strong>
+</div>
+
+<div class="book-block">
+    <a class="book-block-inner" href="<?= $this->url('new-book') ?>">
+        <span class="glyphicon glyphicon-plus-sign"></span>
+        New Book
+    </a>
+</div>
+
+<? if (count($books) > 0): ?>
+    <? foreach ($books as $book): ?>
+        <div id="book-<?= $book->id ?>" class="book-block">
+            <a class="book-block-inner" href="<?= $this->url('show-book', array('id' => $book->id)) ?>">
+                <?= $this->escapeHtml($book->title) ?>
+                <div>(<span id="book-<?= $book->id ?>-design-count"><?= $book->designsCount ?></span> designs)</div>
+            </a>
+        </div>
+    <? endforeach ?>
+<? endif ?>
+
+<? $this->placeholder('scripts')->captureStart() ?>
+    <script>
+        $(function() {
+            $(".design-block").draggable({
+                revert: "invalid",
+                helper: function (event) {
+                    return $(this).clone().addClass("design-block-drag");
+                },
+                opacity: 0.5,
+                cursor: 'move',
+                containment: '#content'
+            });
+            $(".book-block").droppable({
+                accept: ".design-block",
+                activeClass: "book-block-active",
+                hoverClass: "book-block-hover",
+                drop: function(event, ui) {
+                    var el = ui.draggable.clone();
+                    el.appendTo($(this));
+                    el.css('opacity', '1');
+                    el.css('background-color', 'transparent');
+                    el.fadeOut(1000);
+
+                    var bookId = $(this).attr('id').match(/-(\d+)$/)[1];
+                    var designId = ui.helper.attr('id').match(/-(\d+)$/)[1];
+
+                    console.log('book id = ' + bookId);
+                    console.log('design id = ' + designId);
+
+                    $.ajax({
+                        url: "<?= $this->url('add-book-design') ?>",
+                        type: "post",
+                        data: {
+                            bookId: bookId,
+                            designId: designId
+                        },
+                        dataType: "html"
+                    })
+                    .done(function() {
+                        var designCountElement = $('#book-' + bookId + '-design-count');
+                        var newDesignCount = parseInt(designCountElement.html()) + 1;
+                        designCountElement.html(newDesignCount);
+                        console.log('design added successfully');
+                    })
+                    .fail(function(data, textStatus, xhr) {
+                        console.log('request failed');
+                        if (xhr.status == 409) {
+                            console.log('design already added');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+<? $this->placeholder('scripts')->captureEnd() ?>

@@ -17,7 +17,7 @@ class BookDesign
     public $id;
 
     /**
-     * @Orm\ManyToOne(targetEntity="Mandala\BookModule\Book", inversedBy="bookDesigns")
+     * @Orm\ManyToOne(targetEntity="Mandala\BookModule\Book", inversedBy="bookDesigns", cascade={"persist"})
      * @var Book
      */
     public $book;

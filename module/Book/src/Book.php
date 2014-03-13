@@ -7,11 +7,10 @@ use Mandala\DesignModule\Design;
 use Mandala\UserModule\User;
 
 /**
- * @Orm\Entity
+ * @Orm\Entity(repositoryClass="Mandala\BookModule\BookRepository")
  */
 class Book
 {
-    const STATUS_DRAFT = 'draft';
     const STATUS_PUBLIC = 'public';
     const STATUS_DELETED = 'deleted';
 
@@ -25,7 +24,7 @@ class Book
     /**
      * @Orm\Column(type="string")
      */
-    public $status;
+    public $status = self::STATUS_PUBLIC;
 
     /**
      * @Orm\ManyToOne(targetEntity="Mandala\UserModule\User")
@@ -39,7 +38,7 @@ class Book
     public $title;
 
     /**
-     * @Orm\OneToMany(targetEntity="Mandala\BookModule\BookDesign", mappedBy="book")
+     * @Orm\OneToMany(targetEntity="Mandala\BookModule\BookDesign", mappedBy="book", cascade={"persist"})
      */
     public $bookDesigns;
 
@@ -63,30 +62,38 @@ class Book
         $newBookDesign->book = $this;
         $newBookDesign->position = $position;
 
-        $this->bookDesigns = new ArrayCollection(array(
-            $this->bookDesigns->slice(0, $position),
-            array($newBookDesign),
-            $this->bookDesigns->slice($position)
-        ));
+        $this->bookDesigns->add($newBookDesign);
+
         $this->updatePositions();
         $this->designsCount++;
+    }
+
+    public function containsDesign(Design $design)
+    {
+        return $this->findBookDesign($design) !== null;
     }
 
     public function moveDesign(Design $design, $position)
     {
         $foundBookDesign = $this->findBookDesign($design);
-        $this->bookDesigns->removeElement($foundBookDesign);
-        $this->bookDesigns = new ArrayCollection(array(
-            $this->bookDesigns->slice(0, $position),
-            $foundBookDesign,
-            $this->bookDesigns->slice($position)
-        ));
+        if ($foundBookDesign === null) {
+            throw new \Exception("Design does not exist in book");
+        }
+//        $this->bookDesigns->removeElement($foundBookDesign);
+//        $this->bookDesigns = new ArrayCollection(array(
+//            $this->bookDesigns->slice(0, $position),
+//            $foundBookDesign,
+//            $this->bookDesigns->slice($position)
+//        ));
         $this->updatePositions();
     }
 
     public function removeDesign(Design $design)
     {
         $foundBookDesign = $this->findBookDesign($design);
+        if ($foundBookDesign === null) {
+            throw new \Exception("Design does not exist in book");
+        }
         $this->bookDesigns->removeElement($foundBookDesign);
         $this->updatePositions();
         $this->designsCount--;
@@ -101,12 +108,9 @@ class Book
     {
         $foundBookDesign = null;
         foreach ($this->bookDesigns as $bookDesign) {
-            if ($bookDesign->design = $design) {
+            if ($bookDesign->design == $design) {
                 $foundBookDesign = $bookDesign;
             }
-        }
-        if ($foundBookDesign === null) {
-            throw new \Exception("Design does not exist in book");
         }
         return $foundBookDesign;
     }

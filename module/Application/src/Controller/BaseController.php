@@ -8,6 +8,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Http\Response;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\Http\Request;
 
 abstract class BaseController extends AbstractActionController implements ServiceLocatorAwareInterface
 {
@@ -19,6 +20,14 @@ abstract class BaseController extends AbstractActionController implements Servic
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
     {
         $this->serviceLocator = $serviceLocator;
+    }
+
+    /**
+     * @return Request
+     */
+    public function getRequest()
+    {
+        return parent::getRequest();
     }
 
     protected function getSuccessResponse($message = 'Success')
@@ -50,6 +59,14 @@ abstract class BaseController extends AbstractActionController implements Servic
         $response = new Response();
         $response->setContent($message);
         $response->setStatusCode(400);
+        return $response;
+    }
+
+    protected function getConflictResponse($message = 'Conflict')
+    {
+        $response = new Response();
+        $response->setContent($message);
+        $response->setStatusCode(409);
         return $response;
     }
 

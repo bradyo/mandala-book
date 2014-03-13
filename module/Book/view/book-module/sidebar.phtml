@@ -1,0 +1,15 @@
+<?
+/**
+ * @var string $route
+ */
+?>
+<div class="list-group">
+    <a href="<?= $this->url('books') ?>" class="list-group-item <?= $route == 'books' ? 'active' : '' ?>">
+        <span class="glyphicon glyphicon-globe"></span>
+        Books
+    </a>
+    <a href="<?= $this->url('new-book') ?>" class="list-group-item <?= $route == 'new-book' ? 'active' : '' ?>">
+        <span class="glyphicon glyphicon-plus-sign"></span>
+        New Book
+    </a>
+</div>
