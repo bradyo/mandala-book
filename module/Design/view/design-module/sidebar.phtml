@@ -5,20 +5,11 @@
  */
 ?>
 <div class="list-group">
-    <a href="<?= $this->url('all-designs') ?>" class="list-group-item <?= $route == 'all-designs' ? 'active' : '' ?>">
+    <? $designRoutes = array('all-designs', 'user-designs', 'favorite-designs') ?>
+    <a href="<?= $this->url('all-designs') ?>" class="list-group-item <?= in_array($route, $designRoutes) ? 'active' : '' ?>">
         <span class="glyphicon glyphicon-globe"></span>
-        Designs
+        Browse Designs
     </a>
-<!--    <a href="--><?//= $this->url('user-designs', array('userId' => $user->id)) ?><!--"-->
-<!--        class="list-group-item --><?//= $route == 'user-designs' ? 'active' : '' ?><!--">-->
-<!--        <span class="glyphicon glyphicon-pencil"></span>-->
-<!--        My Designs-->
-<!--    </a>-->
-<!--    <a href="--><?//= $this->url('favorite-designs', array('userId' => $user->id)) ?><!--"-->
-<!--        class="list-group-item --><?//= $route == 'favorite-designs' ? 'active' : '' ?><!--">-->
-<!--        <span class="glyphicon glyphicon-heart"></span>-->
-<!--        My Favorites-->
-<!--    </a>-->
     <a href="<?= $this->url('new-design') ?>" class="list-group-item <?= $route == 'new-design' ? 'active' : '' ?>">
         <span class="glyphicon glyphicon-plus-sign"></span>
         New Design

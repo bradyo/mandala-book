@@ -9,13 +9,6 @@
     <strong>Add a design to one of your books by dragging the design into the book.</strong>
 </div>
 
-<div class="book-block">
-    <a class="book-block-inner" href="<?= $this->url('new-book') ?>">
-        <span class="glyphicon glyphicon-plus-sign"></span>
-        New Book
-    </a>
-</div>
-
 <? if (count($books) > 0): ?>
     <? foreach ($books as $book): ?>
         <div id="book-<?= $book->id ?>" class="book-block">
@@ -26,6 +19,11 @@
         </div>
     <? endforeach ?>
 <? endif ?>
+
+<a class="book-block-add" href="<?= $this->url('new-book') ?>">
+    <span class="glyphicon glyphicon-plus-sign"></span>
+    New Book
+</a>
 
 <? $this->placeholder('scripts')->captureStart() ?>
     <script>
