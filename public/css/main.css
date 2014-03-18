@@ -156,6 +156,13 @@ input[type=submit] {
     padding: 4px;
     overflow: hidden;
 }
+.navbar-default .navbar-brand {
+    font-size: 24px;
+    color: #5e5e5e;
+}
+.navbar-nav > li > a {
+    font-size: 16px;
+}
 #layers .layer {
     float: left;
     width: 32px;

@@ -1,6 +1,7 @@
 <?php
 namespace Mandala\Application;
 
+use Mandala\Application\ViewHelper\Disqus;
 use Mandala\Application\ViewHelper\FacebookShareButtonHelper;
 use Zend\View\HelperPluginManager;
 
@@ -24,6 +25,9 @@ return array(
             'facebookShareButton' => function (HelperPluginManager $helperPluginManager) {
                 $config = $helperPluginManager->getServiceLocator()->get('config');
                 return new FacebookShareButtonHelper($config['facebook']['app_id']);
+            },
+            'disqus' => function (HelperPluginManager $helperPluginManager) {
+                return new Disqus();
             }
         )
     ),

@@ -41,16 +41,29 @@
                     <li><a href="<?= $this->url('books') ?>">Books</a></li>
                     <li>
                         <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=35BS6JPKESKW6">
+                            <span class="glyphicon glyphicon-thumbs-up"></span>
                             Donate
                         </a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <? if ($currentUser->isAnonymous()): ?>
-                        <li><a data-toggle="modal" id="sign-in-button" href="<?= $this->url('sign-in') ?>">Sign In</a></li>
-                    <? else: ?>
-                        <li><a id="sign-out-button" href="<?= $this->url('sign-out') ?>">Logout</a></li>
-                    <? endif ?>
+                    <form>
+                        <? if ($currentUser->isAnonymous()): ?>
+                            <li>
+                                <a class="btn btn-primary navbar-btn" data-toggle="modal" id="sign-in-button" href="<?= $this->url('sign-in') ?>">
+                                    Sign In
+                                </a>
+                            </li>
+                        <? else: ?>
+                            <li>
+                                <span style="color: #777777; font-size: 16px; margin-right: 0.5em"><?= $currentUser->email ?></span>
+                                <img src="https://www.gravatar.com/avatar/<?= md5($currentUser->email) ?>?s=32" />
+                                <a class="btn btn-default navbar-btn" id="sign-out-button" href="<?= $this->url('sign-out') ?>">
+                                    Sign Out
+                                </a>
+                            </li>
+                        <? endif ?>
+                    </form>
                 </ul>
             </div>
         </div>
