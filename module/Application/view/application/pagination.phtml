@@ -2,8 +2,6 @@
     <ul class="pagination">
         <?php if (isset($this->previous)): ?>
             <li><a href="<?= $this->url($this->route, array('page' => $this->previous), true) ?>">&lt;</a></li>
-        <?php else: ?>
-            <li class="disabled"><a href="#">&lt;</a></li>
         <?php endif ?>
 
         <?php foreach ($this->pagesInRange as $page): ?>
@@ -16,8 +14,6 @@
 
         <?php if (isset($this->next)): ?>
             <li><a href="<?= $this->url($this->route, array('page' => $this->next), true) ?>">&gt;</a></li>
-        <?php else: ?>
-            <li class="disabled"><a href="#">&gt;</a></li>
         <?php endif ?>
     </ul>
 <?php endif ?>

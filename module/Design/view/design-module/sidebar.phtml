@@ -7,7 +7,7 @@
 <div class="list-group">
     <? $designRoutes = array('all-designs', 'user-designs', 'favorite-designs') ?>
     <a href="<?= $this->url('all-designs') ?>" class="list-group-item <?= in_array($route, $designRoutes) ? 'active' : '' ?>">
-        <span class="glyphicon glyphicon-globe"></span>
+        <span class="glyphicon glyphicon-list"></span>
         Browse Designs
     </a>
     <a href="<?= $this->url('new-design') ?>" class="list-group-item <?= $route == 'new-design' ? 'active' : '' ?>">

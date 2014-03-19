@@ -6,9 +6,12 @@
 ?>
 <style type="text/css">
     @media print {
+        #canvas { display: block }
         .navbar { display: none }
         #sidebar { display: none }
         #footer { display: none }
+        .ue-tab-container { display: none }
+        .disqus { display: none }
     }
 </style>
 
@@ -120,10 +123,7 @@
     <div id="viewport">
         <div id="canvas" style="margin-bottom: 1em"></div>
 
-
-
-
-        <div class="panel panel-default" style="width: 720px; margin-bottom: 1em">
+        <div class="disqus panel panel-default" style="width: 720px; margin-bottom: 1em">
             <div class="panel-body">
                 <?= $this->disqus() ?>
             </div>

@@ -6,7 +6,7 @@
     "homepage": "https://ww.mandalabook.com/",
     "require": {
         "php": ">=5.3.3",
-        "zendframework/zendframework": "2.2.*",
+        "zendframework/zendframework": "2.3.*",
         "zendframework/zend-developer-tools": "*",
         "doctrine/orm": "*",
         "doctrine/migrations": "*",
@@ -15,7 +15,9 @@
         "neilime/zf2-twb-bundle": "2.0",
         "monolog/monolog": "*"
     },
-    "psr-4": {
-        "Mandala\\Application\\": "modules/Application"
+    "autoload": {
+        "psr-4": {
+            "Mandala\\Application\\": "module/Application/src/"
+        }
     }
 }

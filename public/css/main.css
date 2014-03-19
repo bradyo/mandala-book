@@ -15,6 +15,7 @@ body {
 }
 #footer {
     padding: 0 32px;
+    font-size: 1.2em;
 }
 #footer .container-fluid {
     padding: 20px 32px;

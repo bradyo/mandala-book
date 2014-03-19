@@ -7,7 +7,6 @@ use Zend\Mail\Transport\Smtp;
 use Zend\Mail\Transport\SmtpOptions;
 use Zend\Mvc\MvcEvent;
 use Zend\ServiceManager\ServiceManager;
-use Zend\Session\Container;
 
 class Module extends BaseModule
 {
