@@ -18,7 +18,7 @@ return array(
             'book_file_service' => function(ServiceManager $services) {
                 $config = $services->get('config');
                 return new BookFileService(
-                    $config['book_module']['book_output_path'],
+                    $config['book_module']['book_files_path'],
                     $services->get('design_file_service')
                 );
             },

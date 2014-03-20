@@ -1,10 +1,9 @@
 <?php
 namespace Mandala\OrderModule;
 
-use Mandala\DesignModule\Book;
-use Mandala\DesignModule\BookDesign;
-use Mandala\DesignModule\BookService;
-use Mandala\DesignModule\Design;
+use Mandala\BookModule\Book;
+use Mandala\BookModule\BookDesign;
+use Mandala\BookModule\BookService;
 use Guzzle\Http\Client;
 use Guzzle\Http\Exception\BadResponseException;
 use Guzzle\Http\Exception\RequestException;
@@ -13,37 +12,13 @@ use Mandala\Application\Controller\BaseController;
 
 class OrderController extends BaseController
 {
-    /**
-     * Maximum number of designs allowed in a book
-     */
-    const DESIGN_LIMIT = 50;
-
     public function createAction()
     {
-        $type = $this->params()->fromRoute('type');
-        if (preg_match('/user-(\d+)-favorites/i', $type, $matches)) {
-            $userId = (int) $matches[1];
-            $user = $this->getUserRepository()->find($userId);
-            if ($user === null) {
-                return $this->getNotFoundResponse('User not found');
-            }
-            $designs = $this->getDesignRepository()->findFavorites($user, self::DESIGN_LIMIT);
-        }
-        else if (preg_match('/user-(\d+)/i', $type, $matches)) {
-            $userId = (int) $matches[1];
-            $user = $this->getUserRepository()->find($userId);
-            if ($user === null) {
-                return $this->getNotFoundResponse('User not found');
-            }
-            $criteria = array(
-                'status' => Design::STATUS_SAVED,
-                'author' => $user
-            );
-            $designs = $this->getDesignRepository()->findBy($criteria, array(), self::DESIGN_LIMIT);
-        }
-        else {
-            $criteria = array('status' => Design::STATUS_SAVED);
-            $designs = $this->getDesignRepository()->findBy($criteria, array(), self::DESIGN_LIMIT);
+        $bookId = (int) $this->params()->fromRoute('bookId');
+
+        $book = $this->getServiceLocator()->get('book_repository')->findOneById($bookId);
+        if ($book === null) {
+            return $this->notFoundAction('Book not found');
         }
 
         $form = new OrderForm();
@@ -54,24 +29,10 @@ class OrderController extends BaseController
             if ($form->isValid()) {
                 $data = $form->getData();
 
-                // create book
-                $book = new Book();
-                $book->author = $this->getCurrentUser();
-                $book->title = $data['title'];
-                $this->getEntityManager()->persist($book);
-                for ($i = 0; $i < count($designs); $i++) {
-                    $bookDesign = new BookDesign();
-                    $bookDesign->book = $book;
-                    $bookDesign->design = $designs[$i];
-                    $bookDesign->position = $i;
-                    $this->getEntityManager()->persist($bookDesign);
-                }
-
                 // create order
                 $order = new Order();
                 $order->status = Order::STATUS_PENDING;
                 $order->user = $this->getCurrentUser();
-                $order->contactEmail = $data['contactEmail'];
                 $order->book = $book;
                 $order->deliveryMethod = $data['deliveryMethod'];
                 if ($order->deliveryMethod == Order::DELIVERY_TYPE_EMAIL) {
@@ -87,7 +48,7 @@ class OrderController extends BaseController
                     $order->shippingZip = $data['shippingZip'];
                     $order->goodsCost = 6;
                     $order->taxCost = 0;
-                    $order->shippingCost = 2;
+                    $order->shippingCost = 4;
                 }
                 $order->totalCost = round($order->goodsCost + $order->taxCost + $order->shippingCost, 2);
 
@@ -100,7 +61,7 @@ class OrderController extends BaseController
 
         return new ViewModel(array(
             'form' => $form,
-            'designs' => $designs
+            'book' => $book
         ));
     }
 

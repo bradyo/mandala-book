@@ -1,6 +1,7 @@
 <?php
 namespace Mandala\BookModule\ViewHelper;
 
+use Mandala\BookModule\Book;
 use Mandala\BookModule\BookCriteria;
 use Mandala\BookModule\BookRepository;
 use Mandala\UserModule\User;
@@ -17,15 +18,17 @@ class UserBooksTrayHelper extends AbstractHelper
         $this->bookRepository = $bookRepository;
     }
 
-    public function __invoke()
+    public function __invoke($showHelp = true)
     {
         $criteria = new BookCriteria();
+        $criteria->status = Book::STATUS_PUBLIC;
         $criteria->author = $this->user;
         $paginator = $this->bookRepository->getPaginator($criteria);
         $books = $paginator->getIterator();
 
         return $this->getView()->render('book-module/helper/user-books-tray.phtml', array(
-            'books' => $books
+            'books' => $books,
+            'showHelp' => $showHelp
         ));
     }
 }

@@ -21,20 +21,25 @@
     <? if (count($form->getMessages()) > 0): ?>
         <div class="alert alert-warning">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <strong>Whoops!</strong> Your order had some problems, please fix them below.
+            Your order had some problems, please fix them below.
         </div>
     <? endif ?>
 
     <h2 style="margin-top: 0">Create Your Book Order</h2>
     <form id="order-form" method="post">
         <?= $this->formRow($form->get('token')) ?>
-        <?= $this->formRow($form->get('title')) ?>
 
         <div class="control-group">
-            <label for="selected-designs">Designs Selected</label>
-            <div id="selected-designs" class="designs">
-                <? foreach ($designs as $design): ?>
-                    <div class="design-block" style="background-image:url('/thumbnails/<?= $design->id ?>.png')"></div>
+            <label>Title</label>
+            <p><?= $this->escapeHtml($book->title) ?></p>
+        </div>
+
+        <div class="control-group">
+            <label>Designs</label>
+            <div class="designs">
+                <? foreach ($book->bookDesigns as $bookDesign): ?>
+                    <? $design = $bookDesign->design ?>
+                    <div class="design-block" style="background-image:url('/data/design-files/<?= $design->id ?>-164px.png')"></div>
                 <? endforeach ?>
             </div>
         </div>

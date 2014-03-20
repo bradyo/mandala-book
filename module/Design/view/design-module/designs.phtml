@@ -9,35 +9,35 @@
 
 <div style="margin-bottom: 1em">
     <div class="btn-group" style="margin-right: 1em">
-        <a href="<?= $this->url('all-designs') ?>" class="btn btn-default <?= $route == 'all-designs' ? 'active' : '' ?>">
+        <a href="<?= $this->url('all-designs', array('sort' => $sort)) ?>" class="btn btn-default <?= $route == 'all-designs' ? 'active' : '' ?>">
             <span class="glyphicon glyphicon-globe"></span>
             All Designs
         </a>
-        <a href="<?= $this->url('user-designs', array('userId' => $currentUser->id)) ?>"
+        <a href="<?= $this->url('user-designs', array('userId' => $currentUser->id, 'sort' => $sort)) ?>"
            class="btn btn-default <?= $route == 'user-designs' ? 'active' : '' ?>">
             <span class="glyphicon glyphicon-user"></span>
             My Designs
         </a>
-        <a href="<?= $this->url('favorite-designs', array('userId' => $currentUser->id)) ?>"
+        <a href="<?= $this->url('favorite-designs', array('userId' => $currentUser->id, 'sort' => $sort)) ?>"
            class="btn btn-default <?= $route == 'favorite-designs' ? 'active' : '' ?>">
             <span class="glyphicon glyphicon-heart"></span>
             My Favorites
         </a>
     </div>
 
-    <!--
     <div class="btn-group" style="margin-right: 1em">
-        <a class="btn btn-default active">
+        <a class="btn btn-default <?= $sort == 'newest' ? 'active' : '' ?>"
+           href="<?= $this->url($this->route, array('sort' => 'newest'), true) ?>">
             Newest
         </a>
-        <a class="btn btn-default">
+        <a class="btn btn-default <?= $sort == 'most-favorited' ? 'active' : '' ?>"
+           href="<?= $this->url($this->route, array('sort' => 'most-favorited'), true) ?>">
             Most Favorited
         </a>
     </div>
-    -->
 
     <div class="btn-group" style="margin-right: 1em">
-        <button id="my-books-button" type="button" class="btn btn-default" data-toggle="button">
+        <button id="my-books-button" type="button" class="btn btn-default <?= $showBooksToolbar ? 'active' : '' ?>" data-toggle="button">
             <span class="glyphicon glyphicon-book"> </span>
             My Books
         </button>
@@ -46,6 +46,18 @@
                 $(document).ready(function() {
                     $('#my-books-button').click(function() {
                         $('#user-books-tray').toggle();
+
+                        var postUrl;
+                        if ($("#my-books-button").hasClass('active')) {
+                            postUrl = "<?= $this->url('session-hide-books-toolbar') ?>";
+                        } else {
+                            postUrl = "<?= $this->url('session-show-books-toolbar') ?>";
+                        }
+                        $.ajax({
+                            url: postUrl,
+                            type: "POST",
+                            dataType: "html"
+                        });
                     });
                 });
             </script>
@@ -53,8 +65,8 @@
     </div>
 </div>
 
-<div id="user-books-tray" class="user-books-tray" style="display:none">
-    <?= $this->userBooksTray() ?>
+<div id="user-books-tray" class="user-books-tray" style="display: <?= $showBooksToolbar ? 'block' : 'none' ?>">
+    <?= $this->userBooksTray($showBooksToolbarHelp) ?>
 </div>
 
 <? if (count($designs) > 0): ?>

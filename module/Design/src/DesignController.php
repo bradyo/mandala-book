@@ -5,19 +5,22 @@ use Mandala\Application\Controller\BaseController;
 use Zend\Http\Response;
 use Zend\Paginator\Adapter\ArrayAdapter;
 use Zend\Paginator\Paginator;
+use Zend\Session\Container;
 use Zend\View\Model\ViewModel;
 
 class DesignController extends BaseController
 {
-    const ITEMS_PER_PAGE = 50;
+    const ITEMS_PER_PAGE = 40;
+
+    const SORT_NEWEST = 'newest';
+    const SORT_MOST_FAVORITED = 'most-favorited';
 
     public function indexAction()
     {
         $criteria = $criteria = DesignSearchCriteria::fromArray(array(
             'status' => Design::STATUS_PUBLIC
         ));
-        $order = array('favoritedCount' => 'desc');
-        return $this->getPaginatedViewModel($criteria, $order);
+        return $this->getIndexViewModel($criteria);
     }
 
     public function usersAction()
@@ -31,7 +34,7 @@ class DesignController extends BaseController
             'author' => $user,
             'status' => Design::STATUS_PUBLIC
         ));
-        return $this->getPaginatedViewModel($criteria);
+        return $this->getIndexViewModel($criteria);
     }
 
     public function favoritesAction()
@@ -45,7 +48,7 @@ class DesignController extends BaseController
             'user_favorited' => $user,
             'status' => Design::STATUS_PUBLIC
         ));
-        return $this->getPaginatedViewModel($criteria);
+        return $this->getIndexViewModel($criteria);
     }
 
     public function showAction()
@@ -98,9 +101,19 @@ class DesignController extends BaseController
         $this->redirect()->toRoute('user-designs', array('userId' => $user->id));
     }
 
-    private function getPaginatedViewModel(DesignSearchCriteria $criteria, array $order = array())
+    private function getIndexViewModel(DesignSearchCriteria $criteria)
     {
-        $page = $this->params()->fromRoute('page', 1);
+        $routeMatch = $this->getServiceLocator()->get('Application')->getMvcEvent()->getRouteMatch();
+        $route = $routeMatch->getMatchedRouteName();
+
+        $sort = $this->params()->fromRoute('sort', self::SORT_NEWEST);
+        if ($sort == self::SORT_MOST_FAVORITED) {
+            $order = array('favoritedCount' => 'desc');
+        } else {
+            $order = array('id' => 'desc');
+        }
+
+        $page = $this->params()->fromQuery('page', 1);
         $offset = ($page - 1) * self::ITEMS_PER_PAGE;
         $limit = self::ITEMS_PER_PAGE;
         $modelPaginator = $this->getDesignRepository()->getPaginator($criteria, $order, $limit, $offset);
@@ -110,9 +123,24 @@ class DesignController extends BaseController
         $pager->setItemCountPerPage(self::ITEMS_PER_PAGE);
         $pager->setCurrentPageNumber($page);
 
+        $session = $this->getServiceLocator()->get('user_session');
+
+        $showBooksToolbar = false;
+        if (isset($session['show_books_toolbar'])) {
+            $showBooksToolbar = $session['show_books_toolbar'];
+        }
+        $showBooksToolbarHelp = true;
+        if (isset($session['show_books_toolbar_help'])) {
+            $showBooksToolbarHelp = $session['show_books_toolbar_help'];
+        }
+
         return $this->getViewModel(array(
+            'route' => $route,
+            'sort' => $sort,
             'designs' => $designs,
-            'pager' => $pager
+            'pager' => $pager,
+            'showBooksToolbar' => $showBooksToolbar,
+            'showBooksToolbarHelp' => $showBooksToolbarHelp,
         ));
     }
 

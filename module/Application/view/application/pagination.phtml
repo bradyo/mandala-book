@@ -1,19 +1,19 @@
 <?php if ($this->pageCount > 1): ?>
     <ul class="pagination">
         <?php if (isset($this->previous)): ?>
-            <li><a href="<?= $this->url($this->route, array('page' => $this->previous), true) ?>">&lt;</a></li>
+            <li><a href="<?= $this->url($this->route, array(), true) ?>?page=<?= $this->previous ?>">&lt;</a></li>
         <?php endif ?>
 
         <?php foreach ($this->pagesInRange as $page): ?>
             <?php if ($page != $this->current): ?>
-                <li><a href="<?= $this->url($this->route, array('page' => $page), true) ?>"><?= $page ?></a></li>
+                <li><a href="<?= $this->url($this->route, array(), true) ?>?page=<?= $page ?>"><?= $page ?></a></li>
             <?php else: ?>
                 <li class="active"><a href="#"><?= $page ?></a></li>
             <?php endif ?>
         <?php endforeach ?>
 
         <?php if (isset($this->next)): ?>
-            <li><a href="<?= $this->url($this->route, array('page' => $this->next), true) ?>">&gt;</a></li>
+            <li><a href="<?= $this->url($this->route, array(), true) ?>?page=<?= $this->next ?>">&gt;</a></li>
         <?php endif ?>
     </ul>
 <?php endif ?>

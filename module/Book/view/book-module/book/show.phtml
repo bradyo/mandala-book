@@ -1,5 +1,47 @@
 <div class="col-md-3" id="sidebar" role="navigation">
-    <?= $this->partial('book-module/sidebar.phtml', array('currentUser' => $currentUser, 'route' => 'show-book')) ?>
+    <?= $this->partial('book-module/sidebar.phtml', array('route' => 'show-book')) ?>
+
+    <? if ($isOwner): ?>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Book Actions</h3>
+            </div>
+            <div class="panel-body">
+                <!--
+                <a id="purchase-book-button" class="btn btn-default btn-block" href="<?= $this->url('create-order', array('bookId' => $book->id)) ?>">
+                    <span class="glyphicon glyphicon-shopping-cart"></span>
+                    Purchase Book
+                </a>
+                -->
+
+                <? if ($isOwner): ?>
+                    <a class="btn btn-block btn-default" data-toggle="modal" data-target="#confirm-delete-modal">
+                        <span class="glyphicon glyphicon-remove"></span>
+                        Delete Book
+                    </a>
+                    <form action="<?= $this->url('delete-book', array('id' => $book->id)) ?>" method="post">
+                        <div class="modal fade" id="confirm-delete-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title" id="confirm-delete-modal-label">Confirm Delete</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you want to delete this awesome book?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                        <input type="submit" class="btn btn-primary" value="Delete Book" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                <? endif ?>
+            </div>
+        </div>
+    <? endif ?>
 </div>
 
 <div class="col-md-9">

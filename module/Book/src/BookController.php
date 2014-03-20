@@ -43,8 +43,11 @@ class BookController extends BaseController
         $id = (int) $this->params()->fromRoute('id');
         $book = $this->getBookRepository()->find($id);
 
+        $isOwner = ($this->getCurrentUser()->id === $book->author->id);
+
         return new ViewModel(array(
-            'book' => $book
+            'book' => $book,
+            'isOwner' => $isOwner
         ));
     }
 
@@ -85,7 +88,7 @@ class BookController extends BaseController
 
         $this->getBookManager()->delete($book);
 
-        $this->redirect()->toRoute('user-books', array('userId' => $user->id));
+        $this->redirect()->toRoute('books');
     }
 
     /**

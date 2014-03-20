@@ -1,5 +1,5 @@
 <?php
-namespace Mandala\OrderModule\Order;
+namespace Mandala\OrderModule;
 
 use Zend\Form\Form;
 
@@ -8,17 +8,6 @@ class OrderForm extends Form
     public function __construct()
     {
         parent::__construct();
-        $this->add(array(
-            'name' => 'title',
-            'type' => 'text',
-            'attributes' => array(
-                'type' => 'text',
-                'placeholder' => 'Enter a book title...',
-            ),
-            'options' => array(
-                'label' => 'Book Title',
-            )
-        ));
         $this->add(array(
             'name' => 'deliveryMethod',
             'type' => 'radio',

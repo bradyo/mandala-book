@@ -33,7 +33,7 @@ class UserController extends BaseController
     public function signOutAction()
     {
         $session = new Container('user');
-        unset($session['user_id']);
+        $session->getManager()->destroy();
         $this->redirect()->toRoute('home');
     }
 

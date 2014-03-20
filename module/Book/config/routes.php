@@ -40,5 +40,15 @@ return array(
                 'action' => 'add',
             ),
         ),
+    ),
+    'delete-book' => array(
+        'type' => 'Segment',
+        'options' => array(
+            'route' => '/books/:id/delete',
+            'defaults' => array(
+                'controller' => 'book',
+                'action' => 'delete',
+            ),
+        ),
     )
 );

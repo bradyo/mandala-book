@@ -3,33 +3,33 @@ return array(
     'all-designs' => array(
         'type' => 'Segment',
         'options' => array(
-            'route' => '/designs[/page-:page]',
+            'route' => '/designs[/:sort]',
             'defaults' => array(
                 'controller' => 'design',
                 'action' => 'index',
-                'page' => 1
+                'sort' => 'newest'
             ),
         ),
     ),
     'user-designs' => array(
         'type' => 'Segment',
         'options' => array(
-            'route' => '/users/:userId/designs[/:page]',
+            'route' => '/users/:userId/designs[/:sort]',
             'defaults' => array(
                 'controller' => 'design',
                 'action' => 'users',
-                'page' => 1
+                'sort' => 'newest'
             ),
         ),
     ),
     'favorite-designs' => array(
         'type' => 'Segment',
         'options' => array(
-            'route' => '/users/:userId/favorites-designs[/:page]',
+            'route' => '/users/:userId/favorites-designs[/:sort]',
             'defaults' => array(
                 'controller' => 'design',
                 'action' => 'favorites',
-                'page' => 1
+                'sort' => 'newest'
             ),
         ),
     ),
@@ -107,6 +107,36 @@ return array(
             'defaults' => array(
                 'controller' => 'design',
                 'action' => 'delete'
+            ),
+        ),
+    ),
+    'session-show-books-toolbar' => array(
+        'type' => 'Segment',
+        'options' => array(
+            'route' => '/session/show-books-toolbar',
+            'defaults' => array(
+                'controller' => 'session',
+                'action' => 'show-books-toolbar'
+            ),
+        ),
+    ),
+    'session-hide-books-toolbar' => array(
+        'type' => 'Segment',
+        'options' => array(
+            'route' => '/session/hide-books-toolbar',
+            'defaults' => array(
+                'controller' => 'session',
+                'action' => 'hide-books-toolbar'
+            ),
+        ),
+    ),
+    'session-hide-books-toolbar-help' => array(
+        'type' => 'Segment',
+        'options' => array(
+            'route' => '/session/hide-books-toolbar-help',
+            'defaults' => array(
+                'controller' => 'session',
+                'action' => 'hide-books-toolbar-help'
             ),
         ),
     ),

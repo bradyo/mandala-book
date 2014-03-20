@@ -55,6 +55,10 @@ return array(
                     $services->get('design_repository'),
                     $services->get('design_file_service')
                 );
+            },
+            'session' => function(ControllerManager $controllerManager) {
+                $services = $controllerManager->getServiceLocator();
+                return new SessionController($services->get('user_session'));
             }
         )
     ),

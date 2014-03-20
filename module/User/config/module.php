@@ -11,7 +11,7 @@ return array(
                     return $sm->get('entity_manager')->getRepository('Mandala\UserModule\User');
                 },
             'current_user' => function (ServiceManager $sm) {
-                    $session = new Container('user');
+                    $session = $sm->get('user_session');
                     if (! isset($session['user_id'])) {
                         $user = new User();
                         $sm->get('entity_manager')->persist($user);
@@ -20,6 +20,9 @@ return array(
                     }
                     return $sm->get('user_repository')->find($session['user_id']);
                 },
+            'user_session' => function (ServiceManager $sm) {
+                    return new Container('user');
+                }
         )
     ),
     'controllers' => array(

@@ -1,13 +1,29 @@
 <?php
 /**
  * @var array $books
+ * @var bool $showHelp
  */
 ?>
-<div class="alert alert-info">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    <span class="glyphicon glyphicon-info-sign"></span>
-    <strong>Add a design to one of your books by dragging the design into the book.</strong>
-</div>
+<? if ($showHelp): ?>
+    <div class="alert alert-info">
+        <button id="close-books-toolbar-help" type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <span class="glyphicon glyphicon-info-sign"></span>
+        <strong>Add a design to one of your books by dragging the design into the book.</strong>
+    </div>
+    <? $this->placeholder('scripts')->captureStart() ?>
+        <script>
+            $(document).ready(function() {
+                $('#close-books-toolbar-help').click(function() {
+                    $.ajax({
+                        url: "<?= $this->url('session-hide-books-toolbar-help') ?>",
+                        type: "POST",
+                        dataType: "html"
+                    });
+                });
+            });
+        </script>
+    <? $this->placeholder('scripts')->captureEnd() ?>
+<? endif ?>
 
 <? if (count($books) > 0): ?>
     <? foreach ($books as $book): ?>

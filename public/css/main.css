@@ -119,6 +119,14 @@ input[type=submit] {
     margin-top: 0.5em;
 }
 
+label:after {
+    content: ":";
+}
+
+.radio label:after {
+    content: "";
+}
+
 .layer-controls {
     margin-bottom: 2em;
 }

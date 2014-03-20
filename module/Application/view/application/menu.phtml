@@ -1,0 +1,9 @@
+<ul class="nav">
+    <? foreach ($this->container as $page): ?>
+        <li class="<?= $page->isActive() ? 'active' : '' ?>">
+            <a href="<?= $page->getHref() ?>"><?= $page->getLabel() ?></a>
+        </li>
+    <? endforeach ?>
+</ul>
+
+

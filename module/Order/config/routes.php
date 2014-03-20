@@ -3,7 +3,7 @@ return array(
     'create-order' => array(
         'type' => 'Segment',
         'options' => array(
-            'route' => '/orders/create/:type',
+            'route' => '/orders/create/:bookId',
             'defaults' => array(
                 'controller' => 'order',
                 'action' => 'create',
