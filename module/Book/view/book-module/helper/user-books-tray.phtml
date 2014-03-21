@@ -66,10 +66,6 @@
 
                     var bookId = $(this).attr('id').match(/-(\d+)$/)[1];
                     var designId = ui.helper.attr('id').match(/-(\d+)$/)[1];
-
-                    console.log('book id = ' + bookId);
-                    console.log('design id = ' + designId);
-
                     $.ajax({
                         url: "<?= $this->url('add-book-design') ?>",
                         type: "post",
