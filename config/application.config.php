@@ -2,7 +2,6 @@
 return array(
     'modules' => array(
         'Mandala\Application',
-        'Mandala\PageModule',
         'Mandala\UserModule',
         'Mandala\DesignModule',
         'Mandala\BookModule',
@@ -17,7 +16,6 @@ return array(
             './module',
             './vendor',
             'Mandala\Application' => './module/Application',
-            'Mandala\PageModule' => './module/Page',
             'Mandala\UserModule' => './module/User',
             'Mandala\DesignModule' => './module/Design',
             'Mandala\BookModule' => './module/Book',

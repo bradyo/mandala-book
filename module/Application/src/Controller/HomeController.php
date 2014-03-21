@@ -1,7 +1,6 @@
 <?php
-namespace Mandala\PageModule;
+namespace Mandala\Application\Controller;
 
-use Mandala\Application\Controller\BaseController;
 use Zend\Http\Response;
 use Zend\View\Model\ViewModel;
 

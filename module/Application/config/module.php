@@ -6,6 +6,14 @@ use Mandala\Application\ViewHelper\FacebookShareButtonHelper;
 use Zend\View\HelperPluginManager;
 
 return array(
+    'controllers' => array(
+        'invokables' => array(
+            'home' => 'Mandala\Application\Controller\HomeController',
+        ),
+    ),
+    'router' => array(
+        'routes' => require(__DIR__ . '/routes.php')
+    ),
     'view_manager' => array(
         'display_not_found_reason' => true,
         'display_exceptions' => true,
