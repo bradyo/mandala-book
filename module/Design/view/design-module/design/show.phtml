@@ -6,7 +6,16 @@
 ?>
 <style type="text/css">
     @media print {
-        #canvas { display: block }
+        #main-content {
+            width: 100%;
+        }
+        #viewport {
+            width: 720px; margin: 0 auto;
+        }
+        #canvas {
+            background: none;
+            border: none;
+        }
         .navbar { display: none }
         #sidebar { display: none }
         #footer { display: none }
@@ -126,7 +135,7 @@
     </a>
 </div>
 
-<div class="col-md-9">
+<div id='main-content' class="col-md-9">
     <div id="viewport">
         <div id="canvas" style="margin-bottom: 1em"></div>
 
