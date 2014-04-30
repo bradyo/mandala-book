@@ -6,6 +6,7 @@ return array(
         'Mandala\DesignModule',
         'Mandala\BookModule',
         'Mandala\OrderModule',
+        'Mandala\AdModule',
         'ZendDeveloperTools',
         'DoctrineModule',
         'DoctrineORMModule',
@@ -20,6 +21,7 @@ return array(
             'Mandala\DesignModule' => './module/Design',
             'Mandala\BookModule' => './module/Book',
             'Mandala\OrderModule' => './module/Order',
+            'Mandala\AdModule' => './module/Ad',
         ),
         'config_glob_paths' => array(
             'config/autoload/{,*.}{global,local}.php',

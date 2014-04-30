@@ -1,0 +1,16 @@
+<div class="btn-group" style="margin-right: 1em">
+    <a href="<?= $this->url('books', array('sort' => $sort)) ?>" class="btn btn-default <?= $route == 'books' ? 'active' : '' ?>">
+        <span class="glyphicon glyphicon-globe"></span>
+        All Books
+    </a>
+    <a href="<?= $this->url('user-books', array('userId' => $currentUser->id, 'sort' => $sort)) ?>"
+       class="btn btn-default <?= $route == 'user-books' ? 'active' : '' ?>">
+        <span class="glyphicon glyphicon-user"></span>
+        My Books
+    </a>
+    <a href="<?= $this->url('user-favorite-books', array('userId' => $currentUser->id, 'sort' => $sort)) ?>"
+       class="btn btn-default <?= $route == 'user-favorite-books' ? 'active' : '' ?>">
+        <span class="glyphicon glyphicon-heart"></span>
+        My Favorites
+    </a>
+</div>

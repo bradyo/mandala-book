@@ -25,7 +25,7 @@ return array(
     'favorite-designs' => array(
         'type' => 'Segment',
         'options' => array(
-            'route' => '/users/:userId/favorites-designs[/:sort]',
+            'route' => '/users/:userId/favorite-designs[/:sort]',
             'defaults' => array(
                 'controller' => 'design',
                 'action' => 'favorites',

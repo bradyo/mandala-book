@@ -3,7 +3,6 @@ namespace Mandala\OrderModule;
 
 use Doctrine\ORM\Mapping as Orm;
 use Mandala\UserModule\User;
-use Mandala\BookModule\Book;
 
 /**
  * @Orm\Entity
@@ -31,16 +30,27 @@ class Order
     public $status;
 
     /**
+     * @Orm\Column(type="string")
+     * @var string unique hash for this order for customer reference
+     */
+    public $confirmationCode;
+
+    /**
      * @Orm\ManyToOne(targetEntity="Mandala\UserModule\User")
      * @var User
      */
     public $user;
 
     /**
-     * @Orm\ManyToOne(targetEntity="Mandala\BookModule\Book")
-     * @var Book
+     * @Orm\Column(type="string")
+     * @var string title of book
      */
-    public $book;
+    public $title;
+
+    /**
+     * @Orm\ManyToOne(targetEntity="Mandala\DesignModule\Design")
+     */
+    public $designs;
 
     /**
      * @Orm\Column(type="string")
@@ -96,12 +106,4 @@ class Order
      * @Orm\Column(type="decimal", precision=6, scale=2)
      */
     public $totalCost;
-
-    /**
-     * @return string unique hash for this order for customer reference
-     */
-    public function getConfirmationCode()
-    {
-        return strtoupper(substr(sha1($this->id), 0, 10));
-    }
 }

@@ -1,0 +1,29 @@
+issues:
+- fix responsive layout
+- add more shapes (square, crescent, star, heart)
+- fix drag and drop for ipad
+- seed with 1000 designs and 100 books
+- add user profile page with their designs/books/friends
+- fix slider bug
+- clean up css
+- break out ad, comment, and facebook share into modules
+- user profile page
+- sign in with facebook
+- paypal payments
+- home page to look like modern landing page (with top designs, books, marketing)
+
+analytics to track (month basis):
+- unique visits
+- sign ups
+- designs made
+- books made
+- designs made / sign up
+- books made / sign up
+- digital books purchased
+- physical books purchased
+- digital books revenue
+- physical books revenue
+- total books revenue
+- affiliate payouts
+- ad revenue
+- marketing costs

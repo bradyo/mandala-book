@@ -5,8 +5,14 @@
  * @var string $route
  */
 ?>
+
+<div class="item-filters">
+    <?= $this->booksMenu() ?>
+    <?= $this->booksSortMenu() ?>
+</div>
+
 <? if (count($books) > 0): ?>
-    <div>
+    <div class="items">
         <? foreach ($books as $book): ?>
             <div id="book-<?= $book->id ?>" class="book-block">
                 <a class="book-block-inner" href="<?= $this->url('show-book', array('id' => $book->id)) ?>">

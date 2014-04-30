@@ -3,6 +3,7 @@ namespace Mandala\BookModule;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Mandala\UserModule\User;
 
 class BookRepository extends EntityRepository
 {
@@ -29,5 +30,19 @@ class BookRepository extends EntityRepository
         }
         $query = $builder->getQuery();
         return new Paginator($query);
+    }
+
+    public function getFavoritedBookIds(User $user) {
+        $dql = '
+            SELECT DISTINCT b.id
+            FROM Mandala\BookModule\Book b
+            INNER JOIN Mandala\BookModule\BookFavorite f WITH f.book = b
+            WHERE f.user = :user
+        ';
+        $query = $this->_em->createQuery($dql);
+        $query->setParameter('user', $user);
+        $ids = array_map('current', $query->getScalarResult());
+
+        return $ids;
     }
 }

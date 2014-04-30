@@ -47,6 +47,13 @@ class Book
      */
     public $designsCount = 0;
 
+    /**
+     * @Orm\Column(type="integer")
+     * @var integer total number of times this book has been favorited
+     */
+    public $favoritedCount = 0;
+
+
     public function __construct()
     {
         $this->bookDesigns = new ArrayCollection();
@@ -71,21 +78,6 @@ class Book
     public function containsDesign(Design $design)
     {
         return $this->findBookDesign($design) !== null;
-    }
-
-    public function moveDesign(Design $design, $position)
-    {
-        $foundBookDesign = $this->findBookDesign($design);
-        if ($foundBookDesign === null) {
-            throw new \Exception("Design does not exist in book");
-        }
-//        $this->bookDesigns->removeElement($foundBookDesign);
-//        $this->bookDesigns = new ArrayCollection(array(
-//            $this->bookDesigns->slice(0, $position),
-//            $foundBookDesign,
-//            $this->bookDesigns->slice($position)
-//        ));
-        $this->updatePositions();
     }
 
     public function removeDesign(Design $design)

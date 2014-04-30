@@ -1,0 +1,10 @@
+<div class="btn-group" style="margin-right: 1em">
+    <a class="btn btn-default <?= $sort == 'newest' ? 'active' : '' ?>"
+       href="<?= $this->url($route, array('sort' => 'newest'), true) ?>">
+        Newest
+    </a>
+    <a class="btn btn-default <?= $sort == 'most-favorited' ? 'active' : '' ?>"
+       href="<?= $this->url($route, array('sort' => 'most-favorited'), true) ?>">
+        Most Favorited
+    </a>
+</div>

@@ -5,4 +5,5 @@ class BookCriteria
 {
     public $status;
     public $author;
-} 
+    public $favoritedBy;
+}

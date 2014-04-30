@@ -11,11 +11,10 @@ class BookController extends BaseController
 {
     const ITEMS_PER_PAGE = 50;
 
-    public function indexAction()
+    public function listAction()
     {
         $criteria = new BookCriteria();
         $criteria->status = Book::STATUS_PUBLIC;
-        $criteria->author = $this->getCurrentUser();
 
         return $this->getPaginatedViewModel($criteria);
     }
@@ -43,10 +42,13 @@ class BookController extends BaseController
         $id = (int) $this->params()->fromRoute('id');
         $book = $this->getBookRepository()->find($id);
 
+        $currentUser = $this->getCurrentUser();
+        $isFavorite = $this->getBookFavoriteRepository()->isFavorite($currentUser, $book);
         $isOwner = ($this->getCurrentUser()->id === $book->author->id);
 
         return new ViewModel(array(
             'book' => $book,
+            'isFavorite' => $isFavorite,
             'isOwner' => $isOwner
         ));
     }
@@ -97,6 +99,14 @@ class BookController extends BaseController
     private function getBookRepository()
     {
         return $this->serviceLocator->get('book_repository');
+    }
+
+    /**
+     * @return BookFavoriteRepository
+     */
+    private function getBookFavoriteRepository()
+    {
+        return $this->serviceLocator->get('book_favorite_repository');
     }
 
     /**

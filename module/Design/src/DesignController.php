@@ -5,7 +5,6 @@ use Mandala\Application\Controller\BaseController;
 use Zend\Http\Response;
 use Zend\Paginator\Adapter\ArrayAdapter;
 use Zend\Paginator\Paginator;
-use Zend\Session\Container;
 use Zend\View\Model\ViewModel;
 
 class DesignController extends BaseController

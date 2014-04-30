@@ -1,0 +1,19 @@
+<div class="col-md-3" id="sidebar" role="navigation">
+    <?= $this->partial('book-module/sidebar-menu.phtml', array('route' => 'books')) ?>
+    <?= $this->tallAd() ?>
+</div>
+
+<div class="col-md-9">
+    <?= $this->partial('book-module/books.phtml', array(
+        'books' => $books,
+        'pager' => $pager,
+        'route' => 'books'
+    )) ?>
+
+    <? if (count($books) == 0): ?>
+        <div class="alert alert-warning">
+            You have no books made yet!
+            <a class="btn btn-sm btn-primary" style="margin-left: 10px" href="<?= $this->url('new-book') ?>">Make One</a>
+        </div>
+    <? endif ?>
+</div>

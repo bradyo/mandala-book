@@ -1,13 +1,10 @@
 <?php
-namespace Mandala\BookModule\ViewHelper;
+namespace Mandala\BookModule;
 
-use Mandala\BookModule\Book;
-use Mandala\BookModule\BookCriteria;
-use Mandala\BookModule\BookRepository;
 use Mandala\UserModule\User;
 use Zend\View\Helper\AbstractHelper;
 
-class UserBooksTrayHelper extends AbstractHelper
+class UserBooksTray extends AbstractHelper
 {
     protected $user;
     protected $bookRepository;
@@ -23,10 +20,11 @@ class UserBooksTrayHelper extends AbstractHelper
         $criteria = new BookCriteria();
         $criteria->status = Book::STATUS_PUBLIC;
         $criteria->author = $this->user;
+
         $paginator = $this->bookRepository->getPaginator($criteria);
         $books = $paginator->getIterator();
 
-        return $this->getView()->render('book-module/helper/user-books-tray.phtml', array(
+        return $this->getView()->render('book-module/user-books-tray.phtml', array(
             'books' => $books,
             'showHelp' => $showHelp
         ));
