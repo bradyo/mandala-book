@@ -54,15 +54,13 @@ return array(
         )
     ),
     'controllers' => array(
-        'invokables' => array(
-            'book' => 'Mandala\BookModule\BookController',
-        ),
         'factories' => array(
             'book' => function(ControllerManager $controllerManager) {
                 $services = $controllerManager->getServiceLocator();
                 $bookRepository = $services->get('book_repository');
+                $bookFavoriteRepository = $services->get('book_favorite_repository');
                 $bookManager = $services->get('book_manager');
-                return new BookController($bookRepository, $bookManager);
+                return new BookController($bookRepository, $bookFavoriteRepository, $bookManager);
             },
             'book_design' => function(ControllerManager $controllerManager) {
                 $services = $controllerManager->getServiceLocator();

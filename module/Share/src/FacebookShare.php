@@ -1,9 +1,9 @@
 <?php
-namespace Mandala\Application\ViewHelper;
+namespace Mandala\ShareModule;
 
 use Zend\View\Helper\AbstractHelper;
 
-class FacebookShareButtonHelper extends AbstractHelper
+class FacebookShare extends AbstractHelper
 {
     protected $facebookAppId = null;
 
@@ -15,6 +15,6 @@ class FacebookShareButtonHelper extends AbstractHelper
     public function __invoke(array $params)
     {
         $params = array_merge($params, array('appId' => $this->facebookAppId));
-        return $this->getView()->render('application/helper/facebook-share-button.phtml', $params);
+        return $this->getView()->render('share-module/facebook-share.phtml', $params);
     }
 }

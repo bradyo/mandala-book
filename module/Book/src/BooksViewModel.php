@@ -1,7 +1,6 @@
 <?php
 namespace Mandala\BookModule;
 
-use Mandala\UserModule\User;
 use Zend\Paginator\Adapter\ArrayAdapter;
 use Zend\Paginator\Paginator;
 use Zend\View\Model\ViewModel;

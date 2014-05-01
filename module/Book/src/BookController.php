@@ -11,6 +11,20 @@ class BookController extends BaseController
 {
     const ITEMS_PER_PAGE = 50;
 
+    private $bookRepository;
+    private $bookFavoriteRepository;
+    private $bookManager;
+
+    public function __construct(
+        BookRepository $bookRepository,
+        BookFavoriteRepository $bookFavoriteRepository,
+        BookManager $bookManager
+    ) {
+        $this->bookRepository = $bookRepository;
+        $this->bookFavoriteRepository = $bookFavoriteRepository;
+        $this->bookManager = $bookManager;
+    }
+
     public function listAction()
     {
         $criteria = new BookCriteria();
@@ -24,7 +38,7 @@ class BookController extends BaseController
         $page = $this->params()->fromRoute('page', 1);
         $offset = ($page - 1) * self::ITEMS_PER_PAGE;
         $limit = self::ITEMS_PER_PAGE;
-        $modelPaginator = $this->getBookRepository()->getPaginator($criteria, $order, $limit, $offset);
+        $modelPaginator = $this->bookRepository->getPaginator($criteria, $order, $limit, $offset);
         $books = $modelPaginator->getIterator();
 
         $pager = new Paginator(new ArrayAdapter(range(1, $modelPaginator->count())));
@@ -40,10 +54,10 @@ class BookController extends BaseController
     public function showAction()
     {
         $id = (int) $this->params()->fromRoute('id');
-        $book = $this->getBookRepository()->find($id);
+        $book = $this->bookRepository->find($id);
 
         $currentUser = $this->getCurrentUser();
-        $isFavorite = $this->getBookFavoriteRepository()->isFavorite($currentUser, $book);
+        $isFavorite = $this->bookFavoriteRepository->isFavorite($currentUser, $book);
         $isOwner = ($this->getCurrentUser()->id === $book->author->id);
 
         return new ViewModel(array(
@@ -65,7 +79,7 @@ class BookController extends BaseController
                 $book = new Book();
                 $book->title = $data['title'];
                 $book->author = $this->getCurrentUser();
-                $this->getBookManager()->save($book);
+                $this->bookManager->save($book);
 
                 $this->redirect()->toRoute('books');
             }
@@ -78,7 +92,7 @@ class BookController extends BaseController
     public function deleteAction()
     {
         $id = (int) $this->params()->fromRoute('id');
-        $book = $this->getBookRepository()->find($id);
+        $book = $this->bookRepository->find($id);
         if ($book === null) {
             return $this->getNotFoundResponse('Book not found');
         }
@@ -88,32 +102,8 @@ class BookController extends BaseController
             return $this->getNotAllowedResponse('Not allowed to delete book');
         }
 
-        $this->getBookManager()->delete($book);
+        $this->bookManager->delete($book);
 
         $this->redirect()->toRoute('books');
-    }
-
-    /**
-     * @return BookRepository
-     */
-    private function getBookRepository()
-    {
-        return $this->serviceLocator->get('book_repository');
-    }
-
-    /**
-     * @return BookFavoriteRepository
-     */
-    private function getBookFavoriteRepository()
-    {
-        return $this->serviceLocator->get('book_favorite_repository');
-    }
-
-    /**
-     * @return BookManager
-     */
-    private function getBookManager()
-    {
-        return $this->serviceLocator->get('book_manager');
     }
 }

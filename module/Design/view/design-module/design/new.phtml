@@ -84,8 +84,8 @@
         var layerCount = layers.length;
 
         function update() {
-            drawDesign(canvas, layers, currentLayerIndex);
             $('#design-data').val(JSON.stringify(layers));
+            drawDesign(canvas, layers, currentLayerIndex);
         }
 
         function selectLayer(id) {
@@ -138,7 +138,7 @@
                 max: 300,
                 step: 5,
                 slide: function(event, ui) {
-                    layers[currentLayerIndex].shapeSize = $('#shape-size-control').slider('value');
+                    layers[currentLayerIndex].shapeSize = ui.value;
                     update();
                 }
             });
@@ -149,7 +149,7 @@
                 max: 20,
                 step: 1,
                 slide: function(event, ui) {
-                    layers[currentLayerIndex].shapeCount = $('#shape-count-control').slider('value');
+                    layers[currentLayerIndex].shapeCount = ui.value;
                     update();
                 }
             });
@@ -160,7 +160,7 @@
                 max: 600,
                 step: 1,
                 slide: function(event, ui) {
-                    layers[currentLayerIndex].displacement = $('#displacement-control').slider('value');
+                    layers[currentLayerIndex].displacement = ui.value;
                     update();
                 }
             });
@@ -171,15 +171,9 @@
                 max: 360,
                 step: 1,
                 slide: function(event, ui) {
-                    layers[currentLayerIndex].angleOffset = $('#angle-offset-control').slider('value');
+                    layers[currentLayerIndex].angleOffset = ui.value;
                     update();
                 }
-            });
-
-            $('#save-form').submit(function() {
-                currentLayerIndex = null;
-                update();
-                return true;
             });
 
             selectLayer(0);
