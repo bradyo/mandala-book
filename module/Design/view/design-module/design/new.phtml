@@ -31,6 +31,11 @@
                     <select id="shape-type-control" class="form-control" style="width:100%">
                         <option value="circle">Circle</option>
                         <option value="triangle">Triangle</option>
+                        <option value="square">Square</option>
+                        <option value="diamond">Diamond</option>
+                        <option value="star">Star</option>
+                        <option value="heart">Heart</option>
+                        <option value="leaf">Leaf</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -49,6 +54,10 @@
                     <label for="angle-offset-control">Angle Offset</label>
                     <div id="angle-offset-control"></div>
                 </div>
+                <div class="form-group">
+                    <label for="rotation-control">Rotation</label>
+                    <div id="rotation-control"></div>
+                </div>
             </div>
 
             <form id="save-form" method="post">
@@ -60,13 +69,6 @@
 </div>
 
 <div class="col-md-9">
-    <? if ($currentUser->isAnonymous()): ?>
-        <div class="alert alert-warning">
-            You are not currently signed in. If you have an account, sign in before making a your design.
-            <a class="btn btn-sm btn-primary" style="margin-left: 10px" href="<?= $this->url('sign-in') ?>">Sign In</a>
-        </div>
-    <? endif ?>
-
     <div id="viewport">
         <div id="canvas"></div>
     </div>
@@ -74,9 +76,8 @@
 
 <?php $this->placeholder('scripts')->captureStart() ?>
     <script>
-        var canvasWidth = 720;
-        var canvasHeight = 720;
-        var canvas = new Raphael('canvas', canvasWidth, canvasHeight);
+        var canvas = new Raphael('canvas', '100%', '100%');
+        var canvasElement = $('#canvas');
 
         var currentLayerIndex = 0;
         var layers = JSON.parse('<?= $design->data ?>');
@@ -97,6 +98,7 @@
             $('#shape-count-control').slider('value', layers[currentLayerIndex].shapeCount);
             $('#displacement-control').slider('value', layers[currentLayerIndex].displacement);
             $('#angle-offset-control').slider('value', layers[currentLayerIndex].angleOffset);
+            $('#rotation-control').slider('value', layers[currentLayerIndex].rotation);
             update();
         }
 
@@ -172,6 +174,17 @@
                 step: 1,
                 slide: function(event, ui) {
                     layers[currentLayerIndex].angleOffset = ui.value;
+                    update();
+                }
+            });
+
+            $('#rotation-control').slider({
+                value: 0,
+                min: 0,
+                max: 360,
+                step: 1,
+                slide: function(event, ui) {
+                    layers[currentLayerIndex].rotation = ui.value;
                     update();
                 }
             });

@@ -41,10 +41,12 @@
             </script>
             <? $this->placeholder('scripts')->captureEnd() ?>
 
+            <? /* not fully implemented yet
             <a id="purchase-book-button" class="btn btn-default btn-block" href="<?= $this->url('create-order', array('bookId' => $book->id)) ?>">
                 <span class="glyphicon glyphicon-shopping-cart"></span>
                 Purchase Book
             </a>
+            */ ?>
 
             <? if ($isOwner): ?>
                 <a class="btn btn-block btn-default" data-toggle="modal" data-target="#confirm-delete-modal">

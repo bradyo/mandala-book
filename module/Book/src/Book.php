@@ -5,6 +5,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as Orm;
 use Mandala\DesignModule\Design;
 use Mandala\UserModule\User;
+use DateTime;
 
 /**
  * @Orm\Entity(repositoryClass="Mandala\BookModule\BookRepository")
@@ -20,6 +21,12 @@ class Book
      * @Orm\GeneratedValue(strategy="AUTO")
      */
     public $id;
+
+    /**
+     * @Orm\Column(type="datetime")
+     * @var DateTime created at time
+     */
+    public $createdAt;
 
     /**
      * @Orm\Column(type="string")
@@ -56,6 +63,7 @@ class Book
 
     public function __construct()
     {
+        $this->createdAt = new DateTime('now');
         $this->bookDesigns = new ArrayCollection();
     }
 

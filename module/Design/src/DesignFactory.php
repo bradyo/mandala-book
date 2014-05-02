@@ -32,8 +32,8 @@ class DesignFactory
                 "shapeSize" => rand(10, 180),
                 "shapeCount" => rand(2, 20),
                 "displacement" => rand(10, 300),
-                "angleOffset" => rand(0, 0),
-                "rotation" => rand(0, 360),
+                "angleOffset" => 0,
+                "rotation" => 0,
             )
         ));
         return $design;

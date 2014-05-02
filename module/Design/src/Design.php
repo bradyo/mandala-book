@@ -3,6 +3,7 @@ namespace Mandala\DesignModule;
 
 use Doctrine\ORM\Mapping as Orm;
 use Mandala\UserModule\User;
+use DateTime;
 
 /**
  * @Orm\Entity(repositoryClass="Mandala\DesignModule\DesignRepository")
@@ -15,6 +16,7 @@ class Design
     static $shapes = array(
         'circle',
         'triangle',
+        'star'
     );
 
     /**
@@ -23,6 +25,12 @@ class Design
      * @Orm\GeneratedValue(strategy="AUTO")
      */
     public $id;
+
+    /**
+     * @Orm\Column(type="datetime")
+     * @var DateTime created at time
+     */
+    public $createdAt;
 
     /**
      * @Orm\Column(type="string")
@@ -46,4 +54,10 @@ class Design
      * @var integer total number of times this design has been favorited
      */
     public $favoritedCount = 0;
+
+
+    public function __construct()
+    {
+        $this->createdAt = new DateTime("now");
+    }
 }

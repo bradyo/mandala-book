@@ -1,9 +1,10 @@
 tasks:
-- add more shapes (square, crescent, star, heart)
 - seed with 1000 designs and 100 books
+- clean up order processing
+- allow paypal payments
 - fix responsive layout + clean up css
-- paypal payments
 - sign in with facebook
+- have layers updated in svg instead of recreating the whole thing every change
 - add user profile page with their designs/books/friends
 - home page to look like modern landing page (with top designs, books, marketing)
 

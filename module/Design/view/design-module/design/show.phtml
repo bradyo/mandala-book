@@ -150,7 +150,11 @@
         var layers = JSON.parse('<?php echo $design->data ?>');
 
         jQuery(document).ready(function() {
-            drawDesign(canvas, layers);
+            <? if ($design->createdAt < new DateTime("2014-05-02")): ?>
+                drawDesign_20140502(canvas, layers);
+            <? else: ?>
+                drawDesign(canvas, layers);
+            <? endif ?>
         });
     </script>
 <?php $this->placeholder('scripts')->captureEnd() ?>
