@@ -1,0 +1,11 @@
+Cost Structure:
+
+Physical Books:
+
+price = paper:(1000/100 * pages) + ink:(2300/550 * pages) + cover:(2 * 2300/200) + binding:(200)
+delivery = shipping:(399) + packaging(150) + tax(0.08 * price)
+
+$10 email delivery
+~$20 physical (depending on pages)
+
+
