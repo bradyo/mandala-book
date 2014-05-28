@@ -1,0 +1,94 @@
+<div class="col-md-12">
+    <ul id="view-tabs" class="nav nav-tabs">
+        <li class="active"><a href="#engagement">User Engagement</a></li>
+        <li><a href="#revenue">Revenue</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="engagement">
+            <h3>Weekly User Engagement Stats</h3>
+
+            <div id="engagement-graph" style="height: 200px; margin-top: 2em; margin-bottom: 2em;"></div>
+
+            <table class="table table-bordered table-responsive">
+                <thead>
+                <tr>
+                    <th>Week</th>
+                    <th>Visitors</th>
+                    <th>New Users</th>
+                    <th>New Designs</th>
+                    <th>New Books</th>
+                    <th>Books Purchased</th>
+                </tr>
+                </thead>
+                <? foreach ($rows as $row): ?>
+                    <tr>
+                        <td><?= $row['week'] ?></td>
+                        <td><?= $row['new-visitor'] ?></td>
+                        <td><?= $row['new-user'] ?></td>
+                        <td><?= $row['new-design'] ?></td>
+                        <td><?= $row['new-book'] ?></td>
+                        <td><?= $row['book-purchased'] ?></td>
+                    </tr>
+                <? endforeach ?>
+            </table>
+
+        </div>
+        <div class="tab-pane" id="revenue">
+            <h3>Weekly Revenue Stats</h3>
+
+            <div id="revenue-graph" style="height: 200px; margin-top: 2em; margin-bottom: 2em;"></div>
+
+            <table class="table table-bordered table-responsive">
+                <thead>
+                <tr>
+                    <th>Year</th>
+                    <th>Week</th>
+                    <th>Revenue</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<? $this->placeholder('scripts')->captureStart() ?>
+    <link rel="stylesheet" href="/lib/c3/c3.css" type="text/css">
+    <script src="/lib/d3.min.js"></script>
+    <script src="/lib/c3/c3.min.js"></script>
+    <script>
+        $('#view-tabs a').click(function (e) {
+            e.preventDefault()
+            $(this).tab('show')
+        });
+
+        var engagementGraph = c3.generate({
+            bindto: '#engagement-graph',
+            data: {
+                x: 'x',
+                columns: [
+                    ['x', <?= "'" . join("','", $dates) . "'" ?>],
+                    ['New Visitors', <?= join(',', $totals['new-visitor']) ?>],
+                    ['New Users', <?= join(',', $totals['new-user']) ?>],
+                    ['New Designs', <?= join(',', $totals['new-design']) ?>],
+                    ['New Books', <?= join(',', $totals['new-book']) ?>],
+                    ['Books Purchased', <?= join(',', $totals['book-purchased']) ?>],
+                ]
+            },
+            axis: {
+                x: {
+                    type: 'timeseries',
+                    tick: {
+                        format: '%Y-%m-%d'
+                    }
+                },
+                y: {
+                    label: {
+                        text: 'Total',
+                        position: 'outer-middle'
+                    }
+                }
+            }
+        });
+    </script>
+<? $this->placeholder('scripts')->captureEnd() ?>

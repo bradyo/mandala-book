@@ -16,7 +16,11 @@ class Design
     static $shapes = array(
         'circle',
         'triangle',
-        'star'
+        'star',
+        'heart',
+        'square',
+        'diamond',
+        'leaf'
     );
 
     /**
@@ -59,5 +63,16 @@ class Design
     public function __construct()
     {
         $this->createdAt = new DateTime("now");
+    }
+
+    public function toJson()
+    {
+        $data = array(
+            'id' => $this->id,
+            'createdAt' => $this->createdAt->format(DateTime::ISO8601),
+            'layers' => json_decode($this->data, true),
+        );
+
+        return json_encode($data);
     }
 }

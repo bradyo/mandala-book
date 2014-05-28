@@ -1,8 +1,11 @@
 <?php
 namespace Mandala\OrderModule;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as Orm;
+use Mandala\DesignModule\Design;
 use Mandala\UserModule\User;
+use DateTime;
 
 /**
  * @Orm\Entity
@@ -25,12 +28,30 @@ class Order
     public $id;
 
     /**
+     * @Orm\Column(type="datetime")
+     * @var DateTime created at time
+     */
+    public $createdAt;
+
+    /**
+     * @Orm\Column(type="datetime", nullable=true)
+     * @var DateTime
+     */
+    public $paidAt;
+
+    /**
+     * @Orm\Column(type="datetime", nullable=true)
+     * @var DateTime
+     */
+    public $shippedAt;
+
+    /**
      * @Orm\Column(type="string")
      */
     public $status;
 
     /**
-     * @Orm\Column(type="string")
+     * @Orm\Column(type="string", nullable=true)
      * @var string unique hash for this order for customer reference
      */
     public $confirmationCode;
@@ -48,9 +69,9 @@ class Order
     public $title;
 
     /**
-     * @Orm\ManyToOne(targetEntity="Mandala\DesignModule\Design")
+     * @Orm\OneToMany(targetEntity="Mandala\OrderModule\OrderDesign", mappedBy="order", cascade={"persist"})
      */
-    public $designs;
+    public $orderDesigns;
 
     /**
      * @Orm\Column(type="string")
@@ -106,4 +127,26 @@ class Order
      * @Orm\Column(type="decimal", precision=6, scale=2)
      */
     public $totalCost;
+
+    public function __construct()
+    {
+        $this->createdAt = new DateTime('now');
+        $this->orderDesigns = new ArrayCollection();
+    }
+
+    public function getDesigns() {
+        $designs = array();
+        foreach ($this->orderDesigns as $od) {
+            $designs[] = $od->design;
+        }
+        return $designs;
+    }
+
+    public function addDesign(Design $design)
+    {
+        $orderDesign = new OrderDesign();
+        $orderDesign->order = $this;
+        $orderDesign->design = $design;
+        $this->orderDesigns[] = $orderDesign;
+    }
 }

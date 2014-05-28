@@ -10,6 +10,8 @@ class BookRepository extends EntityRepository
     public function getPaginator(BookCriteria $criteria, array $orderBy = array(), $limit = null, $offset = null)
     {
         $builder = $this->createQueryBuilder('b');
+        $builder->leftJoin('b.bookDesigns', 'bd');
+        $builder->leftJoin('bd.design', 'd');
         if ($criteria->status !== null) {
             $builder->andWhere('b.status = :status');
             $builder->setParameter(':status', $criteria->status);

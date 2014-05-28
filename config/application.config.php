@@ -10,6 +10,7 @@ return array(
         'Mandala\CommentModule',
         'Mandala\FeedbackModule',
         'Mandala\ShareModule',
+        'Mandala\Analytics',
         'ZendDeveloperTools',
         'DoctrineModule',
         'DoctrineORMModule',
@@ -28,6 +29,7 @@ return array(
             'Mandala\CommentModule' => './module/Comment',
             'Mandala\FeedbackModule' => './module/Feedback',
             'Mandala\ShareModule' => './module/Share',
+            'Mandala\Analytics' => './module/Analytics',
         ),
         'config_glob_paths' => array(
             'config/autoload/{,*.}{global,local}.php',

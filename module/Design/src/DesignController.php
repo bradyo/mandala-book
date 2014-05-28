@@ -75,9 +75,9 @@ class DesignController extends BaseController
         $design = $this->getDesignFactory()->createRandom($user);
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
-            $this->getDesignManager()->save($user, $data['data']);
+            $design = $this->getDesignManager()->save($user, $data['data']);
 
-            $this->redirect()->toRoute('user-designs', array('userId' => $user->id));
+            $this->redirect()->toRoute('show-design', array('id' => $design->id));
         }
         return $this->getViewModel(array('design' => $design));
     }

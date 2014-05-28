@@ -1,0 +1,1 @@
+@weekly php /vagrant/public/index.php analytics_weekly_aggregation

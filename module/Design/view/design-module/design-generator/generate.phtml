@@ -1,0 +1,19 @@
+<div class="sidebar col-md-3">
+    <form id="save-form" method="post">
+        <input type="hidden" id="design-data" name="data" value='<?= $design->data ?>' />
+        <input type="submit" name="save-submit" class="btn btn-block btn-primary" value="Save" />
+        <a href="<?= $this->url() ?>" class="btn  btn-default btn-block">Discard</a>
+    </form>
+</div>
+
+<div class="content col-md-9">
+    <div id="canvas"></div>
+</div>
+
+<?php $this->placeholder('scripts')->captureStart() ?>
+    <script>
+        var canvas = makeCanvas('canvas');
+        var design = JSON.parse('<?= $design->toJson() ?>');
+        drawDesign(canvas, design);
+    </script>
+<?php $this->placeholder('scripts')->captureEnd() ?>

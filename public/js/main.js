@@ -1,16 +1,40 @@
 
-function drawDesign(canvas, layers, currentLayerIndex) {
+function makeCanvas(parentDivId) {
+    // set canvas size to 720 px but enable browser auto scaling below
+    var width = 720;
+    var height = 720;
+    var canvas = new Raphael(parentDivId, width, height);
+    canvas.setViewBox(0, 0, width, height, true);
+
+    // allow svg to scale to parent div by removing width and height attributes
+    var svg = $('#' + parentDivId + ' > svg');
+    svg.removeAttr("width");
+    svg.removeAttr("height");
+
+    return canvas;
+}
+
+function drawDesign(canvas, design, currentLayerIndex) {
     currentLayerIndex = (typeof currentLayerIndex !== 'undefined' ? currentLayerIndex : -1);
 
+    // use draw method based on design creation date (support for legacy draw code)
+   if (design.createdAt >= "2014-05-02") {
+       drawLayers(canvas, design.layers, currentLayerIndex);
+   } else {
+       drawLayersLegacy(canvas, design.layers, currentLayerIndex);
+   }
+}
+
+function drawLayers(canvas, layers, currentLayerIndex) {
     canvas.clear();
     for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
         var layer = layers[layerIndex];
         var isSelected = (currentLayerIndex == layerIndex);
-        drawLayer(canvas, layer, layerIndex, isSelected);
+        drawLayer(canvas, layer, isSelected);
     }
 }
 
-function drawLayer(canvas,  layer, layerIndex, isSelected) {
+function drawLayer(canvas,  layer, isSelected) {
     // render by shape type
     var shapePath;
     switch (layer.shapeType) {
@@ -56,43 +80,24 @@ function drawLayer(canvas,  layer, layerIndex, isSelected) {
 }
 
 function drawCircleLayer(canvas, layer, isSelected) {
-    var pathAttributes = {
-        "stroke-width": "1.5px",
-        "stroke": "#333",
-        "fill": "none"
-    };
-    if (isSelected) {
-        pathAttributes.color = "#00e";
-    }
-    var xCenter = $('#canvas').outerWidth() / 2;
-    var yCenter = $('#canvas').outerHeight() / 2;
+    var xCenter = 360;
+    var yCenter = 360;
     for (var shapeIndex = 0; shapeIndex < layer.shapeCount; shapeIndex++) {
         var angle = 360 / layer.shapeCount * shapeIndex + layer.angleOffset;
-        canvas
-            .circle(xCenter, yCenter, layer.shapeSize)
+        canvas.circle(xCenter, yCenter, layer.shapeSize)
             .transform("t" + layer.displacement + ",0" + "R" + angle + "," + xCenter + "," + yCenter)
-            .attr(pathAttributes);
+            .attr(getPathAttributes(isSelected));
     }
 }
 
 function drawPathLayer(canvas, layer, shapePath, isSelected) {
-    var pathAttributes = {
-        "stroke-width": "1.5px",
-        "stroke": "#333",
-        "fill": "none",
-        "vector-effect": "non-scaling-stroke"
-    };
-    if (isSelected) {
-        pathAttributes.color = "#00e";
-    }
-
-    var xCenter = $('#canvas').outerWidth() / 2;
-    var yCenter = $('#canvas').outerHeight() / 2;
-
     // compute normalize shape path
+    var xCenter = 360;
+    var yCenter = 360;
     var tmpShape = canvas.path(shapePath);
     var rect = tmpShape.getBBox();
-    var scale = 2 * (1 / Math.max(rect.width, rect.height)) * layer.shapeSize;
+    var shapeScaleFactor = 2 * (1 / Math.max(rect.width, rect.height));
+    var scale = shapeScaleFactor * layer.shapeSize;
     var xOffset = rect.width / 2 + rect.x;
     var yOffset = rect.height / 2 + rect.y;
     var rotation = layer.rotation + 90;
@@ -111,21 +116,28 @@ function drawPathLayer(canvas, layer, shapePath, isSelected) {
         var angle = 360 / layer.shapeCount * shapeIndex + layer.angleOffset;
         shape.transform(
             "r" + angle + "," + xCenter + "," + yCenter   // rotate about center
-        )
-        .attr(pathAttributes);
+            ).attr(getPathAttributes(isSelected));
     }
+}
+
+function getPathAttributes(isSelected) {
+    return {
+        "stroke-width": "1.1",
+        "stroke": isSelected ? "#00e" : "#333",
+        "fill": "none"
+    };
 }
 
 /**
  * Legacy drawDesign function to be used on designs created before 2014-05-02
  */
-function drawDesign_20140502(canvas, layers, currentLayerIndex) {
+function drawLayersLegacy(canvas, layers, currentLayerIndex) {
     currentLayerIndex = (typeof currentLayerIndex !== 'undefined' ? currentLayerIndex : null);
 
     canvas.clear();
 
-    var xCenter = canvas.width / 2;
-    var yCenter = canvas.height / 2;
+    var xCenter = 360;
+    var yCenter = 360;
     var layerCount = layers.length;
     for (var layerIndex = 0; layerIndex < layerCount; layerIndex++) {
         var color = "#333";

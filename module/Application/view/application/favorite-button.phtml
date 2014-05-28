@@ -1,0 +1,30 @@
+<? $removeFavoriteHtml = '<span class="glyphicon glyphicon-heart"></span> Remove Favorite' ?>
+<? $addFavoriteHtml = '<span class="glyphicon glyphicon-heart-empty"></span> Add to Favorites' ?>
+<button id="<?= $id ?>" class="btn btn-default btn-block <?= $isFavorite ? 'favorited' : '' ?>">
+    <?= $isFavorite ? $removeFavoriteHtml : $addFavoriteHtml ?>
+</button>
+<? $this->placeholder('scripts')->captureStart() ?>
+    <script>
+        $(document).ready(function() {
+            var button = $("#<?= $id ?>");
+            button.click(function() {
+                var postUrl;
+                if (button.hasClass('favorited')) {
+                    postUrl = "<?= $removeUrl ?>";
+                    button.removeClass("favorited");
+                    button.html('<?= $addFavoriteHtml ?>');
+                } else {
+                    postUrl = "<?= $addUrl ?>";
+                    button.addClass("favorited");
+                    button.html('<?= $removeFavoriteHtml ?>');
+                }
+                $.ajax({
+                    url: postUrl,
+                    type: "POST",
+                    data: <?= json_encode($data) ?>,
+                    dataType: "html"
+                });
+            });
+        });
+    </script>
+<? $this->placeholder('scripts')->captureEnd() ?>

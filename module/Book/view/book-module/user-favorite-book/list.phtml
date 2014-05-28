@@ -1,6 +1,9 @@
-<div class="col-md-3" id="sidebar" role="navigation">
+<div class="col-md-3">
     <?= $this->partial('book-module/sidebar-menu.phtml', array('route' => 'books')) ?>
-    <?= $this->tallAd() ?>
+
+    <div class="sidebar-gutter hidden-sm hidden-xs">
+        <?= $this->tallAd() ?>
+    </div>
 </div>
 
 <div class="col-md-9">
@@ -16,4 +19,8 @@
             <a class="btn btn-sm btn-primary" style="margin-left: 10px" href="<?= $this->url('books') ?>">Find Some</a>
         </div>
     <? endif ?>
+
+    <div class="bottom-gutter visible-sm visible-xs">
+        <?= $this->shortAd() ?>
+    </div>
 </div>

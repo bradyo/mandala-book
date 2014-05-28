@@ -11,18 +11,19 @@ body {
 
 }
 .navbar.container-fluid {
-    padding: 0px 20px;
+    padding: 0 20px;
 }
 #footer {
-    padding: 0 32px;
-    font-size: 1.2em;
-}
-#footer .container-fluid {
+    border-top: 1px solid #f0f0f0;
     padding: 20px 32px;
-    border-top: 1px solid #eee;
     margin-top: 1em;
+    font-size: 1.2em;
+    line-height: 1.5em;
 }
-#content {
+#footer a, #footer a:visited {
+    color: #333;
+}
+#canvas {
     margin-bottom: 2em;
 }
 h2 {
@@ -32,21 +33,19 @@ h2 {
 .jumbotron {
     background-color: #F6F6F6;
 }
-.container-fluid {
-    overflow: hidden;
-    padding:0 32px;
-}
 #sidebar {
     width: 263px;
 }
-.filler {
-    margin-left: 283px;
+.sidebar-gutter, .bottom-gutter {
+    border-top: 1px solid #f0f0f0;
+    margin-top: 1.5em;
+    padding-top: 1.5em;
 }
 .item-filters {
     margin-bottom: 1em;
 }
-#sidebar .glyphicon {
-    padding-right: 22px;
+.glyphicon {
+    padding-right: 16px;
 }
 #viewport {
     width: 1300px;
@@ -54,11 +53,8 @@ h2 {
     overflow: hidden;
 }
 #canvas {
-    width: 720px;
-    height: 720px;
+    width: 100%;
     border: 1px solid #ddd;
-    margin: 0 auto;
-    float: left;
     background-image: url('../img/light-grid.jpg');
 }
 .user-books-tray {
@@ -75,14 +71,12 @@ h2 {
     text-align: center;
     text-decoration: none;
     border: 1px solid #ddd;
-    background-color: #fff;
-    background-image: url('../img/folder.png');
-    background-repeat: no-repeat;
-    background-position: center;
+    background: #fff url('../img/folder.png') no-repeat center;
     background-size: 90%;
     width: 164px;
     height: 164px;
-    margin-right: 10px;
+    margin-right: 2px;
+    margin-bottom: 1em;
     position: relative;
 }
 .book-block:hover {
@@ -163,17 +157,20 @@ label:after {
  a.design-block-drag:active, a.design-block-drag:hover {
      box-shadow:4px 4px 3px #333;
  }
-
 #layers {
     padding: 4px;
     overflow: hidden;
 }
 .navbar-default .navbar-brand {
-    font-size: 24px;
+    font-size: 22px;
     color: #5e5e5e;
 }
 .navbar-nav > li > a {
     font-size: 16px;
+}
+.btn-group {
+    margin-right: 1em;
+    margin-bottom: 1em;
 }
 #layers .layer {
     float: left;
@@ -205,11 +202,6 @@ label:after {
     height: 2em;
     color: #999;
 }
-#viewport {
-    margin-bottom: 1em;
-}
-
 #controls {
     padding: 4px;
 }
-

@@ -140,4 +140,14 @@ return array(
             ),
         ),
     ),
+    'design-generator' => array(
+        'type' => 'Segment',
+        'options' => array(
+            'route' => '/design-generator',
+            'defaults' => array(
+                'controller' => 'design-generator',
+                'action' => 'generate'
+            ),
+        ),
+    ),
 );

@@ -1,13 +1,35 @@
 <?php
 namespace Mandala\OrderModule;
 
+use Mandala\BookModule\Book;
+use Mandala\UserModule\User;
 use Zend\Form\Form;
 
 class OrderForm extends Form
 {
-    public function __construct()
+    private $user;
+    private $book;
+
+    public function __construct(User $user, Book $book)
     {
         parent::__construct();
+
+        $this->setInputFilter(new OrderPostFilter());
+
+        $this->user = $user;
+        $this->book = $book;
+
+        $this->add(array(
+            'name' => 'title',
+            'type' => 'text',
+            'attributes' => array(
+                'placeholder' => 'Enter book title...',
+                'value' => $book->title,
+            ),
+            'options' => array(
+                'label' => 'Title'
+            )
+        ));
         $this->add(array(
             'name' => 'deliveryMethod',
             'type' => 'radio',
@@ -17,8 +39,8 @@ class OrderForm extends Form
             ),
             'options' => array(
                 'value_options' => array(
-                    'email' => 'E-mail Delivery ($4.00)',
-                    'mail' => 'Mail Delivery ($5.00 + Shipping + Tax)'
+                    'email' => 'E-mail Delivery ($10.00)',
+//                    'mail' => 'Mail Delivery ($20.00 + Shipping + Tax)'
                 ),
             ),
         ));
@@ -87,5 +109,15 @@ class OrderForm extends Form
             'name' => 'token',
             'type' => 'csrf'
         ));
+    }
+
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    public function getBook()
+    {
+        return $this->book;
     }
 }

@@ -6,29 +6,16 @@ use Zend\ServiceManager\ServiceManager;
 use Zend\View\HelperPluginManager;
 
 return array(
-    'book_module' => array(
-        'book_files_path' => '/vagrant/public/data/book-files',
-    ),
     'service_manager' => array(
         'factories' => array(
             'book_repository' => function(ServiceManager $services) {
                 return $services->get('entity_manager')->getRepository('Mandala\BookModule\Book');
             },
             'book_favorite_repository' => function(ServiceManager $services) {
-                    return $services->get('entity_manager')->getRepository('Mandala\BookModule\BookFavorite');
-                },
-            'book_file_service' => function(ServiceManager $services) {
-                $config = $services->get('config');
-                return new BookFileService(
-                    $config['book_module']['book_files_path'],
-                    $services->get('design_file_service')
-                );
+                return $services->get('entity_manager')->getRepository('Mandala\BookModule\BookFavorite');
             },
             'book_manager' => function(ServiceManager $services) {
-                return new BookManager(
-                    $services->get('entity_manager'),
-                    $services->get('book_file_service')
-                );
+                return new BookManager($services->get('entity_manager'));
             },
         ),
     ),

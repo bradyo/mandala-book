@@ -32,6 +32,12 @@ return array(
         ),
         'factories' => array(
             'navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
+            'mailer' => function(\Zend\ServiceManager\ServiceManager $services) {
+                $config = $services->get('Config');
+                $mailer = new \Zend\Mail\Transport\Smtp();
+                $mailer->setOptions(new \Zend\Mail\Transport\SmtpOptions($config['mail']['transport']['options']));
+                return $mailer;
+            },
         ),
     ),
     'translator' => array(

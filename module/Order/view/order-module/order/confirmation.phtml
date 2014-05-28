@@ -9,5 +9,5 @@
 <div class="col-md-9">
     <h2 style="margin-top: 0">Order Complete</h2>
     <p>Thank you for your order!</p>
-    <p>Your confirmation number is #<?= $order->getConfirmationCode() ?>.</p>
+    <p>Your confirmation number is #<?= strtoupper($order->confirmationCode) ?>.</p>
 </div>

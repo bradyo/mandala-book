@@ -25,13 +25,12 @@
         </div>
     <? endif ?>
 
-    <h2 style="margin-top: 0">Create Your Book Order</h2>
+    <h2 style="margin-top: 0">Purchase Your Book</h2>
     <form id="order-form" method="post">
         <?= $this->formRow($form->get('token')) ?>
 
         <div class="control-group">
-            <label>Title</label>
-            <p><?= $this->escapeHtml($book->title) ?></p>
+            <?= $this->formRow($form->get('title')) ?>
         </div>
 
         <div class="control-group">

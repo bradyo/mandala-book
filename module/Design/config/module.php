@@ -27,7 +27,8 @@ return array(
                 );
             },
             'design_manager' => function(ServiceManager $services) {
-                return new DesignManager($services->get('entity_manager'), $services->get('design_file_service'));
+                return new DesignManager($services->get('entity_manager'), $services->get('design_file_service'),
+                    $services->get('analytics_tracker'));
             },
             'design_favorite_repository' => function(ServiceManager $services) {
                 return $services->get('entity_manager')->getRepository('Mandala\DesignModule\DesignFavorite');
@@ -40,6 +41,7 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'design' => 'Mandala\DesignModule\DesignController',
+            'design_generator' => 'Mandala\DesignModule\DesignGeneratorController',
         ),
         'factories' => array(
             'design_favorite' => function(ControllerManager $controllerManager) {

@@ -11,7 +11,7 @@ return array(
             },
             'shortAd' => function (HelperPluginManager $pluginManager) {
                 return new ShortAd();
-            }
+            },
         )
     ),
 );

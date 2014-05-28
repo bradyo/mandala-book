@@ -9,6 +9,8 @@ apt-get install --yes apache2 php5 php5-cli libapache2-mod-php5 php-apc \
 apt-get install --yes imagemagick php5-imagick
 apt-get install --yes inkscape
 
+apt-get install mongodb-server
+
 # install phantomjs
 cp /vagrant/environment/files/phantomjs-1.9.2-linux-x86_64.tar.bz2 ~/
 tar jxf ~/phantomjs-1.9.2-linux-x86_64.tar.bz2 -C ~/

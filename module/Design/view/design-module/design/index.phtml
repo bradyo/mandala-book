@@ -1,29 +1,12 @@
-<?
-/**
- * @var \Mandala\UserModule\User $currentUser
- * @var array $designs
- * @var \Zend\Paginator\Paginator $pager
- */
-?>
-<div class="col-md-3" id="sidebar" role="navigation">
-    <?= $this->partial('design-module/sidebar.phtml', array(
-        'user' => $currentUser,
-        'route' => 'all-designs'
-    )) ?>
+<div class="sidebar col-md-3">
+    <?= $this->partial('design-module/sidebar.phtml', array('route' => 'all-designs')) ?>
 
-    <div style="margin-bottom: 1em">
-        <?= $this->facebookShare(array(
-            'link' => $this->url('all-designs', array(), array('force_canonical' => true)),
-            'name' => 'Mandala Book Designs',
-            'description' => 'Check out these awesome mandala designs',
-            'picture' => $this->url('get-design-thumbnail', array('id' => $designs[0]->id, 'size' => '1200'), array('force_canonical' => true))
-        )) ?>
+    <div class="sidebar-gutter hidden-sm hidden-xs">
+        <?= $this->tallAd() ?>
     </div>
-
-    <?= $this->tallAd() ?>
 </div>
 
-<div class="filler">
+<div class="content col-md-9">
     <?= $this->partial('design-module/designs.phtml', array(
         'sort' => $sort,
         'route' => $route,
@@ -33,4 +16,8 @@
         'showBooksToolbar' => $showBooksToolbar,
         'showBooksToolbarHelp' => $showBooksToolbarHelp
     )) ?>
+
+    <div class="bottom-gutter visible-sm visible-xs">
+        <?= $this->shortAd() ?>
+    </div>
 </div>

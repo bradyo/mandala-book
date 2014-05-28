@@ -1,8 +1,8 @@
-<div class="col-md-3" id="sidebar" role="navigation">
+<div class="sidebar col-md-3">
     <?= $this->partial('book-module/sidebar-menu.phtml', array('route' => 'new-book')) ?>
 </div>
 
-<div class="col-md-9">
+<div class="content col-md-9">
     <h2 style="margin-top: 0">Create New Book</h2>
     <form id="new-book-form" method="post">
         <? $form->prepare() ?>

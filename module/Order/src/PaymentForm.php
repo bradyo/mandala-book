@@ -9,6 +9,8 @@ class PaymentForm extends Form
     {
         parent::__construct();
 
+        $this->setInputFilter(new PaymentPostFilter());
+
         $this->add(array(
             'name' => 'name',
             'type' => 'text',

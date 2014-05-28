@@ -1,31 +1,12 @@
-<?
-/**
- * @var \Mandala\UserModule\User $currentUser
- * @var array $designs
- * @var \Zend\Paginator\Paginator $pager
- */
-?>
-<div class="col-md-3" id="sidebar" role="navigation">
-    <?= $this->partial('design-module/sidebar.phtml', array(
-        'user' => $currentUser,
-        'route' => 'favorite-designs'
-    )) ?>
+<div class="sidebar col-md-3">
+    <?= $this->partial('design-module/sidebar.phtml', array('route' => 'favorite-designs')) ?>
 
-    <? if (count($designs) > 0): ?>
-        <div style="margin-bottom: 1em">
-            <?= $this->facebookShare(array(
-                'link' => $this->url('favorite-designs', array('userId' => $currentUser->id), array('force_canonical' => true)),
-                'name' => 'Mandala Book Designs',
-                'description' => 'Check out these awesome mandala designs',
-                'picture' => $this->url('get-design-thumbnail', array('id' => $designs[0]->id, 'size' => '1200'), array('force_canonical' => true))
-            )) ?>
-        </div>
-    <? endif ?>
-
-    <?= $this->tallAd() ?>
+    <div class="sidebar-gutter hidden-sm hidden-xs">
+        <?= $this->tallAd() ?>
+    </div>
 </div>
 
-<div class="filler">
+<div class="content col-md-9">
     <?= $this->partial('design-module/designs.phtml', array(
         'currentUser' => $currentUser,
         'designs' => $designs,
@@ -42,4 +23,8 @@
             <a class="btn btn-sm btn-primary" style="margin-left: 10px" href="<?= $this->url('all-designs') ?>">Find some now</a>
         </div>
     <? endif ?>
+
+    <div class="bottom-gutter visible-sm visible-xs">
+        <?= $this->shortAd() ?>
+    </div>
 </div>

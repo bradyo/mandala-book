@@ -1,82 +1,48 @@
-<?
-/**
- * @var \Mandala\UserModule\User $currentUser
- * @var \Mandala\DesignModule\Design $design
- */
-?>
-<style type="text/css">
+<style>
+    #print-canvas {
+        display: none;
+    }
     @media print {
-        #main-content {
+        .navbar,
+        .sidebar,
+        .content,
+        #footer,
+        .ue-tab-container {
+            display: none
+        }
+        #print-canvas {
             width: 100%;
+            display: block;
         }
-        #viewport {
-            width: 720px; margin: 0 auto;
-        }
-        #canvas {
-            background: none;
-            border: none;
-        }
-        .navbar { display: none }
-        #sidebar { display: none }
-        #footer { display: none }
-        .ue-tab-container { display: none }
-        .disqus { display: none }
     }
 </style>
 
-<? $this->placeholder('meta')->captureStart() ?>
-    <meta property="og:type" content="article" />
-    <meta property="og:image" content="<?= $this->url('get-design-thumbnail', array('id' => $design->id, 'size' => 1200),
-        array('force_canonical' => true)) ?>" />
-<? $this->placeholder('meta')->captureEnd() ?>
+<img id="print-canvas" src="/data/design-files/<?= $design->id ?>.svg" alt="design-<?= $design->id ?>" />
 
-<div class="col-md-3" id="sidebar" role="navigation">
-    <?= $this->partial('design-module/sidebar.phtml', array(
-        'user' => $currentUser,
-        'route' => 'show-design'
-    )) ?>
+<div class="sidebar col-md-3">
+    <?= $this->partial('design-module/sidebar.phtml', array('route' => 'show-design')) ?>
 
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">Design Actions</h3>
         </div>
         <div class="panel-body">
-            <? $removeFavoriteHtml = '<span class="glyphicon glyphicon-heart"></span> Remove Favorite' ?>
-            <? $addFavoriteHtml = '<span class="glyphicon glyphicon-heart-empty"></span> Add to Favorites' ?>
-            <button id="favorite-button" class="btn btn-default btn-block <?= $isFavorite ? 'favorited' : '' ?>">
-                <?= $isFavorite ? $removeFavoriteHtml : $addFavoriteHtml ?>
-            </button>
-            <? $this->placeholder('scripts')->captureStart() ?>
-                <script>
-                    $(document).ready(function() {
-                        $('#favorite-button').click(function() {
-                            var postUrl;
-                            if ($("#favorite-button").hasClass('favorited')) {
-                                // remove and set button back to add
-                                postUrl = "<?= $this->url('remove-favorite-design') ?>";
-                                $("#favorite-button").removeClass("favorited");
-                                $("#favorite-button").html('<?= $addFavoriteHtml ?>');
-                                $("#favorited-count").html(parseInt($("#favorited-count").html()) - 1);
-                            } else {
-                                postUrl = "<?= $this->url('add-favorite-design') ?>";
-                                $("#favorite-button").addClass("favorited");
-                                $("#favorite-button").html('<?= $removeFavoriteHtml ?>');
-                                $("#favorited-count").html(parseInt($("#favorited-count").html()) + 1);
-                            }
-                            $.ajax({
-                                url: postUrl,
-                                type: "POST",
-                                data: {
-                                    id: <?= $design->id ?>
-                                },
-                                dataType: "html"
-                            });
-                        });
-                    })
-                </script>
-            <? $this->placeholder('scripts')->captureEnd() ?>
+            <?= $this->partial('application/favorite-button.phtml', array(
+                'id' => 'favorite-button',
+                'addUrl' => $this->url('add-favorite-design'),
+                'removeUrl' => $this->url('remove-favorite-design'),
+                'data' => array('id' => $design->id),
+                'isFavorite' => $isFavorite
+            )) ?>
 
-            <button id="print-button" class="btn btn-default btn-block">
+            <?= $this->facebookShare(array(
+                'link' => $this->serverUrl(true),
+                'name' => 'Mandala Book Design',
+                'description' => 'Check out this awesome mandala design',
+                'picture' => $this->url('get-design-thumbnail', array('id' => $design->id, 'size' => '1200'), array('force_canonical' => true))
+            )) ?>
+
+            <button class="btn btn-default btn-block">
                 <span class="glyphicon glyphicon-print"></span>
                 Print Design
             </button>
@@ -118,44 +84,17 @@
         </div>
     </div>
 
-    <div style="margin-bottom: 1em">
-        <?= $this->facebookShare(array(
-            'link' => $this->serverUrl(true),
-            'name' => 'Mandala Book Design',
-            'description' => 'Check out this awesome mandala design',
-            'picture' => $this->url('get-design-thumbnail', array('id' => $design->id, 'size' => '1200'), array('force_canonical' => true))
-        )) ?>
-    </div>
-
-    <?= $this->shortAd() ?>
-</div>
-
-<div id='main-content' class="col-md-9">
-    <div id="viewport">
-        <div id="canvas" style="margin-bottom: 1em"></div>
-
-        <div class="disqus panel panel-default" style="width: 720px; margin-bottom: 1em">
-            <div class="panel-body">
-                <?= $this->disqus() ?>
-            </div>
-        </div>
+    <div class="sidebar-gutter hidden-xs hidden-sm">
+        <?= $this->shortAd() ?>
     </div>
 </div>
 
-<?php $this->placeholder('scripts')->captureStart() ?>
-    <script>
-        var canvasWidth = 720;
-        var canvasHeight = 720;
-        var canvas = new Raphael('canvas', canvasWidth, canvasHeight);
-        var layers = JSON.parse('<?php echo $design->data ?>');
+<div class="content col-md-9">
+    <img id="canvas" src="/data/design-files/<?= $design->id ?>.svg" alt="design-<?= $design->id ?>" />
 
-        jQuery(document).ready(function() {
-            <? if ($design->createdAt < new DateTime("2014-05-02")): ?>
-                drawDesign_20140502(canvas, layers);
-            <? else: ?>
-                drawDesign(canvas, layers);
-            <? endif ?>
-        });
-    </script>
-<?php $this->placeholder('scripts')->captureEnd() ?>
+    <?= $this->commentPanel() ?>
 
+    <div class="bottom-gutter visible-xs visible-sm">
+        <?= $this->shortAd() ?>
+    </div>
+</div>

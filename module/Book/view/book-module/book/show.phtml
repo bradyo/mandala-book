@@ -1,4 +1,4 @@
-<div class="col-md-3" id="sidebar" role="navigation">
+<div class="sidebar col-md-3">
     <?= $this->partial('book-module/sidebar-menu.phtml', array('route' => 'show-book')) ?>
 
     <div class="panel panel-default">
@@ -6,47 +6,25 @@
             <h3 class="panel-title">Book Actions</h3>
         </div>
         <div class="panel-body">
-            <? $removeFavoriteHtml = '<span class="glyphicon glyphicon-heart"></span> Remove Favorite' ?>
-            <? $addFavoriteHtml = '<span class="glyphicon glyphicon-heart-empty"></span> Add to Favorites' ?>
-            <button id="favorite-button" class="btn btn-default btn-block <?= $isFavorite ? 'favorited' : '' ?>">
-                <?= $isFavorite ? $removeFavoriteHtml : $addFavoriteHtml ?>
-            </button>
-            <? $this->placeholder('scripts')->captureStart() ?>
-            <script>
-                $(document).ready(function() {
-                    $('#favorite-button').click(function() {
-                        var postUrl;
-                        if ($("#favorite-button").hasClass('favorited')) {
-                            // remove and set button back to add
-                            postUrl = "<?= $this->url('remove-favorite-book') ?>";
-                            $("#favorite-button").removeClass("favorited");
-                            $("#favorite-button").html('<?= $addFavoriteHtml ?>');
-                            $("#favorited-count").html(parseInt($("#favorited-count").html()) - 1);
-                        } else {
-                            postUrl = "<?= $this->url('add-favorite-book') ?>";
-                            $("#favorite-button").addClass("favorited");
-                            $("#favorite-button").html('<?= $removeFavoriteHtml ?>');
-                            $("#favorited-count").html(parseInt($("#favorited-count").html()) + 1);
-                        }
-                        $.ajax({
-                            url: postUrl,
-                            type: "POST",
-                            data: {
-                                id: <?= $book->id ?>
-                            },
-                            dataType: "html"
-                        });
-                    });
-                })
-            </script>
-            <? $this->placeholder('scripts')->captureEnd() ?>
 
-            <? /* not fully implemented yet
-            <a id="purchase-book-button" class="btn btn-default btn-block" href="<?= $this->url('create-order', array('bookId' => $book->id)) ?>">
+            <?= $this->partial('application/favorite-button.phtml', array(
+                'id' => 'favorite-button',
+                'addUrl' => $this->url('add-favorite-book'),
+                'removeUrl' => $this->url('remove-favorite-book'),
+                'data' => array('id' => $book->id),
+                'isFavorite' => $isFavorite
+            )) ?>
+
+            <?= $this->facebookShare(array(
+                'link' => $this->serverUrl(true),
+                'name' => 'The Mandala Book',
+                'description' => 'Check out this awesome mandala book',
+            )) ?>
+
+            <a class="btn btn-default btn-block" href="<?= $this->url('create-order', array('bookId' => $book->id)) ?>">
                 <span class="glyphicon glyphicon-shopping-cart"></span>
                 Purchase Book
             </a>
-            */ ?>
 
             <? if ($isOwner): ?>
                 <a class="btn btn-block btn-default" data-toggle="modal" data-target="#confirm-delete-modal">
@@ -76,23 +54,30 @@
         </div>
     </div>
 
-    <?= $this->shortAd() ?>
+    <div class="sidebar-gutter hidden-xs hidden-sm">
+        <?= $this->shortAd() ?>
+    </div>
 </div>
 
-<div class="col-md-9">
+<div class="content col-md-9">
     <h2 style="margin-top: 0"><?= $this->escapeHtml($book->title) ?></h2>
-    <div>
-        <? foreach ($book->bookDesigns as $bookDesign): ?>
-            <? $design = $bookDesign->design ?>
-            <a class="design-block" style="background-image:url('/data/design-files/<?= $design->id ?>-164px.png')"
-               href="<?= $this->url('show-design', array('id' => $design->id)) ?>"></a>
-        <? endforeach ?>
 
-        <? if (count($book->bookDesigns) == 0): ?>
-            <div class="alert alert-warning">
-                This book has no designs added yet!
-                <a class="btn btn-sm btn-primary" style="margin-left: 10px" href="<?= $this->url('all-designs') ?>">Add Some Now</a>
-            </div>
-        <? endif ?>
+    <? if (count($book->bookDesigns) > 0): ?>
+        <div>
+            <? foreach ($book->bookDesigns as $bookDesign): ?>
+                <? $design = $bookDesign->design ?>
+                <a class="design-block" style="background-image:url('/data/design-files/<?= $design->id ?>-164px.png')"
+                   href="<?= $this->url('show-design', array('id' => $design->id)) ?>"></a>
+            <? endforeach ?>
+        </div>
+    <? else: ?>
+        <div class="alert alert-warning">
+            This book has no designs added yet!
+            <a class="btn btn-sm btn-primary" style="margin-left: 10px" href="<?= $this->url('all-designs') ?>">Add Some Now</a>
+        </div>
+    <? endif ?>
+
+    <div class="sidebar-gutter visible-xs visible-sm">
+        <?= $this->shortAd() ?>
     </div>
 </div>

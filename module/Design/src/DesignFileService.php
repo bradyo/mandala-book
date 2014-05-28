@@ -25,21 +25,25 @@ class DesignFileService
 
     /**
      * @param Design $design
+     * @return string design svg path
      * @throws Exception
      */
     public function createSvg(Design $design)
     {
-        $command = 'phantomjs ' . $this->scriptsPath . '/design-render.js' . ' \'' . $design->data . '\'';
+        $svgPath = $this->getSvgPath($design);
+        if (file_exists($svgPath)) {
+            return $svgPath;
+        }
+
+        $command = 'phantomjs ' . $this->scriptsPath . '/design-render.js' . ' \'' . $design->toJson() . '\'';
         exec($command, $output, $success);
         if ($success !== 0) {
-            throw new Exception('Failed to render design SVG for data: ' . $design->data);
+            throw new Exception('Failed to render design SVG for data: ' . $design->toJson());
         }
         $svgContent = join('', $output);
+        file_put_contents($svgPath, '<?xml version="1.0" encoding="utf-8"?>' . $svgContent);
 
-        // write contents to output file
-        $fileContents = '<?xml version="1.0" encoding="utf-8"?>' . $svgContent;
-        $filePath = $this->getSvgPath($design);
-        file_put_contents($filePath, $fileContents);
+        return $svgPath;
     }
 
     /**
@@ -53,13 +57,19 @@ class DesignFileService
 
     /**
      * @param Design $design
-     * @throws Exception
+     * @return string design pdf path
      */
     public function createPdf(Design $design)
     {
-        $svgPath = $this->getSvgPath($design);
         $pdfPath = $this->getPdfPath($design);
+        if (file_exists($pdfPath)) {
+            return $pdfPath;
+        }
+
+        $svgPath = $this->getSvgPath($design);
         exec('inkscape ' . $svgPath . ' -w=2550 -h=2550 --export-pdf=' . $pdfPath);
+
+        return $pdfPath;
     }
 
     /**
@@ -80,11 +90,11 @@ class DesignFileService
     {
         $thumbnailPath = $this->outputPath . '/' . $design->id . '-' . $size . 'px.png';
         if (! file_exists($thumbnailPath)) {
-            $svgContent = file_get_contents($this->getSvgPath($design));
-            if (! $svgContent) {
+            $svgPath = $this->getSvgPath($design);
+            if (! file_exists($svgPath)) {
                 $this->createSvg($design);
-                $svgContent = file_get_contents($this->getSvgPath($design));
             }
+            $svgContent = file_get_contents($svgPath);
 
             $image = new Imagick();
             $image->setBackgroundColor(new ImagickPixel('transparent'));

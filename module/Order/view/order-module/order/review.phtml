@@ -18,7 +18,7 @@
 
     <? if (count($errors) > 0): ?>
         <div class="alert alert-warning">
-            An error occurred while processing your payment:
+            An error occurred while processing your order:
             <ul>
                 <? foreach ($errors as $error): ?>
                     <li><?= $error ?></li>
@@ -31,47 +31,43 @@
 
     <table class="table table-bordered" style="width:auto">
         <tr>
-            <th>Order ID</th>
-            <td><?= $order->id ?></td>
-        </tr>
-        <tr>
             <th>Book Title</th>
-            <td><?= $book->title ?></td>
+            <td><?= $this->escapeHtml($order->title) ?></td>
         </tr>
         <tr>
             <th>Number of Designs</th>
-            <td><?= $designCount ?></td>
+            <td><?= count($order->orderDesigns) ?></td>
         </tr>
         <tr>
-            <th>Shipping Method</th>
+            <th>Delivery Method</th>
             <td><?= $order->deliveryMethod ?></td>
         </tr>
         <? if ($order->deliveryMethod == \Mandala\OrderModule\Order::DELIVERY_TYPE_EMAIL): ?>
             <tr>
                 <th>Recipient E-mail Address</th>
-                <td><?= $order->recipientEmail ?></td>
+                <td><?= $this->escapeHtml($order->recipientEmail) ?></td>
             </tr>
         <? else: ?>
             <tr>
                 <th>Shipping Address</th>
                 <td>
-                    <?= $order->shippingName ?><br />
-                    <?= $order->shippingStreet ?><br />
-                    <?= $order->shippingCity ?>, <?= $order->shippingState ?> <?= $order->shippingZip ?>
+                    <?= $this->escapeHtml($order->shippingName) ?><br />
+                    <?= $this->escapeHtml($order->shippingStreet) ?><br />
+                    <?= $this->escapeHtml($order->shippingCity . ', ' . $order->shippingState . ' ' . $order->shippingZip) ?>
                 </td>
             </tr>
         <? endif ?>
         <tr>
             <th>Book Cost</th>
-            <td>$<?= $order->goodsCost ?></td>
+            <td>$<?= sprintf('%.2f', $order->goodsCost / 100) ?></td>
         </tr>
         <tr>
             <th>Shipping Cost</th>
-            <td>$<?= $order->shippingCost ?></td>
+            <td>$<?= sprintf('%.2f', $order->shippingCost / 100) ?></td>
         </tr>
         <tr>
             <th>Total Cost</th>
-            <td>$<?= $order->totalCost ?></td>
+            <td>$<?= sprintf('%.2f', $order->totalCost / 100) ?></td>
         </tr>
     </table>
 
@@ -106,6 +102,6 @@
             <div class="col-md-3"></div>
         </div>
 
-        <input type="submit" class="btn btn-lg btn-primary btn-wide" value="Pay $<?= $order->totalCost ?> Now" />
+        <input type="submit" class="btn btn-lg btn-primary btn-wide" value="Pay $<?= sprintf('%.2f', $order->totalCost / 100) ?> Now" />
     <?= $this->form()->closeTag($form) ?>
 </div>

@@ -20,8 +20,8 @@
 </head>
 
 <body>
-    <div class="navbar navbar-default navbar-fixed-top container-fluid" role="navigation">
-        <div class="">
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
@@ -68,46 +68,14 @@
         </div>
     </div>
 
-    <div class="modal" id="sign-in-modal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form id="order-form" method="post">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h4 class="modal-title">Sign in to MandalaBook.com</h4>
-                    </div>
-                    <div class="modal-body">
-
-                        <div class="form-group">
-                            <label for="email">E-mail Address</label>
-                            <input type="text" name="email" class="form-control input-lg" placeholder="Enter e-mail address...">
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" name="password" class="form-control input-lg" placeholder="Enter password...">
-                        </div>
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-                    </div>
-                    <div class="modal-footer">
-                        <div class="pull-left">
-                            Need an account? <a href="<?= $this->url('sign-up') ?>">Register now</a>
-                        </div>
-                        <button class="btn btn-wide" data-dismiss="modal">Close</button>
-                        <a class="btn btn-primary btn-wide">Sign In</a>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div id="content" class="container-fluid">
+    <div class="container">
         <div class="row">
             <?= $this->content ?>
         </div>
     </div>
 
     <div id="footer">
-        <div class="container-fluid">
+        <div class="container">
             <p class="text-muted credit text-center">
                 &copy; <a href="http://brady.lucidgene.com/">Brady Olsen</a>.
                 View the source code on <a href="https://github.com/bradyo/mandala-book">GitHub</a>.
@@ -118,18 +86,11 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
     <script src="/lib/jquery.touch-punch.min.js"></script>
+    <script src="/lib/jquery.ba-resize.min.js"></script>
     <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="/lib/raphael-min.js"></script>
     <script src="/lib/raphael.export.js"></script>
     <script src="/js/main.js"></script>
-
-    <?= $this->placeholder('scripts') ?>
-    <script>
-        $('#sign-in-button-modal').click(function(){
-            $('#sign-in-modal').modal({show:true});
-            return false;
-        });
-    </script>
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -138,7 +99,7 @@
         ga('create', 'UA-47732510-1', 'mandalabook.com');
         ga('send', 'pageview');
     </script>
-
     <?= $this->userEchoWidget() ?>
+    <?= $this->placeholder('scripts') ?>
 </body>
 </html>
