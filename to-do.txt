@@ -2,7 +2,6 @@ tasks:
 - fix book listing box links to cover whole item area
 - fix print design button
 - make leaf shape symmetric
-- add tear drop shape
 
 - seed with 1000 designs and 100 books
 - allow paypal payments
