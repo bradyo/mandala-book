@@ -17,9 +17,10 @@ class Design
         'circle',
         'triangle',
         'star',
-        'heart',
         'square',
         'diamond',
+        'teardrop',
+        'heart',
         'leaf'
     );
 
