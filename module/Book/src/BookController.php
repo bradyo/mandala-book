@@ -11,6 +11,9 @@ class BookController extends BaseController
 {
     const ITEMS_PER_PAGE = 50;
 
+    const SORT_NEWEST = 'newest';
+    const SORT_MOST_FAVORITED = 'most-favorited';
+
     private $bookRepository;
     private $bookFavoriteRepository;
     private $bookManager;
@@ -35,6 +38,13 @@ class BookController extends BaseController
 
     private function getPaginatedViewModel(BookCriteria $criteria, array $order = array())
     {
+        $sort = $this->params()->fromRoute('sort', self::SORT_NEWEST);
+        if ($sort == self::SORT_MOST_FAVORITED) {
+            $order = array('favoritedCount' => 'desc');
+        } else {
+            $order = array('id' => 'desc');
+        }
+
         $page = $this->params()->fromRoute('page', 1);
         $offset = ($page - 1) * self::ITEMS_PER_PAGE;
         $limit = self::ITEMS_PER_PAGE;

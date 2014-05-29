@@ -23,6 +23,7 @@ Technologies Used
 - Facebook Share API
 - Google Analytics
 
+
 Some Techniques Used
 --------------------
 
