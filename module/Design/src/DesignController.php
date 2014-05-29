@@ -1,6 +1,7 @@
 <?php
 namespace Mandala\DesignModule;
 
+use Mandala\Analytics\Tracking\Event;
 use Mandala\Application\Controller\BaseController;
 use Zend\Http\Response;
 use Zend\Paginator\Adapter\ArrayAdapter;
@@ -76,6 +77,8 @@ class DesignController extends BaseController
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
             $design = $this->getDesignManager()->save($user, $data['data']);
+
+            $this->getTracker()->log(new Event(Event::NEW_DESIGN));
 
             $this->redirect()->toRoute('show-design', array('id' => $design->id));
         }

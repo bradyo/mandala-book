@@ -1,9 +1,7 @@
 <?php
 namespace Mandala\OrderModule;
 
-use Guzzle\Http\Client;
-use Guzzle\Http\Exception\BadResponseException;
-use Guzzle\Http\Exception\RequestException;
+use Mandala\Analytics\Tracking\Event;
 use Zend\View\Model\ViewModel;
 use Mandala\Application\Controller\BaseController;
 
@@ -65,6 +63,10 @@ class OrderController extends BaseController
             if ($form->isValid()) {
                 $errors = $this->orderProcessor->process($order, $form);
                 if (count($errors) === 0) {
+                    $this->getTracker()->log(new Event(Event::BOOK_PURCHASED, array(
+                        'cost' => $order->totalCost
+                    )));
+
                     $this->redirect()->toRoute('order-confirmation', array('id' => $order->id));
                 }
             }

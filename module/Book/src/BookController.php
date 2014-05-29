@@ -1,6 +1,7 @@
 <?php
 namespace Mandala\BookModule;
 
+use Mandala\Analytics\Tracking\Event;
 use Mandala\Application\Controller\BaseController;
 use Zend\Http\Response;
 use Zend\Paginator\Adapter\ArrayAdapter;
@@ -90,6 +91,8 @@ class BookController extends BaseController
                 $book->title = $data['title'];
                 $book->author = $this->getCurrentUser();
                 $this->bookManager->save($book);
+
+                $this->getTracker()->log(new Event(Event::NEW_BOOK));
 
                 $this->redirect()->toRoute('books');
             }

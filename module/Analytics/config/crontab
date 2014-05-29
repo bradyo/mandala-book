@@ -1,1 +1,1 @@
-@weekly php /vagrant/public/index.php analytics_weekly_aggregation
+@weekly www-data php /vagrant/public/index.php analytics_weekly_aggregation 2>&1

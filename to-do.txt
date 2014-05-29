@@ -1,10 +1,12 @@
 tasks:
 - fix book listing box links to cover whole item area
 - add analytics tracking
-- fix book sorting
 - fix print design button
 - install analytics cron in prod
 - hide logged in user info when small window
+
+- make leaf shape symmetric
+- add tear drop shape
 
 - seed with 1000 designs and 100 books
 - allow paypal payments
@@ -16,6 +18,7 @@ tasks:
 - toggle design selection and have an add-to-book button instead of drag-and-drop
 - fix position of rendered designs (they are off center to the left a bit)
 - make design-generator public and allow users to create js generators
+- move shape data to php
 
 analytics to track (weekly basis):
 - unique visits
@@ -29,3 +32,5 @@ analytics to track (weekly basis):
 - affiliate payouts
 - ad revenue
 - marketing costs
+- ad clicks
+- facebook shares

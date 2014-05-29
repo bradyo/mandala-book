@@ -1,6 +1,7 @@
 <?php
 namespace Mandala\UserModule;
 
+use Mandala\Analytics\Tracking\Event;
 use Mandala\Application\Controller\BaseController;
 use Zend\Session\Container;
 use Zend\View\Model\ViewModel;
@@ -59,6 +60,8 @@ class UserController extends BaseController
 
                     $this->getEntityManager()->persist($user);
                     $this->getEntityManager()->flush();
+
+                    $this->getTracker()->log(new Event(Event::NEW_VISITOR));
 
                     $this->redirect()->toRoute('user-designs', array('userId' => $user->id));
                 } else {

@@ -2,6 +2,7 @@
 namespace Mandala\Application\Controller;
 
 use Doctrine\ORM\EntityManager;
+use Mandala\Analytics\Tracking\Tracker;
 use Mandala\UserModule\User;
 use Mandala\UserModule\UserRepository;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -102,5 +103,12 @@ abstract class BaseController extends AbstractActionController implements Servic
      */
     public function getUserRepository() {
         return $this->serviceLocator->get('user_repository');
+    }
+
+    /**
+     * @return Tracker
+     */
+    public function getTracker() {
+        return $this->serviceLocator->get('analytics_tracker');
     }
 }

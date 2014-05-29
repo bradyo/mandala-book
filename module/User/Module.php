@@ -1,6 +1,7 @@
 <?php
 namespace Mandala\UserModule;
 
+use Mandala\Analytics\Tracking\Event;
 use Mandala\Application\BaseModule;
 use Zend\Mvc\MvcEvent;
 use Zend\Session\Container;
@@ -29,6 +30,10 @@ class Module extends BaseModule
         $sessionManager->start();
 
         $session = new Container('user', $sessionManager);
+        if (! isset($session['started'])) {
+            $tracker = $serviceManager->get('analytics_tracker');
+            $tracker->log(new Event(Event::NEW_VISITOR));
+        }
         $session['started'] = 1;
         if (! isset($session['user_id'])) {
             $user = new User();
