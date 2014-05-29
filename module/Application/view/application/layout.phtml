@@ -45,7 +45,7 @@
                         </a>
                     </li>
                 </ul>
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-right" style="margin-left: 0">
                     <form>
                         <? if ($currentUser->isAnonymous()): ?>
                             <li>
@@ -55,7 +55,8 @@
                             </li>
                         <? else: ?>
                             <li>
-                                <span style="color: #777777; font-size: 16px; margin-right: 0.5em"><?= $currentUser->email ?></span>
+                                <span class="hidden-xs hidden-sm pull-left navbar-text" style="color: #777777; font-size: 16px; margin-right: 0.5em"><?=
+                                    $this->escapeHtml($currentUser->email) ?></span>
                                 <img src="https://www.gravatar.com/avatar/<?= md5($currentUser->email) ?>?s=32" />
                                 <a class="btn btn-default navbar-btn" id="sign-out-button" href="<?= $this->url('sign-out') ?>">
                                     Sign Out
