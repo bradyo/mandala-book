@@ -7,6 +7,14 @@ tasks:
 - add user profile page with their designs/books/friends
 - home page to look like modern landing page (with top designs, books, marketing)
 - fix book listing box links to cover whole item area
+- add analytics tracking
+- move render js into design module
+- fix book sorting
+- toggle design selection and have an add-to-book button instead of drag-and-drop
+- fix print design button
+- fix position of rendered designs (they are off center to the left a bit)
+- install analytics cron in prod
+- hide logged in user info when small window
 
 analytics to track (month basis):
 - unique visits

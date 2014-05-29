@@ -9,7 +9,13 @@ apt-get install --yes apache2 php5 php5-cli libapache2-mod-php5 php-apc \
 apt-get install --yes imagemagick php5-imagick
 apt-get install --yes inkscape
 
-apt-get install mongodb-server
+apt-get install --yes make mongodb-server
+pear install -f pecl/mongo
+
+# configure inkscape
+mkdir -p /var/www/.gnome2 /var/www/.config /var/www/.config/inkscape
+chmod 755 /var/www/.gnome2 /var/www/.config /var/www/.config/inkscape
+chown -R www-data /var/www/.gnome2 /var/www/.config /var/www/.config/inkscape
 
 # install phantomjs
 cp /vagrant/environment/files/phantomjs-1.9.2-linux-x86_64.tar.bz2 ~/
@@ -31,6 +37,10 @@ cp /vagrant/environment/apache2/sites-enabled/mandala.local /etc/apache2/sites-e
 
 # initialize mysql
 cp /vagrant/environment/mysql/my.cnf /etc/mysql/my.cnf
+
+# initialize mongo
+cp /vagrant/environment/php/mongo.ini /etc/php5/conf.d/mongo.ini
+service apache2 restart
 
 echo 'CREATE DATABASE mandala' | mysql -u root -pvagrant 
 

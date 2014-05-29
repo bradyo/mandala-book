@@ -64,7 +64,7 @@ class OrderProcessor
 
             // charge customer
             $request = $this->stripeClient->post('v1/charges', array(), array(
-                'amount' => round($order->totalCost * 100),
+                'amount' => round($order->totalCost),
                 'currency' => 'usd',
                 'customer' => $customerId,
                 'description' => 'Mandala Maker Order #' . $order->confirmationCode
