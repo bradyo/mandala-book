@@ -1,10 +1,6 @@
 tasks:
 - fix book listing box links to cover whole item area
-- add analytics tracking
 - fix print design button
-- install analytics cron in prod
-- hide logged in user info when small window
-
 - make leaf shape symmetric
 - add tear drop shape
 
