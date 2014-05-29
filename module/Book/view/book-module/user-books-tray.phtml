@@ -25,21 +25,20 @@
     <? $this->placeholder('scripts')->captureEnd() ?>
 <? endif ?>
 
-<? if (count($books) > 0): ?>
-    <? foreach ($books as $book): ?>
-        <div id="book-<?= $book->id ?>" class="book-block">
-            <a class="book-block-inner" href="<?= $this->url('show-book', array('id' => $book->id)) ?>">
+<div class="items">
+    <a class="book-block book-block-add" href="<?= $this->url('new-book') ?>">
+        <span class="glyphicon glyphicon-plus-sign"></span>
+        New Book
+    </a>
+    <? if (count($books) > 0): ?>
+        <? foreach ($books as $book): ?>
+            <a id="book-<?= $book->id ?>" class="book-block" href="<?= $this->url('show-book', array('id' => $book->id)) ?>">
                 <?= $this->escapeHtml($book->title) ?>
-                <div>(<span id="book-<?= $book->id ?>-design-count"><?= $book->designsCount ?></span> designs)</div>
+                <div class="book-design-count"><span id="book-<?= $book->id ?>-design-count"><?= $book->designsCount ?></span> designs</div>
             </a>
-        </div>
-    <? endforeach ?>
-<? endif ?>
-
-<a class="book-block-add" href="<?= $this->url('new-book') ?>">
-    <span class="glyphicon glyphicon-plus-sign"></span>
-    New Book
-</a>
+        <? endforeach ?>
+    <? endif ?>
+</div>
 
 <? $this->placeholder('scripts')->captureStart() ?>
     <script>

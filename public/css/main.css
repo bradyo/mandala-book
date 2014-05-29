@@ -66,35 +66,41 @@ h2 {
 }
 .book-block {
     border-radius: 4px;
-    display: inline-block;
+    display: block;
+    float: left;
     vertical-align: middle;
     text-align: center;
     text-decoration: none;
     border: 1px solid #ddd;
     background: #fff url('../img/folder.png') no-repeat center;
-    background-size: 90%;
-    width: 164px;
+    background-size: 100%;
+    width: 165px;
     height: 164px;
-    margin-right: 2px;
-    margin-bottom: 1em;
+    margin-right: 4px;
+    margin-bottom: 4px;
     position: relative;
-}
-.book-block:hover {
-    background-color: white;
-    border: 1px solid #999;
-}
-.book-block-inner {
-    position: absolute;
-    display: block;
     vertical-align: middle;
     text-align: center;
-    left: 18px;
-    top: 55px;
-    width: 125px;
-    height: 78px;
-    margin: 0;
-    padding: 10px;
+    overflow:hidden;
+    font-size: 16px;
+    color: #333;
+    padding: 20px;
+    padding-top: 50px;
+    line-height: 1.25em;
+}
+.book-design-count {
+    font-size: 14px;
+    margin-top: 5px;
+    color: #999;
+}
+.items {
     overflow: hidden;
+}
+.book-block:hover {
+    color: #000;
+    text-decoration: none;
+    background-color: white;
+    border: 1px solid #999;
 }
 a.book-block-inner {
     color: #555555;

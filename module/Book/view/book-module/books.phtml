@@ -14,12 +14,10 @@
 <? if (count($books) > 0): ?>
     <div class="items">
         <? foreach ($books as $book): ?>
-            <div id="book-<?= $book->id ?>" class="book-block">
-                <a class="book-block-inner" href="<?= $this->url('show-book', array('id' => $book->id)) ?>">
-                    <?= $this->escapeHtml($book->title) ?>
-                    <div>(<span id="book-<?= $book->id ?>-design-count"><?= $book->designsCount ?></span> designs)</div>
-                </a>
-            </div>
+            <a id="book-<?= $book->id ?>" class="book-block" href="<?= $this->url('show-book', array('id' => $book->id)) ?>">
+                <?= $this->escapeHtml($book->title) ?>
+                <div class="book-design-count"><span id="book-<?= $book->id ?>-design-count"><?= $book->designsCount ?></span> designs</div>
+            </a>
         <? endforeach ?>
     </div>
     <?= $this->paginationControl($pager, 'elastic', 'application/pagination.phtml', array('route' => $route)) ?>

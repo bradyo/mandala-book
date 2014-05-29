@@ -1,9 +1,8 @@
 tasks:
 - fix book listing box links to cover whole item area
-- fix print design button
-- make leaf shape symmetric
-
 - seed with 1000 designs and 100 books
+- fix position of rendered designs (they are off center to the left a bit)
+
 - allow paypal payments
 - sign in with facebook
 - have layers updated in svg instead of recreating the whole thing every change
@@ -11,7 +10,6 @@ tasks:
 - home page to look like modern landing page (with top designs, books, marketing)
 - move render js into design module
 - toggle design selection and have an add-to-book button instead of drag-and-drop
-- fix position of rendered designs (they are off center to the left a bit)
 - make design-generator public and allow users to create js generators
 - move shape data to php
 
