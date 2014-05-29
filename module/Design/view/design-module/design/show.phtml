@@ -1,6 +1,7 @@
 <style>
     #print-canvas {
         display: none;
+        width: 100%;
     }
     @media print {
         .navbar,
@@ -11,7 +12,6 @@
             display: none
         }
         #print-canvas {
-            width: 100%;
             display: block;
         }
     }
@@ -42,7 +42,7 @@
                 'picture' => $this->url('get-design-thumbnail', array('id' => $design->id, 'size' => '1200'), array('force_canonical' => true))
             )) ?>
 
-            <button class="btn btn-default btn-block">
+            <button id="print-button" class="btn btn-default btn-block">
                 <span class="glyphicon glyphicon-print"></span>
                 Print Design
             </button>
