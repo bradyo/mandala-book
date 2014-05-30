@@ -16,6 +16,7 @@ page.content = '<html><body><div id="canvas"></div></body></html>';
 page.injectJs('/../public/lib/jquery-1.8.3.min.js');
 page.injectJs('/../public/lib/raphael-min.js');
 page.injectJs('/../public/lib/raphael.export.js');
+page.injectJs('/../public/lib/scale.raphael.js');
 page.injectJs('/../public/js/main.js');
 
 var design = JSON.parse(system.args[1]);

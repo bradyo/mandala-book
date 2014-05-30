@@ -1,17 +1,8 @@
 
 function makeCanvas(parentDivId) {
-    // set canvas size to 720 px but enable browser auto scaling below
     var width = 720;
     var height = 720;
-    var canvas = new Raphael(parentDivId, width, height);
-    canvas.setViewBox(0, 0, width, height, true);
-
-    // allow svg to scale to parent div by removing width and height attributes
-    var svg = $('#' + parentDivId + ' > svg');
-    svg.removeAttr("width");
-    svg.removeAttr("height");
-
-    return canvas;
+    return new ScaleRaphael(parentDivId, width, height);
 }
 
 function drawDesign(canvas, design, currentLayerIndex) {

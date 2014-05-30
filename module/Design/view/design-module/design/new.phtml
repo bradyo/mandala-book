@@ -108,14 +108,15 @@
             selectLayer(id);
         }
 
-        $(window).resize(function() {
-            var canvasElement = $('#canvas');
-            var maxSize = $(this).height() - 80;
-            canvasElement.css('height', canvasElement.css('width'));
-            canvasElement.css('max-height', maxSize);
-            canvasElement.css('max-width', maxSize);
+        function resizeCanvas() {
+            var maxHeight = $(window).height() - 80;
+            var maxWidth = $(window).width();
+            var size = Math.min(maxHeight, maxWidth);
+            canvas.changeSize(size, size, true, false);
             drawDesign(canvas, design, currentLayerIndex);
-        });
+        }
+        $(window).resize(resizeCanvas);
+        resizeCanvas();
 
         jQuery(document).ready(function() {
             for (var id = 0; id < layerCount; id++) {
