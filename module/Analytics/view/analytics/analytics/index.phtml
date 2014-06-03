@@ -1,55 +1,31 @@
 <div class="col-md-12">
-    <ul id="view-tabs" class="nav nav-tabs">
-        <li class="active"><a href="#engagement">User Engagement</a></li>
-        <li><a href="#revenue">Revenue</a></li>
-    </ul>
 
-    <div class="tab-content">
-        <div class="tab-pane active" id="engagement">
-            <h3>Weekly User Engagement Stats</h3>
+    <h3>Weekly User Engagement Stats</h3>
 
-            <div id="engagement-graph" style="height: 200px; margin-top: 2em; margin-bottom: 2em;"></div>
+    <div id="engagement-graph" style="height: 200px; margin-top: 2em; margin-bottom: 2em;"></div>
 
-            <table class="table table-bordered table-responsive">
-                <thead>
-                <tr>
-                    <th>Week</th>
-                    <th>Visitors</th>
-                    <th>New Users</th>
-                    <th>New Designs</th>
-                    <th>New Books</th>
-                    <th>Books Purchased</th>
-                </tr>
-                </thead>
-                <? foreach ($rows as $row): ?>
-                    <tr>
-                        <td><?= $row['week'] ?></td>
-                        <td><?= $row['new-visitor'] ?></td>
-                        <td><?= $row['new-user'] ?></td>
-                        <td><?= $row['new-design'] ?></td>
-                        <td><?= $row['new-book'] ?></td>
-                        <td><?= $row['book-purchased'] ?></td>
-                    </tr>
-                <? endforeach ?>
-            </table>
-
-        </div>
-        <div class="tab-pane" id="revenue">
-            <h3>Weekly Revenue Stats</h3>
-
-            <div id="revenue-graph" style="height: 200px; margin-top: 2em; margin-bottom: 2em;"></div>
-
-            <table class="table table-bordered table-responsive">
-                <thead>
-                <tr>
-                    <th>Year</th>
-                    <th>Week</th>
-                    <th>Revenue</th>
-                </tr>
-                </thead>
-            </table>
-        </div>
-    </div>
+    <table class="table table-bordered table-responsive">
+        <thead>
+        <tr>
+            <th>Week</th>
+            <th>Visitors</th>
+            <th>New Users</th>
+            <th>New Designs</th>
+            <th>New Books</th>
+            <th>Books Purchased</th>
+        </tr>
+        </thead>
+        <? foreach ($rows as $row): ?>
+            <tr>
+                <td><?= $row['week'] ?></td>
+                <td><?= $row['new-visitor'] ?></td>
+                <td><?= $row['new-user'] ?></td>
+                <td><?= $row['new-design'] ?></td>
+                <td><?= $row['new-book'] ?></td>
+                <td><?= $row['book-purchased'] ?></td>
+            </tr>
+        <? endforeach ?>
+    </table>
 </div>
 
 <? $this->placeholder('scripts')->captureStart() ?>
