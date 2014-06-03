@@ -56,8 +56,13 @@ class OrderPostFilter extends InputFilter
             'name' => 'token',
             'required' => true,
         ));
+
+        $this->add(array(
+            'name' => 'recipientEmail',
+            'required' => true
+        ));
+
         $rawFields = array(
-            'recipientEmail',
             'shippingName',
             'shippingStreet',
             'shippingCity',

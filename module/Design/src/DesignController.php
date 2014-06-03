@@ -74,15 +74,21 @@ class DesignController extends BaseController
     {
         $user = $this->getCurrentUser();
         $design = $this->getDesignFactory()->createRandom($user);
+        $errors = array();
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
-            $design = $this->getDesignManager()->save($user, $data['data']);
-
-            $this->getTracker()->log(new Event(Event::NEW_DESIGN));
-
-            $this->redirect()->toRoute('show-design', array('id' => $design->id));
+            $validator = new DesignDataValidator();
+            $errors = $validator->validate($data['data']);
+            if (count($errors) === 0) {
+                $design = $this->getDesignManager()->save($user, $data['data']);
+                $this->getTracker()->log(new Event(Event::NEW_DESIGN));
+                $this->redirect()->toRoute('show-design', array('id' => $design->id));
+            }
         }
-        return $this->getViewModel(array('design' => $design));
+        return $this->getViewModel(array(
+            'design' => $design,
+            'errors' => $errors
+        ));
     }
 
     public function deleteAction()

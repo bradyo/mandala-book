@@ -34,7 +34,7 @@ class OrderProcessor
         return $errors;
     }
 
-    private function charge(Order $order, PaymentForm $paymentForm)
+    public function charge(Order $order, PaymentForm $paymentForm)
     {
         $errors = array();
         try {
@@ -89,7 +89,7 @@ class OrderProcessor
         return $errors;
     }
 
-    private function send(Order $order)
+    public function send(Order $order)
     {
         $errors = array();
         try {

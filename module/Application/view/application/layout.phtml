@@ -47,7 +47,7 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right" style="margin-left: 0">
                     <form>
-                        <? if ($currentUser->isAnonymous()): ?>
+                        <? if ($this->currentUser->isAnonymous()): ?>
                             <li>
                                 <a class="btn btn-primary navbar-btn" data-toggle="modal" id="sign-in-button" href="<?= $this->url('sign-in') ?>">
                                     Sign In
@@ -57,8 +57,8 @@
                             <li>
                                 <span class="hidden-xs hidden-sm pull-left navbar-text"
                                       style="color: #777777; font-size: 16px; margin-right: 0.5em; max-width: 20em; overflow: hidden"><?=
-                                    $this->escapeHtml($currentUser->email) ?></span>
-                                <img src="https://www.gravatar.com/avatar/<?= md5($currentUser->email) ?>?s=32" />
+                                    $this->escapeHtml($this->currentUser->email) ?></span>
+                                <img src="https://www.gravatar.com/avatar/<?= md5($this->currentUser->email) ?>?s=32" />
                                 <a class="btn btn-default navbar-btn" id="sign-out-button" href="<?= $this->url('sign-out') ?>">
                                     Sign Out
                                 </a>

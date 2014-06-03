@@ -3,6 +3,7 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'home' => 'Mandala\Application\Controller\HomeController',
+            'update' => 'Mandala\Application\Controller\UpdateController',
         ),
     ),
     'router' => array(
@@ -50,4 +51,20 @@ return array(
             ),
         ),
     ),
+    'console' => array(
+        'router' => array(
+            'routes' => array(
+                'update' => array(
+                    'type' => 'simple',
+                    'options' => array(
+                        'route' => 'update <date>',
+                        'defaults' => array(
+                            'controller' => 'update',
+                            'action' => 'update',
+                        )
+                    )
+                )
+            )
+        )
+    )
 );
