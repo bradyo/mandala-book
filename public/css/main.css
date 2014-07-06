@@ -88,6 +88,9 @@ h2 {
     padding-top: 54px;
     line-height: 1.25em;
 }
+#footer a {
+    text-decoration: underline;
+}
 .book-design-count {
     font-size: 14px;
     margin-top: 5px;

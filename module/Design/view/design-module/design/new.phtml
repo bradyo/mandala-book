@@ -14,9 +14,12 @@
                         <?php for ($i = 0; $i < count($layers); $i++): ?>
                             <div id="layer-<?= $i ?>" class="layer"></div>
                         <?php endfor ?>
-                        <div id="add-layer" class="layer">+</div>
                     </div>
+                    <button id="add-layer" class="btn btn-block btn-default">
+                        <span class="glyphicon glyphicon-plus-sign"></span> Add Layer
+                    </button>
                 </div>
+                <hr />
                 <div class="form-group">
                     <label for="shape-type-control">Shape Type</label>
                     <select id="shape-type-control" class="form-control" style="width:100%">
@@ -99,10 +102,11 @@
 
         function addLayer() {
             var id = layerCount;
-            $('#add-layer').before(
+            $('#layers').append(
                 '<div id="layer-' + id + '" class="layer"></div>'
             );
             layers[id] = $.extend({}, defaultLayer);
+            layers[id].displacement += id * 10;
             layerCount++;
             initLayer(id);
             selectLayer(id);
