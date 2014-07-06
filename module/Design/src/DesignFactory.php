@@ -39,6 +39,31 @@ class DesignFactory
         return $design;
     }
 
+    public function createScreenSaverDesign()
+    {
+        $shapes = array(
+            'triangle',
+            'star',
+            'square',
+            'diamond',
+            'teardrop',
+            'heart',
+        );
+
+        $design = new Design();
+        $design->data = json_encode(array(
+            array(
+                "shapeType" => $this->getRandomShapesIn($shapes),
+                "shapeSize" => rand(50, 180),
+                "shapeCount" => rand(5, 15),
+                "displacement" => rand(30, 300),
+                "angleOffset" => 0,
+                "rotation" => 0,
+            )
+        ));
+        return $design;
+    }
+
     public function createFancyDesign()
     {
         $design = new Design();
@@ -96,5 +121,10 @@ class DesignFactory
     private function getRandomShapeType()
     {
         return Design::$shapes[rand(0, count(Design::$shapes) - 1)];
+    }
+
+    private function getRandomShapesIn(array $types)
+    {
+        return $types[rand(0, count($types) - 1)];
     }
 } 

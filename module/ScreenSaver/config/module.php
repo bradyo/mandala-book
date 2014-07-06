@@ -42,28 +42,7 @@ return array(
         'invokables' => array(
             'design' => 'Mandala\DesignModule\DesignController',
             'design_generator' => 'Mandala\DesignModule\DesignGeneratorController',
-            'design_screen_saver' => 'Mandala\DesignModule\ScreenSaverController',
         ),
-        'factories' => array(
-            'design_favorite' => function(ControllerManager $controllerManager) {
-                $services = $controllerManager->getServiceLocator();
-                return new DesignFavoriteController(
-                    $services->get('design_repository'),
-                    $services->get('design_favorite_manager')
-                );
-            },
-            'design_thumbnail' => function(ControllerManager $controllerManager) {
-                $services = $controllerManager->getServiceLocator();
-                return new DesignThumbnailController(
-                    $services->get('design_repository'),
-                    $services->get('design_file_service')
-                );
-            },
-            'session' => function(ControllerManager $controllerManager) {
-                $services = $controllerManager->getServiceLocator();
-                return new SessionController($services->get('user_session'));
-            }
-        )
     ),
     'router' => array(
         'routes' => require(__DIR__ . '/routes.php')

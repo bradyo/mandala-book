@@ -150,14 +150,4 @@ return array(
             ),
         ),
     ),
-    'screen-saver' => array(
-        'type' => 'Segment',
-        'options' => array(
-            'route' => '/screen-saver',
-            'defaults' => array(
-                'controller' => 'design_screen_saver',
-                'action' => 'index'
-            ),
-        ),
-    ),
 );
